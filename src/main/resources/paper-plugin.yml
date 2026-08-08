@@ -1,6 +1,6 @@
-main: su.nightexpress.coinsengine.CoinsEnginePlugin
-version: '${project.version}'
-name: CoinsEngine
+main: su.nightexpress.excellenteconomy.CoinsEnginePlugin
+version: "${project.version}"
+name: ExcellentEconomy
 author: NightExpress
 desciption: Unlimited virtual currencies and server economy.
 load: STARTUP

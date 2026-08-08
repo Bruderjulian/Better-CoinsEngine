@@ -1,9 +1,9 @@
-main: su.nightexpress.coinsengine.CoinsEnginePlugin
-version: '${project.version}'
-name: CoinsEngine
+main: su.nightexpress.excellenteconomy.CoinsEnginePlugin
+version: "${project.version}"
+name: ExcellentEconomy
 author: NightExpress
 desciption: A lightweight and modern plugin for virtual currencies and server economy.
-depend: [ nightcore ]
+depend: [nightcore]
 softdepend:
   - Vault
   - PlaceholderAPI

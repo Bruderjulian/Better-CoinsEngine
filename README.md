@@ -3,14 +3,14 @@
   <br>
   <a href="https://discord.gg/EwNFGsnGaW"><img src="https://img.shields.io/discord/903053383475277844?style=for-the-badge&label=Discord&color=%2333a8ff"></a>
   <a href="https://ko-fi.com/nightexpress"><img src="https://img.shields.io/badge/donate-%E2%9D%A4%EF%B8%8F_to_support-dff33?style=for-the-badge"></a>
-  <a href="https://nightexpressdev.com/coinsengine/"><img src="https://img.shields.io/badge/wiki-documentation-ff9c33?style=for-the-badge"></a>
+  <a href="https://nightexpressdev.com/excellenteconomy/"><img src="https://img.shields.io/badge/wiki-documentation-ff9c33?style=for-the-badge"></a>
 </p>
 
 **ExcellentEconomy** is a modern, lightweight economy plugin that lets you create unlimited custom currencies. You can finally manage your Coins, Points, Tokens, and any other currency in one place instead of using multiple plugins - with built-in **Vault** and **PlaceholderAPI** support.
 
 Everything is designed for **total customization**, from text strings to in-game commands. You have the freedom to **change everything** to perfectly match your server's style and needs!
 
-To upgrade from CoinsEngine, see [This Guide](https://nightexpressdev.com/excellenteconomy/upgrade-guide/).
+To upgrade from ExcellentEconomy, see [This Guide](https://nightexpressdev.com/excellenteconomy/upgrade-guide/).
 
 ## 🖼️ Showcase
 
