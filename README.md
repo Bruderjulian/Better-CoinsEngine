@@ -1,57 +1,81 @@
-<div align="center">
-  <img src="https://nightexpressdev.com/img/coinsengine/logo.png">
+<p align="center">
+  <img src="https://nightexpressdev.com/excellenteconomy/logo.png">
+  <br>
+  <a href="https://discord.gg/EwNFGsnGaW"><img src="https://img.shields.io/discord/903053383475277844?style=for-the-badge&label=Discord&color=%2333a8ff"></a>
+  <a href="https://ko-fi.com/nightexpress"><img src="https://img.shields.io/badge/donate-%E2%9D%A4%EF%B8%8F_to_support-dff33?style=for-the-badge"></a>
+  <a href="https://nightexpressdev.com/coinsengine/"><img src="https://img.shields.io/badge/wiki-documentation-ff9c33?style=for-the-badge"></a>
+</p>
 
-<a href="https://discord.gg/EwNFGsnGaW"><img src="https://img.shields.io/discord/903053383475277844?style=for-the-badge&label=Discord&color=%2333a8ff"></a>
-<a href="https://ko-fi.com/nightexpress"><img src="https://img.shields.io/badge/donate-%E2%9D%A4%EF%B8%8F_to_support-dff33?style=for-the-badge"></a>
-<a href="https://nightexpressdev.com/coinsengine/"><img src="https://img.shields.io/badge/wiki-documentation-ff9c33?style=for-the-badge"></a>
+**ExcellentEconomy** is a modern, lightweight economy plugin that lets you create unlimited custom currencies. You can finally manage your Coins, Points, Tokens, and any other currency in one place instead of using multiple plugins - with built-in **Vault** and **PlaceholderAPI** support.
 
-[![](https://nightexpressdev.com/img/badge/modrinth.svg)](https://modrinth.com/plugin/coinsengine)
-[![](https://nightexpressdev.com/img/badge/spigotmc.svg)](https://spigotmc.org/resources/84121/)
-[![](https://nightexpressdev.com/img/badge/hangar.svg)](https://hangar.papermc.io/NightExpress/CoinsEngine)
+Everything is designed for **total customization**, from text strings to in-game commands. You have the freedom to **change everything** to perfectly match your server's style and needs!
 
-**CoinsEngine** is a lightweight, highly customizable economy & custom virtual currency provider with built-in [Vault integration](https://nightexpressdev.com/coinsengine/hooks/vault/).
-</div>
+To upgrade from CoinsEngine, see [This Guide](https://nightexpressdev.com/excellenteconomy/upgrade-guide/).
 
-## Features
-- [**Unlimited Currencies**](https://nightexpressdev.com/coinsengine/features/currencies). Create as many currencies as you want.
-- [**Data Migration**](https://nightexpressdev.com/coinsengine/features/migration). Migrate player balances from other plugins with a single command.
-- [**Cross-Server**](https://nightexpressdev.com/coinsengine/features/cross-server). Share currency balances between your servers.
-- [**Plugin Integrations**](https://nightexpressdev.com/coinsengine/hooks/plugins). CoinsEngine is supported by many popular plugins.
-- [**Vault**](https://nightexpressdev.com/coinsengine/hooks/vault/) Support. Set desired currency to handle your economy.
-- [**PlaceholderAPI**](https://nightexpressdev.com/coinsengine/placeholders/papi/) Support.
-- **SQL Database**. With SQLite and MySQL support.
-- **Decimals & Integers**. Create decimal and integer currencies.
-- **Start Value**. Set start currency value for new players.
-- **Max. Value**. Set max. currency value for player balance.
-- **Payments**. Send currency to other players. Toggleable per currency.
-- [**Amount Shortcuts**](https://nightexpressdev.com/nightcore/configuration/number-formation/#number-shortcuts). Provide large amounts in commands by using aliases.
-- [**Wallet**](https://nightexpressdev.com/coinsengine/features/wallet). View balance of all currencies with a single command!
-- [**Currency Prefix**](https://nightexpressdev.com/coinsengine/features/prefix). Set custom currency prefix for all currency messages.
-- [**Currency Format**](https://nightexpressdev.com/coinsengine/features/prefix). Set custom format for each currency.
-- [**Currency Exchange**](https://nightexpressdev.com/coinsengine/features/exchange). Exchange one currency for another.
-- [**Currency Commands**](https://nightexpressdev.com/coinsengine/commands/#currency-commands). Create direct, custom commands for your currencies.
-- [**Economy Commands**](https://nightexpressdev.com/coinsengine/commands/#dedicated-commands). Provides customizable `/pay`, `/balance` and `/balancetop` commands.
-- [**Permission Requirement**](https://nightexpressdev.com/coinsengine/permissions). Restrict currency access by permissions.
-- [**Leaderboards**](https://nightexpressdev.com/coinsengine/features/leaderboards). View top players by their currency balance.
-- [**Opertation Logs**](https://nightexpressdev.com/coinsengine/features/logs). Log all currency operations into separate file.
+## 🖼️ Showcase
 
-## System Requirements
-- Server Software: [**Spigot**](https://www.spigotmc.org/link-forums/88/) or [**Paper**](https://papermc.io/downloads/paper)
-- Server Version: <span style="color:red">**1.21.4**</span> or above
-- Java Version: [**21**](https://adoptium.net/temurin/releases) or above
-- Dependencies:
-    - [**nightcore**](https://nightexpressdev.com/nightcore/) - Plugin engine.
-- Optional Plugins:
-    - [**Vault**](https://spigotmc.org/resources/34315/) - Economy integration.
-- Folia Supported: <span style="color:red">**No**</span>
-- Forge Supported: <span style="color:red">**No**</span>
+![](https://nightexpressdev.com/excellenteconomy/img/config.png)
+![](https://nightexpressdev.com/excellenteconomy/img/leaderboards.png)
 
-## Links
-- [SpigotMC](https://spigotmc.org/resources/84121/)
-- [Modrinth](https://modrinth.com/plugin/coinsengine)
-- [Hangar](https://hangar.papermc.io/NightExpress/CoinsEngine)
-- [Documentation](https://nightexpressdev.com/coinsengine/)
-- [Developer API](https://nightexpressdev.com/coinsengine/developer-api/)
+## ⭐ Core Features
 
-## Donate
-If you like my work or enjoy using my plugins, feel free to [Buy me a coffee](https://ko-fi.com/nightexpress) :) Thank you! 🧡
+- **Vault Integration** – Works right out of the box with Vault to hook into all your economy stuff automatically.
+- **Database Options** – Pick the storage that fits your needs. Use SQLite for a simple setup or MySQL if you are scaling up.
+- **Modern Formatting** – Make your messages pop! We fully support MiniMessage, so you can use gradients and hex colors in every menu and chat message.
+- **Amount Shortcuts** – Stop counting zeros. Just type `1k` or `1m` in commands to save yourself some time.
+- **Data Import** – Switching from another plugin? No big deal. You can move all player balances over with just one command.
+- **Data Maintenance** – Keep things snappy by automatically purging old data from players who haven't logged in for a while.
+- **Operation Logs** – Stay in the loop. Every single transaction is tracked in the console or a dedicated log file so nothing goes missing.
+- **Wallet** – Check all your different balances at once with a single, easy command.
+- **PlaceholderAPI Support** – Loaded with built-in placeholders, making it easy to display player/server stats anywhere on your server.
+- **Developer API** – Use API to hook into the system and integrate it with your plugins.
+
+---
+
+## 💵 Currency Features
+
+- **Display Name** – Pick any name you want for your currency.
+- **Unique Symbols** – Assign a visual symbol (like a dollar sign or a custom character) to represent your funds.
+- **Flexible Formatting** – Fully customize how the currency balance looks in-game.
+- **Custom Commands** – Set up your own shorthand commands so players can access their wallet easily.
+- **Visual Icons** – Choose any material or item to act as the icon for a currency in various menus.
+- **Decimal Support** – Toggle between simple whole numbers or precise decimal values for more granular economies.
+- **Permission Access** – Control whether everyone can use the currency or if it requires a specific permission node.
+- **P2P Transfers** – Enable or disable the ability for players to send money to each other, complete with minimum transfer limits.
+- **Balance Limits** – Define exactly how much cash a new player starts with and set a maximum cap to prevent infinite wealth.
+- **Exchange Rates** – Set up a conversion system to swap a currency for others at whatever rate you choose.
+- **Database Management** – Specify a custom database column name for clean data storage.
+- **Cross-Server Syncing** – Choose if the currency should stay local to one server or synchronize across your entire network.
+- **Custom Prefixes** – Add a specific tag or prefix to identify a currency in all chat messages.
+- **Leaderboards** – Enable rankings to show off the top earners and track the richest players on the server.
+
+## 🧰 Requirements
+
+The following versions and platforms are supported:
+
+| **Server Version** | **Paper** | **Spigot** | **Folia** | **Java Version** |
+| :----------------: | :-------: | :--------: | :-------: | :--------------: |
+|        26.2        |    ✔️     |     ✔️     |    ❌     |        25        |
+|       26.1.2       |    ✔️     |     ✔️     |    ❌     |        25        |
+|       26.1.1       |    ✔️     |     ✔️     |    ❌     |        25        |
+|      1.21.11       |    ✔️     |     ✔️     |    ❌     |        25        |
+|      1.21.10       |    ✔️     |     ✔️     |    ❌     |        25        |
+|       1.21.9       |    ✔️     |     ✔️     |    ❌     |        25        |
+|       1.21.8       |    ✔️     |     ✔️     |    ❌     |        25        |
+
+- Anything not listed in the compatibility table is **NOT** supported.
+- Make sure to check out all known issues and incompatibilities [here](https://nightexpressdev.com/excellenteconomy/faq/).
+
+**Dependencies:**
+
+- [NightCore](https://nightexpressdev.com/nightcore/) - Framework **required** for the plugin to run.
+
+**Optional Plugins:**
+
+- [PlaceholderAPI](https://spigotmc.org/resources/6245/) - For global placeholders to use in other plugins.
+
+## ❤️ Donate
+
+Everything here is created and maintained by a single person. If you enjoy my work or find my plugins useful, feel free to [Buy me a coffee](https://ko-fi.com/nightexpress) :)
+
+Thank you!
