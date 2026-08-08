@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import su.nightexpress.excellenteconomy.COEFiles;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
@@ -43,7 +43,7 @@ import su.nightexpress.nightcore.util.Strings;
 import su.nightexpress.nightcore.util.bukkit.NightItem;
 import su.nightexpress.nightcore.util.placeholder.Replacer;
 
-public class CurrencyManager extends AbstractManager<CoinsEnginePlugin> {
+public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
     private final CurrencyRegistry registry;
     private final DataHandler dataHandler;
@@ -52,7 +52,7 @@ public class CurrencyManager extends AbstractManager<CoinsEnginePlugin> {
     private boolean operationsAllowed;
     private CurrencyLogger logger;
 
-    public CurrencyManager(CoinsEnginePlugin plugin, CurrencyRegistry registry, DataHandler dataHandler,
+    public CurrencyManager(ExcellentEconomyPlugin plugin, CurrencyRegistry registry, DataHandler dataHandler,
             UserManager userManager) {
         super(plugin);
         this.registry = registry;

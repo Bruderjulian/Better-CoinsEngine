@@ -1,18 +1,18 @@
 package su.nightexpress.excellenteconomy.command;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.command.currency.CurrencyCommands;
 import su.nightexpress.excellenteconomy.command.plugin.PluginCommands;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.nightcore.manager.SimpleManager;
 
-public class CommandManager extends SimpleManager<CoinsEnginePlugin> {
+public class CommandManager extends SimpleManager<ExcellentEconomyPlugin> {
 
     private final PluginCommands pluginCommands;
     private final CurrencyCommands currencyCommands;
 
-    public CommandManager(CoinsEnginePlugin plugin, CurrencyRegistry currencyRegistry,
+    public CommandManager(ExcellentEconomyPlugin plugin, CurrencyRegistry currencyRegistry,
             CurrencyManager currencyManager) {
         super(plugin);
         this.pluginCommands = new PluginCommands(plugin, currencyRegistry, currencyManager);

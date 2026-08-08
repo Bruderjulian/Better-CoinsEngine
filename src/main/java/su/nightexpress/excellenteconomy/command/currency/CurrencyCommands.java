@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import su.nightexpress.excellenteconomy.COEFiles;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.currency.provider.CommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.provider.impl.BalanceProvider;
@@ -26,7 +26,7 @@ import su.nightexpress.nightcore.config.FileConfig;
 import su.nightexpress.nightcore.manager.SimpleManager;
 import su.nightexpress.nightcore.util.LowerCase;
 
-public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
+public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
 
     private final CurrencyRegistry currencyRegistry;
     private final CurrencyManager currencyManager;
@@ -35,7 +35,7 @@ public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
     private final Map<String, CommandDefinition> definitionByNameMap;
     private final Map<String, Set<NightCommand>> currencyCommands;
 
-    public CurrencyCommands(CoinsEnginePlugin plugin, CurrencyRegistry currencyRegistry,
+    public CurrencyCommands(ExcellentEconomyPlugin plugin, CurrencyRegistry currencyRegistry,
             CurrencyManager currencyManager) {
         super(plugin);
         this.currencyRegistry = currencyRegistry;

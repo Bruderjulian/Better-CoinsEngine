@@ -11,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
 import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
 import su.nightexpress.nightcore.util.TimeUtil;
@@ -19,7 +19,7 @@ import su.nightexpress.nightcore.util.text.night.NightMessage;
 
 public class CurrencyLogger {
 
-    private final CoinsEnginePlugin plugin;
+    private final ExcellentEconomyPlugin plugin;
     private final BlockingQueue<LogEntry> queue;
     private final DateTimeFormatter formatter;
 
@@ -29,7 +29,7 @@ public class CurrencyLogger {
     private BufferedWriter writer;
     private boolean running;
 
-    public CurrencyLogger(CoinsEnginePlugin plugin,
+    public CurrencyLogger(ExcellentEconomyPlugin plugin,
             DateTimeFormatter formatter,
             Path filePath,
             boolean logToConsole,

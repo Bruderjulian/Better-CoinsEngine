@@ -4,7 +4,7 @@ import java.util.stream.IntStream;
 
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.CommandNames;
@@ -23,7 +23,7 @@ public class TopCommandProvider extends AbstractCommandProvider {
 
     private final TopManager manager;
 
-    public TopCommandProvider(@NotNull CoinsEnginePlugin plugin, @NotNull TopManager manager) {
+    public TopCommandProvider(@NotNull ExcellentEconomyPlugin plugin, @NotNull TopManager manager) {
         super(plugin, ProviderNames.TOP);
         this.manager = manager;
     }

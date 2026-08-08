@@ -3,7 +3,7 @@ package su.nightexpress.excellenteconomy.command.currency.provider.impl;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
@@ -20,7 +20,7 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class SendProvider extends CurrencyCommandProvider {
 
-    public SendProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+    public SendProvider(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry registry,
             @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.PAY);
     }

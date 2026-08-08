@@ -6,7 +6,7 @@ import java.util.Map;
 import org.bukkit.OfflinePlayer;
 
 import net.milkbowl.vault.economy.Economy;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.Migrator;
@@ -16,7 +16,7 @@ public class VaultMigrator extends Migrator {
 
     private final Economy economy;
 
-    public VaultMigrator(CoinsEnginePlugin plugin, Economy economy) {
+    public VaultMigrator(ExcellentEconomyPlugin plugin, Economy economy) {
         super(plugin, HookPlugin.VAULT);
         this.economy = economy;
     }

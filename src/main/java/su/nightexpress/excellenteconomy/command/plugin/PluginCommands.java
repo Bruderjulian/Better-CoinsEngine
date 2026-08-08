@@ -3,7 +3,7 @@ package su.nightexpress.excellenteconomy.command.plugin;
 import java.util.HashSet;
 import java.util.Set;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.CommandNames;
@@ -23,7 +23,7 @@ import su.nightexpress.nightcore.core.config.CoreLang;
 import su.nightexpress.nightcore.manager.SimpleManager;
 import su.nightexpress.nightcore.util.Lists;
 
-public class PluginCommands extends SimpleManager<CoinsEnginePlugin> {
+public class PluginCommands extends SimpleManager<ExcellentEconomyPlugin> {
 
     private final CurrencyRegistry currencyRegistry;
     private final CurrencyManager currencyManager;
@@ -31,7 +31,7 @@ public class PluginCommands extends SimpleManager<CoinsEnginePlugin> {
     private final Set<CommandProvider> providers;
     private final Set<NightCommand> commands;
 
-    public PluginCommands(CoinsEnginePlugin plugin, CurrencyRegistry currencyRegistry,
+    public PluginCommands(ExcellentEconomyPlugin plugin, CurrencyRegistry currencyRegistry,
             CurrencyManager currencyManager) {
         super(plugin);
         this.currencyRegistry = currencyRegistry;

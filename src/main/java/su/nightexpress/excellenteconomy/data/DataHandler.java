@@ -10,7 +10,7 @@ import java.util.function.Function;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
@@ -23,7 +23,7 @@ import su.nightexpress.nightcore.db.sql.query.impl.UpdateQuery;
 import su.nightexpress.nightcore.db.sql.query.type.ValuedQuery;
 import su.nightexpress.nightcore.util.Lists;
 
-public class DataHandler extends AbstractUserDataManager<CoinsEnginePlugin, CoinsUser> {
+public class DataHandler extends AbstractUserDataManager<ExcellentEconomyPlugin, CoinsUser> {
 
     static final Gson GSON = new GsonBuilder().setPrettyPrinting()
             .registerTypeAdapter(CurrencySettings.class, new CurrencySettingsSerializer())
@@ -36,7 +36,7 @@ public class DataHandler extends AbstractUserDataManager<CoinsEnginePlugin, Coin
 
     private boolean synchronizationActive; // A little helper to pause synchronization during operations disable
 
-    public DataHandler(CoinsEnginePlugin plugin) {
+    public DataHandler(ExcellentEconomyPlugin plugin) {
         super(plugin);
         this.setSynchronizationActive(true);
     }

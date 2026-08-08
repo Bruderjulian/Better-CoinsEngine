@@ -11,7 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Lang;
@@ -27,7 +27,7 @@ import su.nightexpress.nightcore.manager.SimpleManager;
 import su.nightexpress.nightcore.util.LowerCase;
 import su.nightexpress.nightcore.util.Plugins;
 
-public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
+public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
 
     private final DataHandler dataHandler;
     private final UserManager userManager;
@@ -36,7 +36,7 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
 
     private final Map<String, Migrator> migrators;
 
-    public MigrationManager(@NotNull CoinsEnginePlugin plugin,
+    public MigrationManager(@NotNull ExcellentEconomyPlugin plugin,
             @NotNull DataHandler dataHandler,
             @NotNull UserManager userManager,
             @NotNull CurrencyRegistry currencyRegistry,

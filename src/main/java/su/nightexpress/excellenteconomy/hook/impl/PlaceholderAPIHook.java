@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
 import su.nightexpress.excellenteconomy.config.Lang;
@@ -25,7 +25,7 @@ public class PlaceholderAPIHook {
 
     private static Expansion expansion;
 
-    public static void setup(@NotNull CoinsEnginePlugin plugin) {
+    public static void setup(@NotNull ExcellentEconomyPlugin plugin) {
         if (expansion == null) {
             expansion = new Expansion(plugin);
             expansion.register();
@@ -59,11 +59,11 @@ public class PlaceholderAPIHook {
             RAW_FORMAT.setMaximumFractionDigits(8);
         }
 
-        private final CoinsEnginePlugin plugin;
+        private final ExcellentEconomyPlugin plugin;
         private final Map<String, PlayerPlaceholder> playerPlaceholders;
         private final Map<String, TopPlaceholder> topPlaceholders;
 
-        public Expansion(@NotNull CoinsEnginePlugin plugin) {
+        public Expansion(@NotNull ExcellentEconomyPlugin plugin) {
             this.plugin = plugin;
             this.playerPlaceholders = new LinkedHashMap<>();
             this.topPlaceholders = new LinkedHashMap<>();

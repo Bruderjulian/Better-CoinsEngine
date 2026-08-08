@@ -2,7 +2,7 @@ package su.nightexpress.excellenteconomy;
 
 import java.util.Optional;
 
-import su.nightexpress.excellenteconomy.api.CoinsEngineAPI;
+import su.nightexpress.excellenteconomy.api.ExcellentEconomyAPI;
 import su.nightexpress.excellenteconomy.command.CommandManager;
 import su.nightexpress.excellenteconomy.config.Config;
 import su.nightexpress.excellenteconomy.config.Lang;
@@ -20,7 +20,7 @@ import su.nightexpress.nightcore.NightPlugin;
 import su.nightexpress.nightcore.config.PluginDetails;
 import su.nightexpress.nightcore.util.Plugins;
 
-public class CoinsEnginePlugin extends NightPlugin {
+public class ExcellentEconomyPlugin extends NightPlugin {
 
     private DataHandler dataHandler;
     private UserManager userManager;
@@ -37,7 +37,7 @@ public class CoinsEnginePlugin extends NightPlugin {
     @Override
     protected void onStartup() {
         super.onStartup();
-        CoinsEngineAPI.load(this);
+        ExcellentEconomyAPI.load(this);
         this.currencyRegistry = new CurrencyRegistry();
     }
 
@@ -115,7 +115,7 @@ public class CoinsEnginePlugin extends NightPlugin {
     protected void onShutdown() {
         super.onShutdown();
         this.currencyRegistry.removeAll();
-        CoinsEngineAPI.clear();
+        ExcellentEconomyAPI.clear();
     }
 
     @Override

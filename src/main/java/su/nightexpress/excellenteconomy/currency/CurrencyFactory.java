@@ -2,7 +2,7 @@ package su.nightexpress.excellenteconomy.currency;
 
 import java.nio.file.Path;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.currency.impl.AbstractCurrency;
 import su.nightexpress.excellenteconomy.currency.impl.EconomyCurrency;
 import su.nightexpress.excellenteconomy.currency.impl.NormalCurrency;
@@ -16,7 +16,7 @@ public class CurrencyFactory {
 
     public static AbstractCurrency createEconomy(Path path,
             String id,
-            CoinsEnginePlugin plugin,
+            ExcellentEconomyPlugin plugin,
             CurrencyManager currencyManager,
             DataHandler dataHandler,
             UserManager userManager) {

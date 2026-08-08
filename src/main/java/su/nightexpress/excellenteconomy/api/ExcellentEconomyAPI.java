@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import org.bukkit.entity.Player;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
@@ -18,12 +18,12 @@ import su.nightexpress.excellenteconomy.currency.operation.OperationResult;
 import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserManager;
 
-public class CoinsEngineAPI {
+public class ExcellentEconomyAPI {
 
-    private static CoinsEnginePlugin plugin;
+    private static ExcellentEconomyPlugin plugin;
 
-    public static void load(CoinsEnginePlugin plugin) {
-        CoinsEngineAPI.plugin = plugin;
+    public static void load(ExcellentEconomyPlugin plugin) {
+        ExcellentEconomyAPI.plugin = plugin;
     }
 
     public static void clear() {
@@ -34,7 +34,7 @@ public class CoinsEngineAPI {
         return plugin != null;
     }
 
-    public static CoinsEnginePlugin plugin() {
+    public static ExcellentEconomyPlugin plugin() {
         if (plugin == null)
             throw new IllegalStateException("API is not yet initialized!");
 

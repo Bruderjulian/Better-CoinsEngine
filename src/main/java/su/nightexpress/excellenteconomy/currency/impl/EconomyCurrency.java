@@ -11,7 +11,7 @@ import org.bukkit.plugin.ServicesManager;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
@@ -27,7 +27,7 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
     private static final EconomyResponse NO_BANKS = new EconomyResponse(0D, 0D,
             EconomyResponse.ResponseType.NOT_IMPLEMENTED, "ExcellentEconomy does not support bank accounts!");
 
-    private final CoinsEnginePlugin plugin;
+    private final ExcellentEconomyPlugin plugin;
     /*
      * private final CurrencyManager currencyManager;
      * private final DataHandler dataHandler;
@@ -36,7 +36,7 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
 
     public EconomyCurrency(Path path,
             String id,
-            CoinsEnginePlugin plugin,
+            ExcellentEconomyPlugin plugin,
             CurrencyManager currencyManager,
             DataHandler dataHandler,
             UserManager userManager) {

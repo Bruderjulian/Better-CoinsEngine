@@ -1,4 +1,4 @@
-main: su.nightexpress.excellenteconomy.CoinsEnginePlugin
+main: su.nightexpress.excellenteconomy.ExcellentEconomyPlugin
 version: "${project.version}"
 name: ExcellentEconomy
 author: NightExpress

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.DataHandler;
@@ -15,12 +15,12 @@ import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUserManager;
 
-public class UserManager extends AbstractUserManager<CoinsEnginePlugin, CoinsUser> {
+public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, CoinsUser> {
 
     private final DataHandler dataHandler;
     private final CurrencyRegistry registry;
 
-    public UserManager(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+    public UserManager(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry registry,
             @NotNull DataHandler dataHandler) {
         super(plugin, dataHandler);
         this.dataHandler = dataHandler;

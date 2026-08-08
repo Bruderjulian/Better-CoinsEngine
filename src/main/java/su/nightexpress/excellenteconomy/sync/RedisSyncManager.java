@@ -14,7 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
@@ -35,7 +35,7 @@ import su.nightexpress.nightcore.lib.redis.jedis.JedisPubSub;
  */
 public class RedisSyncManager {
 
-    private final CoinsEnginePlugin plugin;
+    private final ExcellentEconomyPlugin plugin;
     private JedisPool pool;
     private JedisPubSub subscriber;
     private Thread subscriberThread;
@@ -51,7 +51,7 @@ public class RedisSyncManager {
     // Cross-server player name cache
     private final Set<String> crossServerPlayerNames = new HashSet<>();
 
-    public RedisSyncManager(CoinsEnginePlugin plugin) {
+    public RedisSyncManager(ExcellentEconomyPlugin plugin) {
         this.plugin = plugin;
         this.gson = new GsonBuilder()
                 .setPrettyPrinting()

@@ -2,7 +2,7 @@ package su.nightexpress.excellenteconomy.migration.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.config.Lang;
@@ -16,11 +16,11 @@ import su.nightexpress.nightcore.commands.context.ParsedArguments;
 
 public class MigrationCommands {
 
-    private final CoinsEnginePlugin plugin;
+    private final ExcellentEconomyPlugin plugin;
     private final MigrationManager migrationManager;
     private final CurrencyRegistry currencyRegistry;
 
-    public MigrationCommands(@NotNull CoinsEnginePlugin plugin, @NotNull MigrationManager migrationManager,
+    public MigrationCommands(@NotNull ExcellentEconomyPlugin plugin, @NotNull MigrationManager migrationManager,
             @NotNull CurrencyRegistry currencyRegistry) {
         this.plugin = plugin;
         this.migrationManager = migrationManager;

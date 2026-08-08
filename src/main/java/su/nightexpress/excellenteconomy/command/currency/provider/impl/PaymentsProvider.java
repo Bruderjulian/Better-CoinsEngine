@@ -2,7 +2,7 @@ package su.nightexpress.excellenteconomy.command.currency.provider.impl;
 
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
@@ -19,7 +19,7 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class PaymentsProvider extends CurrencyCommandProvider {
 
-    public PaymentsProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+    public PaymentsProvider(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry registry,
             @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.PAYMENTS);
     }

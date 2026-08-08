@@ -6,15 +6,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 
 public abstract class Migrator {
 
-    protected final CoinsEnginePlugin plugin;
+    protected final ExcellentEconomyPlugin plugin;
     protected final String name;
 
-    public Migrator(@NotNull CoinsEnginePlugin plugin, @NotNull String name) {
+    public Migrator(@NotNull ExcellentEconomyPlugin plugin, @NotNull String name) {
         this.plugin = plugin;
         this.name = name;
     }

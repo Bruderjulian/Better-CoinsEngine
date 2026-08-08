@@ -19,7 +19,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.MenuType;
 import org.jetbrains.annotations.NotNull;
 
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.tops.TopEntry;
 import su.nightexpress.excellenteconomy.tops.TopManager;
@@ -35,7 +35,7 @@ import su.nightexpress.nightcore.ui.menu.type.LinkedMenu;
 import su.nightexpress.nightcore.util.Lists;
 import su.nightexpress.nightcore.util.bukkit.NightItem;
 
-public class TopMenu extends LinkedMenu<CoinsEnginePlugin, Currency> implements Filled<TopEntry>, ConfigBased {
+public class TopMenu extends LinkedMenu<ExcellentEconomyPlugin, Currency> implements Filled<TopEntry>, ConfigBased {
 
     private final TopManager topManager;
 
@@ -43,7 +43,7 @@ public class TopMenu extends LinkedMenu<CoinsEnginePlugin, Currency> implements 
     private List<String> entryLore;
     private int[] entrySlots;
 
-    public TopMenu(@NotNull CoinsEnginePlugin plugin, @NotNull TopManager topManager) {
+    public TopMenu(@NotNull ExcellentEconomyPlugin plugin, @NotNull TopManager topManager) {
         super(plugin, MenuType.GENERIC_9X5, BLACK.wrap("Balance Top - " + CURRENCY_NAME));
         this.topManager = topManager;
     }

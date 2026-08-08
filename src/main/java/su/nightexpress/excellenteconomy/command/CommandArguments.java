@@ -38,7 +38,7 @@ public class CommandArguments {
     }
 
     public static su.nightexpress.nightcore.commands.builder.ArgumentNodeBuilder<String> crossServerPlayerName(
-            su.nightexpress.excellenteconomy.CoinsEnginePlugin plugin) {
+            su.nightexpress.excellenteconomy.ExcellentEconomyPlugin plugin) {
         return Arguments.playerName(PLAYER)
                 .localized(CoreLang.COMMAND_ARGUMENT_NAME_PLAYER)
                 .suggestions((reader, context) -> {

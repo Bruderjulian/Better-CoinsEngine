@@ -13,7 +13,7 @@ import su.nightexpress.nightcore.util.LowerCase;
 
 public class CurrencyRegistry {
 
-    // private final CoinsEnginePlugin plugin;
+    // private final ExcellentEconomyPlugin plugin;
     private final Map<String, Currency> currencyMap;
 
     public CurrencyRegistry() {

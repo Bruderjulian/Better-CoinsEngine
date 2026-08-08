@@ -4,7 +4,7 @@ import org.bukkit.OfflinePlayer;
 
 import net.zithium.deluxecoinflip.api.DeluxeCoinflipAPI;
 import net.zithium.deluxecoinflip.economy.provider.EconomyProvider;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
@@ -14,7 +14,7 @@ import su.nightexpress.excellenteconomy.hook.HookPlugin;
 
 public class DeluxeCoinflipHook {
 
-    public static void setup(CoinsEnginePlugin plugin) {
+    public static void setup(ExcellentEconomyPlugin plugin) {
         DeluxeCoinflipAPI api = (DeluxeCoinflipAPI) plugin.getPluginManager().getPlugin(HookPlugin.DELUXE_COINFLIP);
         if (api == null)
             return;
@@ -31,12 +31,12 @@ public class DeluxeCoinflipHook {
 
     private static class Provider extends EconomyProvider {
 
-        private final CoinsEnginePlugin plugin;
+        private final ExcellentEconomyPlugin plugin;
         private final CurrencyManager manager;
         private final Currency currency;
 
-        public Provider(CoinsEnginePlugin plugin, Currency currency) {
-            super("coinsengine_" + currency.getId());
+        public Provider(ExcellentEconomyPlugin plugin, Currency currency) {
+            super("excellenteconomy_" + currency.getId());
             this.plugin = plugin;
             this.manager = plugin.getCurrencyManager();
             this.currency = currency;

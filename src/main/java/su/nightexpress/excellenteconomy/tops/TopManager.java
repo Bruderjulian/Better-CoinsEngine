@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.COEFiles;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
@@ -29,7 +29,7 @@ import su.nightexpress.nightcore.util.Lists;
 import su.nightexpress.nightcore.util.LowerCase;
 import su.nightexpress.nightcore.util.NumberUtil;
 
-public class TopManager extends AbstractManager<CoinsEnginePlugin> {
+public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
 
     private final CurrencyRegistry currencyRegistry;
 
@@ -37,7 +37,7 @@ public class TopManager extends AbstractManager<CoinsEnginePlugin> {
 
     private TopMenu topMenu;
 
-    public TopManager(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry currencyRegistry) {
+    public TopManager(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry currencyRegistry) {
         super(plugin);
         this.currencyRegistry = currencyRegistry;
         this.topEntries = new ConcurrentHashMap<>();

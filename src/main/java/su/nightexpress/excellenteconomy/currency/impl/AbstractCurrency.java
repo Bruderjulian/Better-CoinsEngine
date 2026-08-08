@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
@@ -239,7 +239,7 @@ public abstract class AbstractCurrency implements Currency, ConfigBacked {
     @Override
     public void sendPrefixed(MessageLocale locale, CommandSender sender,
             Consumer<Replacer> consumer) {
-        CoinsEnginePlugin.getPlugin(CoinsEnginePlugin.class).getFoliaScheduler().runAsync(() -> {
+        ExcellentEconomyPlugin.getPlugin(ExcellentEconomyPlugin.class).getFoliaScheduler().runAsync(() -> {
             LangMessage message;
             if (Config.CURRENCY_PREFIX_ENABLED.get()) {
                 message = locale.withPrefix(this.messagePrefix);
