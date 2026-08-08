@@ -18,7 +18,7 @@ import su.nightexpress.excellenteconomy.tops.TopEntry;
 import su.nightexpress.excellenteconomy.tops.TopManager;
 import su.nightexpress.nightcore.core.config.CoreLang;
 import su.nightexpress.nightcore.util.LowerCase;
-import su.nightexpress.nightcore.util.NumberUtil;
+import su.nightexpress.nightcore.util.Numbers;
 import su.nightexpress.nightcore.util.text.night.NightMessage;
 
 public class PlaceholderAPIHook {
@@ -196,7 +196,7 @@ public class PlaceholderAPIHook {
                     if (currency == null)
                         break;
 
-                    int position = NumberUtil.getIntegerAbs(posRaw);
+                    int position = Math.abs(Numbers.parseInteger(posRaw).orElse(0));
                     if (position <= 0)
                         return null;
 

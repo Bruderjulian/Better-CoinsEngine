@@ -58,6 +58,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
 
     @Override
     protected void onShutdown() {
+        topMenu.clear();
         this.topEntries.clear();
     }
 
