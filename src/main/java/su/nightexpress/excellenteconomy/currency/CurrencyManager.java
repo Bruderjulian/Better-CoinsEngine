@@ -206,7 +206,6 @@ public class CurrencyManager extends AbstractManager<CoinsEnginePlugin> {
         return true;
     }
 
-    @Deprecated
     public Collection<Currency> getCurrencies() {
         return this.registry.getCurrencies();
     }

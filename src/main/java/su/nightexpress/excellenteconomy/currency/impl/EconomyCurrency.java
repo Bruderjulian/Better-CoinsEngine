@@ -21,6 +21,7 @@ import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserManager;
 
+@SuppressWarnings("deprecation")
 public class EconomyCurrency extends AbstractCurrency implements Economy {
 
     private static final EconomyResponse NO_BANKS = new EconomyResponse(0D, 0D,

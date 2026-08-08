@@ -1,5 +1,6 @@
 package su.nightexpress.excellenteconomy.sync;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -92,7 +93,7 @@ public class RedisSyncManager {
             poolConfig.setTestOnBorrow(true);
             poolConfig.setTestOnReturn(true);
             poolConfig.setTestWhileIdle(true);
-            poolConfig.setTimeBetweenEvictionRunsMillis(30000);
+            poolConfig.setTimeBetweenEvictionRuns(Duration.ofMillis(30000));
 
             this.pool = new JedisPool(poolConfig, new HostAndPort(host, port), clientConfig);
             this.active = true;
@@ -449,7 +450,6 @@ public class RedisSyncManager {
 
     private void applyUserBalanceUpdate(JsonObject data) {
         UUID userId = UUID.fromString(data.get("userId").getAsString());
-        String userName = data.get("userName").getAsString();
         JsonObject balances = data.getAsJsonObject("balances");
         JsonObject settings = data.getAsJsonObject("settings");
 

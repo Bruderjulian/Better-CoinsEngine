@@ -417,7 +417,7 @@ public abstract class AbstractCurrency implements Currency, ConfigBacked {
     }
 
     @Override
-    public void setCommandAliases(String[] commandAliases) {
+    public void setCommandAliases(String... commandAliases) {
         this.commandAliases = commandAliases;
     }
 
