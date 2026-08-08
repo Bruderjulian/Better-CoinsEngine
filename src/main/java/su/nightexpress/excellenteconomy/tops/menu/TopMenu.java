@@ -1,5 +1,17 @@
 package su.nightexpress.excellenteconomy.tops.menu;
 
+import static su.nightexpress.excellenteconomy.Placeholders.CURRENCY_NAME;
+import static su.nightexpress.excellenteconomy.Placeholders.GENERIC_BALANCE;
+import static su.nightexpress.excellenteconomy.Placeholders.GENERIC_POS;
+import static su.nightexpress.nightcore.util.Placeholders.PLAYER_NAME;
+import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.BLACK;
+import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.GREEN;
+import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.WHITE;
+import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.YELLOW;
+
+import java.util.List;
+import java.util.stream.IntStream;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -23,19 +35,13 @@ import su.nightexpress.nightcore.ui.menu.type.LinkedMenu;
 import su.nightexpress.nightcore.util.Lists;
 import su.nightexpress.nightcore.util.bukkit.NightItem;
 
-import java.util.List;
-import java.util.stream.IntStream;
-
-import static su.nightexpress.excellenteconomy.Placeholders.*;
-import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.*;
-
 public class TopMenu extends LinkedMenu<CoinsEnginePlugin, Currency> implements Filled<TopEntry>, ConfigBased {
 
     private final TopManager topManager;
 
-    private String       entryName;
+    private String entryName;
     private List<String> entryLore;
-    private int[]        entrySlots;
+    private int[] entrySlots;
 
     public TopMenu(@NotNull CoinsEnginePlugin plugin, @NotNull TopManager topManager) {
         super(plugin, MenuType.GENERIC_9X5, BLACK.wrap("Balance Top - " + CURRENCY_NAME));
@@ -51,21 +57,20 @@ public class TopMenu extends LinkedMenu<CoinsEnginePlugin, Currency> implements 
         Currency currency = this.getLink(player);
 
         return MenuFiller.builder(this)
-            .setSlots(this.entrySlots)
-            .setItems(this.topManager.getTopEntries(currency))
-            .setItemCreator(entry -> {
-                return NightItem.fromType(Material.PLAYER_HEAD)
-                    .hideAllComponents()
-                    .setDisplayName(this.entryName)
-                    .setLore(this.entryLore)
-                    .setPlayerProfile(entry.getProfile().query())
-                    .replacement(replacer -> replacer
-                        .replace(GENERIC_POS, entry.getPosition())
-                        .replace(PLAYER_NAME, entry.getName())
-                        .replace(GENERIC_BALANCE, currency.format(entry.getBalance()))
-                    );
-            })
-            .build();
+                .setSlots(this.entrySlots)
+                .setItems(this.topManager.getTopEntries(currency))
+                .setItemCreator(entry -> {
+                    return NightItem.fromType(Material.PLAYER_HEAD)
+                            .hideAllComponents()
+                            .setDisplayName(this.entryName)
+                            .setLore(this.entryLore)
+                            .setPlayerProfile(entry.getProfile().query())
+                            .replacement(replacer -> replacer
+                                    .replace(GENERIC_POS, entry.getPosition())
+                                    .replace(PLAYER_NAME, entry.getName())
+                                    .replace(GENERIC_BALANCE, currency.format(entry.getBalance())));
+                })
+                .build();
     }
 
     @Override
@@ -88,15 +93,16 @@ public class TopMenu extends LinkedMenu<CoinsEnginePlugin, Currency> implements 
 
     @Override
     public void loadConfiguration(@NotNull FileConfig config, @NotNull MenuLoader loader) {
-        this.entryName = ConfigValue.create("Entry.Name", YELLOW.wrap("#" + GENERIC_POS) + " " + WHITE.wrap(PLAYER_NAME)).read(config);
+        this.entryName = ConfigValue
+                .create("Entry.Name", YELLOW.wrap("#" + GENERIC_POS) + " " + WHITE.wrap(PLAYER_NAME)).read(config);
 
         this.entryLore = ConfigValue.create("Entry.Lore", Lists.newList(
-            GREEN.wrap(GENERIC_BALANCE)
-        )).read(config);
+                GREEN.wrap(GENERIC_BALANCE))).read(config);
 
         this.entrySlots = ConfigValue.create("Entry.Slots", IntStream.range(0, 36).toArray()).read(config);
 
-        loader.addDefaultItem(NightItem.fromType(Material.BLACK_STAINED_GLASS_PANE).setHideTooltip(true).toMenuItem().setSlots(IntStream.range(36, 45).toArray()));
+        loader.addDefaultItem(NightItem.fromType(Material.BLACK_STAINED_GLASS_PANE).setHideTooltip(true).toMenuItem()
+                .setSlots(IntStream.range(36, 45).toArray()));
 
         loader.addDefaultItem(MenuItem.buildNextPage(this, 44).setPriority(10));
         loader.addDefaultItem(MenuItem.buildPreviousPage(this, 36).setPriority(10));

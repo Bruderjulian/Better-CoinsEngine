@@ -1,9 +1,15 @@
 package su.nightexpress.excellenteconomy.migration;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Supplier;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
@@ -21,9 +27,6 @@ import su.nightexpress.nightcore.manager.SimpleManager;
 import su.nightexpress.nightcore.util.LowerCase;
 import su.nightexpress.nightcore.util.Plugins;
 
-import java.util.*;
-import java.util.function.Supplier;
-
 public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
 
     private final DataHandler dataHandler;
@@ -34,10 +37,10 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
     private final Map<String, Migrator> migrators;
 
     public MigrationManager(@NotNull CoinsEnginePlugin plugin,
-                            @NotNull DataHandler dataHandler,
-                            @NotNull UserManager userManager,
-                            @NotNull CurrencyRegistry currencyRegistry,
-                            @NotNull CurrencyManager currencyManager) {
+            @NotNull DataHandler dataHandler,
+            @NotNull UserManager userManager,
+            @NotNull CurrencyRegistry currencyRegistry,
+            @NotNull CurrencyManager currencyManager) {
         super(plugin);
         this.dataHandler = dataHandler;
         this.userManager = userManager;
@@ -66,10 +69,12 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
     }
 
     public boolean registerMigrator(@NotNull String name, @NotNull Supplier<Migrator> supplier) {
-        if (!Plugins.isInstalled(name)) return false;
+        if (!Plugins.isInstalled(name))
+            return false;
 
         Migrator migrator = supplier.get();
-        if (migrator == null) return false;
+        if (migrator == null)
+            return false;
 
         this.migrators.put(LowerCase.INTERNAL.apply(migrator.getName()), migrator);
         this.plugin.info("Available balance data migration from " + migrator.getName() + ".");
@@ -91,17 +96,18 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
 
         if (!migrator.canMigrate(currency)) {
             Lang.MIGRATION_START_BAD_CURRENCY.message().send(sender, replacer -> replacer
-                .replace(Placeholders.GENERIC_NAME, migrator.getName())
-                .replace(currency.replacePlaceholders())
-            );
+                    .replace(Placeholders.GENERIC_NAME, migrator.getName())
+                    .replace(currency.replacePlaceholders()));
             return false;
         }
 
         this.plugin.runTaskAsync(task -> {
             this.currencyManager.disableOperations();
-            Lang.MIGRATION_STARTED.message().send(sender, replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName()));
+            Lang.MIGRATION_STARTED.message().send(sender,
+                    replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName()));
             this.migrate(migrator, currency);
-            Lang.MIGRATION_COMPLETED.message().send(sender, replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName()));
+            Lang.MIGRATION_COMPLETED.message().send(sender,
+                    replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName()));
             this.currencyManager.allowOperations();
         });
 
@@ -112,7 +118,8 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
         Map<OfflinePlayer, Double> balances = migrator.getBalances(currency);
         balances.forEach((player, amount) -> {
             String name = player.getName();
-            if (name == null) return;
+            if (name == null)
+                return;
 
             UUID uuid = player.getUniqueId();
             CoinsUser user = this.userManager.getOrFetch(uuid);
@@ -136,7 +143,6 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
         return this.migrators;
     }
 
-    @Nullable
     public Migrator getMigrator(@NotNull String name) {
         return this.migrators.get(LowerCase.INTERNAL.apply(name));
     }

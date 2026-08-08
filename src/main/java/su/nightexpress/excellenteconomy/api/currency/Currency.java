@@ -1,20 +1,19 @@
 package su.nightexpress.excellenteconomy.api.currency;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import su.nightexpress.nightcore.locale.entry.MessageLocale;
-import su.nightexpress.nightcore.util.bukkit.NightItem;
-import su.nightexpress.nightcore.util.number.CompactNumber;
-import su.nightexpress.nightcore.util.placeholder.Replacer;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import su.nightexpress.nightcore.locale.entry.MessageLocale;
+import su.nightexpress.nightcore.util.bukkit.NightItem;
+import su.nightexpress.nightcore.util.number.CompactNumber;
+import su.nightexpress.nightcore.util.placeholder.Replacer;
 
 public interface Currency {
 
@@ -22,13 +21,13 @@ public interface Currency {
 
     void onUnregister();
 
-    @NotNull UnaryOperator<String> replacePlaceholders();
+    UnaryOperator<String> replacePlaceholders();
 
-    void sendPrefixed(@NotNull MessageLocale locale, @NotNull CommandSender sender);
+    void sendPrefixed(MessageLocale locale, CommandSender sender);
 
-    void sendPrefixed(@NotNull MessageLocale locale, @NotNull CommandSender sender, @Nullable Consumer<Replacer> consumer);
+    void sendPrefixed(MessageLocale locale, CommandSender sender, Consumer<Replacer> consumer);
 
-    boolean hasPermission(@NotNull Player player);
+    boolean hasPermission(Player player);
 
     boolean isPrimary();
 
@@ -40,7 +39,7 @@ public interface Currency {
 
     boolean isUnderLimit(double value);
 
-    default boolean isUnderLimit(@NotNull BigDecimal value) {
+    default boolean isUnderLimit(BigDecimal value) {
         return this.isUnderLimit(value.doubleValue());
     }
 
@@ -51,8 +50,7 @@ public interface Currency {
 
     double floorIfNeeded(double amount);
 
-    @NotNull
-    default BigDecimal floorIfNeeded(@NotNull BigDecimal amount) {
+    default BigDecimal floorIfNeeded(BigDecimal amount) {
         BigDecimal nonNegative = amount.max(BigDecimal.ZERO);
         if (!this.isDecimal()) {
             return nonNegative.setScale(0, RoundingMode.FLOOR);
@@ -67,8 +65,7 @@ public interface Currency {
 
     double limitIfNeeded(double amount);
 
-    @NotNull
-    default BigDecimal limitIfNeeded(@NotNull BigDecimal amount) {
+    default BigDecimal limitIfNeeded(BigDecimal amount) {
         if (this.isLimited()) {
             double max = this.getMaxValue();
             return amount.min(BigDecimal.valueOf(max));
@@ -83,86 +80,80 @@ public interface Currency {
 
     double floorAndLimit(double amount);
 
-    @NotNull
-    default BigDecimal floorAndLimit(@NotNull BigDecimal amount) {
+    default BigDecimal floorAndLimit(BigDecimal amount) {
         return this.floorIfNeeded(this.limitIfNeeded(amount));
     }
 
-    @NotNull String getPermission();
+    String getPermission();
 
-    @NotNull String formatValue(double balance);
+    String formatValue(double balance);
 
-    @NotNull
-    default String formatValue(@NotNull BigDecimal balance) {
+    default String formatValue(BigDecimal balance) {
         return this.formatValue(balance.doubleValue());
     }
 
-    @NotNull String format(double balance);
+    String format(double balance);
 
-    @NotNull
-    default String format(@NotNull BigDecimal balance) {
+    default String format(BigDecimal balance) {
         return this.format(balance.doubleValue());
     }
 
-    @NotNull
     @Deprecated
     default CompactNumber formatCompactValue(double balance) {
         return this.compacted(balance);
     }
 
-    @NotNull CompactNumber compacted(double balance);
+    CompactNumber compacted(double balance);
 
-    @NotNull
-    default CompactNumber compacted(@NotNull BigDecimal balance) {
+    default CompactNumber compacted(BigDecimal balance) {
         return this.compacted(balance.doubleValue());
     }
 
-    @NotNull String formatCompact(double balance);
+    String formatCompact(double balance);
 
-    @NotNull
-    default String formatCompact(@NotNull BigDecimal balance) {
+    default String formatCompact(BigDecimal balance) {
         return this.formatCompact(balance.doubleValue());
     }
 
-    @NotNull String getId();
+    String getId();
 
-    @NotNull String getName();
+    String getName();
 
-    void setName(@NotNull String name);
+    void setName(String name);
 
-    @NotNull String getPrefix();
+    String getPrefix();
 
-    void setPrefix(@NotNull String prefix);
+    void setPrefix(String prefix);
 
-    @NotNull String getSymbol();
+    String getSymbol();
 
-    void setSymbol(@NotNull String symbol);
+    void setSymbol(String symbol);
 
-    @NotNull String getFormat();
+    String getFormat();
 
-    void setFormat(@NotNull String format);
+    void setFormat(String format);
 
-    @NotNull String getFormatShort();
+    String getFormatShort();
 
-    void setFormatShort(@NotNull String formatShort);
+    void setFormatShort(String formatShort);
 
-    @NotNull String[] getCommandAliases();
+    String[] getCommandAliases();
 
     void setCommandAliases(String... commandAliases);
 
-    @NotNull String getColumnName();
+    String getColumnName();
 
-    void setColumnName(@NotNull String dataColumn);
-
-    @Deprecated
-    @NotNull ItemStack getIcon();
+    void setColumnName(String dataColumn);
 
     @Deprecated
-    void setIcon(@NotNull ItemStack icon);
+    ItemStack getIcon();
 
-    @NotNull NightItem icon();
+    @Deprecated
+    void setIcon(ItemStack icon);
 
-    void setIcon(@NotNull NightItem icon);
+    NightItem icon();
+
+    void setIcon(NightItem icon);
 
     boolean isDecimal();
 
@@ -199,22 +190,20 @@ public interface Currency {
 
     void setExchangeAllowed(boolean exchangeAllowed);
 
-    @NotNull Map<String, Double> getExchangeRates();
+    Map<String, Double> getExchangeRates();
 
-    double getExchangeRate(@NotNull Currency currency);
+    double getExchangeRate(Currency currency);
 
-    double getExchangeRate(@NotNull String id);
+    double getExchangeRate(String id);
 
-    boolean canExchangeTo(@NotNull Currency other);
+    boolean canExchangeTo(Currency other);
 
-    double getExchangeResult(@NotNull Currency other, double amount);
+    double getExchangeResult(Currency other, double amount);
 
-    @NotNull
-    default BigDecimal getExchangeResult(@NotNull Currency other, @NotNull BigDecimal amount) {
+    default BigDecimal getExchangeResult(Currency other, BigDecimal amount) {
         double result = this.getExchangeResult(other, amount.doubleValue());
         return BigDecimal.valueOf(result);
     }
 
     boolean isLeaderboardEnabled();
 }
-

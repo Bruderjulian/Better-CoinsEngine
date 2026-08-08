@@ -2,8 +2,6 @@ package su.nightexpress.excellenteconomy;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.api.CoinsEngineAPI;
 import su.nightexpress.excellenteconomy.command.CommandManager;
 import su.nightexpress.excellenteconomy.config.Config;
@@ -74,7 +72,7 @@ public class CoinsEnginePlugin extends NightPlugin {
         }
 
         if (Plugins.isInstalled(HookPlugin.DELUXE_COINFLIP)) {
-            this.runTask(task -> DeluxeCoinflipHook.setup(this));
+            this.runTask(() -> DeluxeCoinflipHook.setup(this));
         }
 
         this.redisSyncManager = new su.nightexpress.excellenteconomy.sync.RedisSyncManager(this);
@@ -121,55 +119,47 @@ public class CoinsEnginePlugin extends NightPlugin {
     }
 
     @Override
-    @NotNull
+
     protected PluginDetails getDefaultDetails() {
         return PluginDetails.create("Economy", new String[] { "excellenteconomy", "coe" })
                 .setConfigClass(Config.class)
                 .setPermissionsClass(Perms.class);
     }
 
-    @NotNull
     public CommandManager getCommander() {
         return this.commandManager;
     }
 
-    @NotNull
     public CurrencyRegistry getCurrencyRegistry() {
         return this.currencyRegistry;
     }
 
-    @NotNull
     public CurrencyManager getCurrencyManager() {
         return this.currencyManager;
     }
 
-    @NotNull
     public Optional<TopManager> getTopManager() {
         return Optional.ofNullable(this.topManager);
     }
 
-    @NotNull
     public Optional<MigrationManager> getMigrationManager() {
         return Optional.ofNullable(this.migrationManager);
     }
 
-    @NotNull
     public DataHandler getDataHandler() {
         return this.dataHandler;
     }
 
-    @NotNull
     public UserManager getUserManager() {
         return this.userManager;
     }
 
     // Custom getters
-    @NotNull
+
     public java.util.Optional<su.nightexpress.excellenteconomy.sync.RedisSyncManager> getRedisSyncManager() {
         return java.util.Optional.ofNullable(this.redisSyncManager);
     }
 
-    @NotNull
     public su.nightexpress.excellenteconomy.data.BalanceSnapshotCache getSnapshotCache() {
         return this.snapshotCache;
     }

@@ -2,8 +2,6 @@ package su.nightexpress.excellenteconomy;
 
 import java.util.function.UnaryOperator;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.nightcore.util.placeholder.PlaceholderList;
 
@@ -39,6 +37,7 @@ public class Placeholders extends su.nightexpress.nightcore.util.Placeholders {
     public static final String CURRENCY_PREFIX = "%currency_prefix%";
     public static final String CURRENCY_LABEL = "%currency_label%";
 
+    @SuppressWarnings("null")
     public static final PlaceholderList<Currency> CURRENCY = PlaceholderList.create(list -> list
             .add(CURRENCY_ID, Currency::getId)
             .add(CURRENCY_NAME, Currency::getName)
@@ -46,8 +45,7 @@ public class Placeholders extends su.nightexpress.nightcore.util.Placeholders {
             .add(CURRENCY_SYMBOL, Currency::getSymbol)
             .add(CURRENCY_LABEL, currency -> currency.getCommandAliases()[0]));
 
-    @NotNull
-    public static UnaryOperator<String> forCurrency(@NotNull Currency currency) {
+    public static UnaryOperator<String> forCurrency(Currency currency) {
         return CURRENCY.replacer(currency);
     }
 }

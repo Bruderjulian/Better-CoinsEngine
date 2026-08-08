@@ -1,57 +1,56 @@
 package su.nightexpress.excellenteconomy.data.impl;
 
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
-
-import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.api.event.ChangeBalanceEvent;
-import su.nightexpress.excellenteconomy.user.UserBalance;
-import su.nightexpress.nightcore.db.AbstractUser;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.bukkit.Bukkit;
+
+import su.nightexpress.excellenteconomy.api.currency.Currency;
+import su.nightexpress.excellenteconomy.api.event.ChangeBalanceEvent;
+import su.nightexpress.excellenteconomy.user.UserBalance;
+import su.nightexpress.nightcore.db.AbstractUser;
+
 public class CoinsUser extends AbstractUser {
 
-    private final UserBalance                   balance;
+    private final UserBalance balance;
     private final Map<String, CurrencySettings> settingsMap;
 
     private boolean hiddenFromTops;
 
-    public CoinsUser(@NotNull UUID uuid,
-                     @NotNull String name,
-                     long dateCreated,
-                     long lastLogin,
-                     @NotNull UserBalance balance,
-                     @NotNull Map<String, CurrencySettings> settingsMap,
-                     boolean hiddenFromTops) {
+    public CoinsUser(UUID uuid,
+            String name,
+            long dateCreated,
+            long lastLogin,
+            UserBalance balance,
+            Map<String, CurrencySettings> settingsMap,
+            boolean hiddenFromTops) {
         super(uuid, name, dateCreated, lastLogin);
         this.balance = balance;
         this.settingsMap = new HashMap<>(settingsMap);
         this.setHiddenFromTops(hiddenFromTops);
     }
 
-    @NotNull
     @Deprecated
     public Map<String, Double> getBalanceMap() {
         return this.balance.getBalanceMap();
     }
 
-    @NotNull
     public UserBalance getBalance() {
         return this.balance;
     }
 
     /**
-     * Edits user's balance of specific currency and fires the ChangeBalanceEvent event. If event was cancelled, the balance is set back to previous (old) value.
+     * Edits user's balance of specific currency and fires the ChangeBalanceEvent
+     * event. If event was cancelled, the balance is set back to previous (old)
+     * value.
      *
      * @param currency Currency to edit balance of.
      * @param consumer balance function.
      */
-    public void editBalance(@NotNull Currency currency, @NotNull Consumer<UserBalance> consumer) {
+    public void editBalance(Currency currency, Consumer<UserBalance> consumer) {
         double oldBalance = this.getBalance(currency);
 
         consumer.accept(this.balance);
@@ -64,41 +63,39 @@ public class CoinsUser extends AbstractUser {
         }
     }
 
-    public void resetBalance(@NotNull Collection<Currency> currencies) {
+    public void resetBalance(Collection<Currency> currencies) {
         currencies.forEach(this::resetBalance);
     }
 
-    public void resetBalance(@NotNull Currency currency) {
+    public void resetBalance(Currency currency) {
         this.editBalance(currency, balance -> balance.set(currency, currency.getStartValue()));
     }
 
-    public boolean hasEnough(@NotNull Currency currency, double amount) {
+    public boolean hasEnough(Currency currency, double amount) {
         return this.balance.has(currency, amount);
     }
 
-    public double getBalance(@NotNull Currency currency) {
+    public double getBalance(Currency currency) {
         return this.balance.get(currency);
     }
 
-    public void addBalance(@NotNull Currency currency, double amount) {
+    public void addBalance(Currency currency, double amount) {
         this.editBalance(currency, balance -> balance.add(currency, amount));
     }
 
-    public void removeBalance(@NotNull Currency currency, double amount) {
+    public void removeBalance(Currency currency, double amount) {
         this.editBalance(currency, lookup -> lookup.remove(currency, amount));
     }
 
-    public void setBalance(@NotNull Currency currency, double amount) {
+    public void setBalance(Currency currency, double amount) {
         this.editBalance(currency, lookup -> lookup.set(currency, amount));
     }
 
-    @NotNull
     public Map<String, CurrencySettings> getSettingsMap() {
         return this.settingsMap;
     }
 
-    @NotNull
-    public CurrencySettings getSettings(@NotNull Currency currency) {
+    public CurrencySettings getSettings(Currency currency) {
         return this.settingsMap.computeIfAbsent(currency.getId(), k -> CurrencySettings.create(currency));
     }
 

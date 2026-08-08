@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -35,12 +33,12 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
      * private final UserManager userManager;
      */
 
-    public EconomyCurrency(@NotNull Path path,
-            @NotNull String id,
-            @NotNull CoinsEnginePlugin plugin,
-            @NotNull CurrencyManager currencyManager,
-            @NotNull DataHandler dataHandler,
-            @NotNull UserManager userManager) {
+    public EconomyCurrency(Path path,
+            String id,
+            CoinsEnginePlugin plugin,
+            CurrencyManager currencyManager,
+            DataHandler dataHandler,
+            UserManager userManager) {
         super(path, id);
 
         this.plugin = plugin;
@@ -130,7 +128,7 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
         return this.getBalance(user);
     }
 
-    private double getBalance(@Nullable CoinsUser user) {
+    private double getBalance(CoinsUser user) {
         return user == null ? 0D : user.getBalance(this);
     }
 
@@ -176,7 +174,7 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
         return this.has(user, amount);
     }
 
-    private boolean has(@Nullable CoinsUser user, double amount) {
+    private boolean has(CoinsUser user, double amount) {
         return user != null && user.hasEnough(this, amount);
     }
 
@@ -202,8 +200,7 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
         return this.depositUser(user, amount);
     }
 
-    @NotNull
-    private EconomyResponse depositUser(@Nullable CoinsUser user, double amount) {
+    private EconomyResponse depositUser(CoinsUser user, double amount) {
         if (user == null) {
             return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE,
                     Lang.ECONOMY_ERROR_INVALID_PLAYER.text());
@@ -238,8 +235,7 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
         return this.withdrawUser(user, amount);
     }
 
-    @NotNull
-    private EconomyResponse withdrawUser(@Nullable CoinsUser user, double amount) {
+    private EconomyResponse withdrawUser(CoinsUser user, double amount) {
         if (user == null) {
             return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE,
                     Lang.ECONOMY_ERROR_INVALID_PLAYER.text());
@@ -257,7 +253,6 @@ public class EconomyCurrency extends AbstractCurrency implements Economy {
         return new EconomyResponse(amount, user.getBalance(this), type, null);
     }
 
-    @NotNull
     private OperationContext operationContext() {
         return OperationContext.custom("Vault Eco - " + this.name).silentFor(NotificationTarget.EXECUTOR,
                 NotificationTarget.USER, NotificationTarget.CONSOLE_LOGGER);

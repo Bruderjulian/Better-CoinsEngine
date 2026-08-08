@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +50,7 @@ public class RedisSyncManager {
     // Cross-server player name cache
     private final Set<String> crossServerPlayerNames = new HashSet<>();
 
-    public RedisSyncManager(@NotNull CoinsEnginePlugin plugin) {
+    public RedisSyncManager(CoinsEnginePlugin plugin) {
         this.plugin = plugin;
         this.gson = new GsonBuilder()
                 .setPrettyPrinting()
@@ -132,7 +131,6 @@ public class RedisSyncManager {
         return this.pool != null && this.active;
     }
 
-    @NotNull
     public String getNodeId() {
         return this.nodeId;
     }
@@ -161,7 +159,7 @@ public class RedisSyncManager {
     /**
      * Publishes user balance update across servers
      */
-    public void publishUserBalance(@NotNull CoinsUser user) {
+    public void publishUserBalance(CoinsUser user) {
         if (!isActive())
             return;
 
@@ -185,8 +183,8 @@ public class RedisSyncManager {
     /**
      * Publishes currency operation (add, remove, set)
      */
-    public void publishCurrencyOperation(@NotNull UUID userId, @NotNull String currencyId,
-            @NotNull String operation, double amount, double newBalance) {
+    public void publishCurrencyOperation(UUID userId, String currencyId,
+            String operation, double amount, double newBalance) {
         if (!isActive())
             return;
 
@@ -204,7 +202,7 @@ public class RedisSyncManager {
     /**
      * Publishes leaderboard data
      */
-    public void publishLeaderboard(@NotNull String currencyId, @NotNull Map<String, TopEntry> entries) {
+    public void publishLeaderboard(String currencyId, Map<String, TopEntry> entries) {
         if (!isActive())
             return;
 
@@ -231,7 +229,7 @@ public class RedisSyncManager {
     /**
      * Publishes transaction log entry
      */
-    public void publishTransactionLog(@NotNull String logEntry) {
+    public void publishTransactionLog(String logEntry) {
         if (!isActive() || !Config.REDIS_SYNC_TRANSACTION_LOGS.get())
             return;
 
@@ -245,8 +243,8 @@ public class RedisSyncManager {
     /**
      * Publishes payment notification across servers
      */
-    public void publishPaymentNotification(@NotNull UUID recipientId, @NotNull String senderName,
-            @NotNull String currencyId, double amount, double newBalance) {
+    public void publishPaymentNotification(UUID recipientId, String senderName,
+            String currencyId, double amount, double newBalance) {
         if (!isActive())
             return;
 
@@ -264,7 +262,7 @@ public class RedisSyncManager {
     /**
      * Publishes online player names from this server
      */
-    public void publishPlayerNames(@NotNull Set<String> playerNames) {
+    public void publishPlayerNames(Set<String> playerNames) {
         if (!isActive())
             return;
 
@@ -280,7 +278,7 @@ public class RedisSyncManager {
     /**
      * Request balance sync for a specific user
      */
-    public void requestUserSync(@NotNull UUID userId) {
+    public void requestUserSync(UUID userId) {
         if (!isActive())
             return;
 
@@ -294,7 +292,7 @@ public class RedisSyncManager {
     /**
      * Request user creation for cross-server operations
      */
-    public void requestUserCreation(@NotNull String playerName, @NotNull String requestingNode) {
+    public void requestUserCreation(String playerName, String requestingNode) {
         if (!isActive())
             return;
 
@@ -359,7 +357,7 @@ public class RedisSyncManager {
     /**
      * Core publish method
      */
-    private void publish(@NotNull String type, @NotNull JsonObject data) {
+    private void publish(String type, JsonObject data) {
         if (!isActive())
             return;
 
@@ -414,7 +412,7 @@ public class RedisSyncManager {
         this.subscriberThread.start();
     }
 
-    private void handleIncoming(@NotNull String message) {
+    private void handleIncoming(String message) {
         try {
             JsonObject root = gson.fromJson(message, JsonObject.class);
             String sourceNodeId = root.get("nodeId").getAsString();
@@ -449,7 +447,7 @@ public class RedisSyncManager {
      * =========================
      */
 
-    private void applyUserBalanceUpdate(@NotNull JsonObject data) {
+    private void applyUserBalanceUpdate(JsonObject data) {
         UUID userId = UUID.fromString(data.get("userId").getAsString());
         String userName = data.get("userName").getAsString();
         JsonObject balances = data.getAsJsonObject("balances");
@@ -483,7 +481,7 @@ public class RedisSyncManager {
         });
     }
 
-    private void applyCurrencyOperation(@NotNull JsonObject data) {
+    private void applyCurrencyOperation(JsonObject data) {
         UUID userId = UUID.fromString(data.get("userId").getAsString());
         String currencyId = data.get("currencyId").getAsString();
         String operation = data.get("operation").getAsString();
@@ -533,7 +531,7 @@ public class RedisSyncManager {
         });
     }
 
-    private void applyLeaderboardUpdate(@NotNull JsonObject data) {
+    private void applyLeaderboardUpdate(JsonObject data) {
         if (!this.plugin.getTopManager().isPresent())
             return;
 
@@ -558,7 +556,7 @@ public class RedisSyncManager {
         });
     }
 
-    private void applyTransactionLog(@NotNull JsonObject data) {
+    private void applyTransactionLog(JsonObject data) {
         if (!Config.REDIS_SYNC_TRANSACTION_LOGS.get())
             return;
 
@@ -569,7 +567,7 @@ public class RedisSyncManager {
         });
     }
 
-    private void applyPaymentNotification(@NotNull JsonObject data) {
+    private void applyPaymentNotification(JsonObject data) {
         UUID recipientId = UUID.fromString(data.get("recipientId").getAsString());
         String senderName = data.get("senderName").getAsString();
         String currencyId = data.get("currencyId").getAsString();
@@ -597,7 +595,7 @@ public class RedisSyncManager {
         });
     }
 
-    private void applyPlayerNamesUpdate(@NotNull JsonObject data) {
+    private void applyPlayerNamesUpdate(JsonObject data) {
         JsonArray namesArray = data.getAsJsonArray("playerNames");
 
         synchronized (this.crossServerPlayerNames) {
@@ -613,7 +611,7 @@ public class RedisSyncManager {
     /**
      * Gets all player names across servers (local + cross-server)
      */
-    @NotNull
+
     public Set<String> getAllPlayerNames() {
         Set<String> allNames = new HashSet<>();
 
@@ -630,7 +628,7 @@ public class RedisSyncManager {
         return allNames;
     }
 
-    private void handleUserSyncRequest(@NotNull JsonObject data) {
+    private void handleUserSyncRequest(JsonObject data) {
         UUID userId = UUID.fromString(data.get("userId").getAsString());
         String requestingNode = data.get("requestingNode").getAsString();
 
@@ -643,7 +641,7 @@ public class RedisSyncManager {
         });
     }
 
-    private void handleUserCreateRequest(@NotNull JsonObject data) {
+    private void handleUserCreateRequest(JsonObject data) {
         String playerName = data.get("playerName").getAsString();
         String requestingNode = data.get("requestingNode").getAsString();
 

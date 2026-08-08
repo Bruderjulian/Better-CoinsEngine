@@ -1,19 +1,18 @@
 package su.nightexpress.excellenteconomy.migration;
 
+import java.util.Map;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 
-import java.util.Map;
-
 public abstract class Migrator {
 
     protected final CoinsEnginePlugin plugin;
-    protected final String            name;
+    protected final String name;
 
     public Migrator(@NotNull CoinsEnginePlugin plugin, @NotNull String name) {
         this.plugin = plugin;
@@ -25,7 +24,6 @@ public abstract class Migrator {
         return name;
     }
 
-    @Nullable
     public Plugin getBackend() {
         return this.plugin.getPluginManager().getPlugin(this.name);
     }

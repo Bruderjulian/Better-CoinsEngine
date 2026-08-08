@@ -1,7 +1,5 @@
 package su.nightexpress.excellenteconomy.command.currency.provider;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.nightcore.commands.builder.HubNodeBuilder;
@@ -9,13 +7,13 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public interface CommandProvider {
 
-    @NotNull String getName();
+    String getName();
 
-    void buildRoot(@NotNull Currency currency, @NotNull HubNodeBuilder builder);
+    void buildRoot(Currency currency, HubNodeBuilder builder);
 
-    void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder);
+    void build(Currency currency, LiteralNodeBuilder builder);
 
-    boolean isAvailable(@NotNull Currency currency);
+    boolean isAvailable(Currency currency);
 
-    @NotNull CommandDefinition getDefaultDefinition();
+    CommandDefinition getDefaultDefinition();
 }

@@ -1,10 +1,11 @@
 package su.nightexpress.excellenteconomy.tops;
 
+import java.util.UUID;
+
 import org.jetbrains.annotations.NotNull;
+
 import su.nightexpress.nightcore.util.profile.CachedProfile;
 import su.nightexpress.nightcore.util.profile.PlayerProfiles;
-
-import java.util.UUID;
 
 public class TopEntry {
 

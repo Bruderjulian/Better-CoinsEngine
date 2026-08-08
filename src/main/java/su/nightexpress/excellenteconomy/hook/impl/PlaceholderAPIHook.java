@@ -1,9 +1,14 @@
 package su.nightexpress.excellenteconomy.hook.impl;
 
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import java.text.DecimalFormat;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
@@ -15,11 +20,6 @@ import su.nightexpress.nightcore.core.config.CoreLang;
 import su.nightexpress.nightcore.util.LowerCase;
 import su.nightexpress.nightcore.util.NumberUtil;
 import su.nightexpress.nightcore.util.text.night.NightMessage;
-
-import java.text.DecimalFormat;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PlaceholderAPIHook {
 
@@ -41,12 +41,14 @@ public class PlaceholderAPIHook {
 
     private interface TopPlaceholder {
 
-        @NotNull String produce(@NotNull TopEntry entry, @NotNull Currency currency, int position);
+        @NotNull
+        String produce(@NotNull TopEntry entry, @NotNull Currency currency, int position);
     }
 
     private interface PlayerPlaceholder {
 
-        @NotNull String produce(@NotNull Player player, @NotNull CoinsUser user, @NotNull Currency currency);
+        @NotNull
+        String produce(@NotNull Player player, @NotNull CoinsUser user, @NotNull Currency currency);
     }
 
     private static class Expansion extends PlaceholderExpansion {
@@ -57,9 +59,9 @@ public class PlaceholderAPIHook {
             RAW_FORMAT.setMaximumFractionDigits(8);
         }
 
-        private final CoinsEnginePlugin              plugin;
+        private final CoinsEnginePlugin plugin;
         private final Map<String, PlayerPlaceholder> playerPlaceholders;
-        private final Map<String, TopPlaceholder>    topPlaceholders;
+        private final Map<String, TopPlaceholder> topPlaceholders;
 
         public Expansion(@NotNull CoinsEnginePlugin plugin) {
             this.plugin = plugin;
@@ -75,19 +77,19 @@ public class PlaceholderAPIHook {
         @Override
         @NotNull
         public String getAuthor() {
-            return this.plugin.getDescription().getAuthors().getFirst();
+            return this.plugin.getPluginMeta().getAuthors().getFirst();
         }
 
         @Override
         @NotNull
         public String getIdentifier() {
-            return LowerCase.INTERNAL.apply(this.plugin.getDescription().getName());
+            return LowerCase.INTERNAL.apply(this.plugin.getPluginMeta().getName());
         }
 
         @Override
         @NotNull
         public String getVersion() {
-            return this.plugin.getDescription().getVersion();
+            return this.plugin.getPluginMeta().getVersion();
         }
 
         @Override
@@ -96,28 +98,36 @@ public class PlaceholderAPIHook {
         }
 
         private void loadTopPlaceholders() {
-            this.topPlaceholders.put("balance_short_clean", (entry, currency, position) -> NightMessage.stripTags(currency.formatCompact(entry.getBalance())));
-            this.topPlaceholders.put("balance_short_legacy", (entry, currency, position) -> NightMessage.asLegacy(currency.formatCompact(entry.getBalance())));
-            this.topPlaceholders.put("balance_short", (entry, currency, position) -> currency.formatCompact(entry.getBalance()));
+            this.topPlaceholders.put("balance_short_clean",
+                    (entry, currency, position) -> NightMessage.stripTags(currency.formatCompact(entry.getBalance())));
+            this.topPlaceholders.put("balance_short_legacy",
+                    (entry, currency, position) -> NightMessage.asLegacy(currency.formatCompact(entry.getBalance())));
+            this.topPlaceholders.put("balance_short",
+                    (entry, currency, position) -> currency.formatCompact(entry.getBalance()));
 
-            this.topPlaceholders.put("balance_clean", (entry, currency, position) -> NightMessage.stripTags(currency.formatCompact(entry.getBalance())));
-            this.topPlaceholders.put("balance_legacy", (entry, currency, position) -> NightMessage.asLegacy(currency.format(entry.getBalance())));
+            this.topPlaceholders.put("balance_clean",
+                    (entry, currency, position) -> NightMessage.stripTags(currency.formatCompact(entry.getBalance())));
+            this.topPlaceholders.put("balance_legacy",
+                    (entry, currency, position) -> NightMessage.asLegacy(currency.format(entry.getBalance())));
             this.topPlaceholders.put("balance", (entry, currency, position) -> currency.format(entry.getBalance()));
 
             this.topPlaceholders.put("player", (entry, currency, position) -> entry.getName());
 
             this.playerPlaceholders.put("leaderboard_position", (player, user, currency) -> {
-                return this.plugin.getTopManager().map(topManager -> topManager.getTopEntry(currency, player.getName())).map(TopEntry::getPosition).map(String::valueOf).orElse("?");
+                return this.plugin.getTopManager().map(topManager -> topManager.getTopEntry(currency, player.getName()))
+                        .map((value) -> value == null ? null : value.getPosition()).map(String::valueOf).orElse("?");
             });
         }
 
         private void loadPlayerPlaceholders() {
             this.playerPlaceholders.put("server_balance_short_clean", (player, user, currency) -> {
-                return NightMessage.stripTags(currency.formatCompact(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
+                return NightMessage.stripTags(
+                        currency.formatCompact(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
             });
 
             this.playerPlaceholders.put("server_balance_short_legacy", (player, user, currency) -> {
-                return NightMessage.asLegacy(currency.formatCompact(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
+                return NightMessage.asLegacy(
+                        currency.formatCompact(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
             });
 
             this.playerPlaceholders.put("server_balance_short", (player, user, currency) -> {
@@ -125,11 +135,13 @@ public class PlaceholderAPIHook {
             });
 
             this.playerPlaceholders.put("server_balance_clean", (player, user, currency) -> {
-                return NightMessage.stripTags(currency.format(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
+                return NightMessage
+                        .stripTags(currency.format(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
             });
 
             this.playerPlaceholders.put("server_balance_legacy", (player, user, currency) -> {
-                return NightMessage.asLegacy(currency.format(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
+                return NightMessage
+                        .asLegacy(currency.format(plugin.getTopManager().orElseThrow().getTotalBalance(currency)));
             });
 
             this.playerPlaceholders.put("server_balance_raw", (player, user, currency) -> {
@@ -140,16 +152,24 @@ public class PlaceholderAPIHook {
                 return currency.format(plugin.getTopManager().orElseThrow().getTotalBalance(currency));
             });
 
-            this.playerPlaceholders.put("payments_state", (player, user, currency) -> NightMessage.asLegacy(CoreLang.STATE_ENABLED_DISALBED.get(user.getSettings(currency).isPaymentsEnabled())));
+            this.playerPlaceholders.put("payments_state", (player, user, currency) -> NightMessage
+                    .asLegacy(CoreLang.STATE_ENABLED_DISALBED.get(user.getSettings(currency).isPaymentsEnabled())));
 
-            this.playerPlaceholders.put("balance_short_clean", (player, user, currency) -> NightMessage.stripTags(currency.formatCompact(user.getBalance(currency))));
-            this.playerPlaceholders.put("balance_short_legacy", (player, user, currency) -> NightMessage.asLegacy(currency.formatCompact(user.getBalance(currency))));
-            this.playerPlaceholders.put("balance_short", (player, user, currency) -> currency.formatCompact(user.getBalance(currency)));
+            this.playerPlaceholders.put("balance_short_clean", (player, user, currency) -> NightMessage
+                    .stripTags(currency.formatCompact(user.getBalance(currency))));
+            this.playerPlaceholders.put("balance_short_legacy", (player, user, currency) -> NightMessage
+                    .asLegacy(currency.formatCompact(user.getBalance(currency))));
+            this.playerPlaceholders.put("balance_short",
+                    (player, user, currency) -> currency.formatCompact(user.getBalance(currency)));
 
-            this.playerPlaceholders.put("balance_clean", (player, user, currency) -> NightMessage.stripTags(currency.format(user.getBalance(currency))));
-            this.playerPlaceholders.put("balance_legacy", (player, user, currency) -> NightMessage.asLegacy(currency.format(user.getBalance(currency))));
-            this.playerPlaceholders.put("balance_raw", (player, user, currency) -> NightMessage.stripTags(RAW_FORMAT.format(currency.floorIfNeeded(user.getBalance(currency)))));
-            this.playerPlaceholders.put("balance", (player, user, currency) -> currency.format(user.getBalance(currency)));
+            this.playerPlaceholders.put("balance_clean",
+                    (player, user, currency) -> NightMessage.stripTags(currency.format(user.getBalance(currency))));
+            this.playerPlaceholders.put("balance_legacy",
+                    (player, user, currency) -> NightMessage.asLegacy(currency.format(user.getBalance(currency))));
+            this.playerPlaceholders.put("balance_raw", (player, user, currency) -> NightMessage
+                    .stripTags(RAW_FORMAT.format(currency.floorIfNeeded(user.getBalance(currency)))));
+            this.playerPlaceholders.put("balance",
+                    (player, user, currency) -> currency.format(user.getBalance(currency)));
         }
 
         @Override
@@ -161,23 +181,28 @@ public class PlaceholderAPIHook {
 
                 for (var entry : this.topPlaceholders.entrySet()) {
                     String key = entry.getKey() + "_";
-                    if (!type.startsWith(key)) continue;
+                    if (!type.startsWith(key))
+                        continue;
 
                     String posAndCurrency = type.substring(key.length());
                     int index = posAndCurrency.indexOf('_');
-                    if (index < 0) break;
+                    if (index < 0)
+                        break;
 
                     String posRaw = posAndCurrency.substring(0, index);
                     String currencyId = posAndCurrency.substring(index + 1);
 
                     Currency currency = plugin.getCurrencyRegistry().getById(currencyId);
-                    if (currency == null) break;
+                    if (currency == null)
+                        break;
 
                     int position = NumberUtil.getIntegerAbs(posRaw);
-                    if (position <= 0) return null;
+                    if (position <= 0)
+                        return null;
 
                     List<TopEntry> baltop = topManager.getTopEntries(currency);
-                    if (position > baltop.size()) return Lang.OTHER_NO_TOP_ENTRY.text();
+                    if (position > baltop.size())
+                        return Lang.OTHER_NO_TOP_ENTRY.text();
 
                     TopEntry topEntry = baltop.get(position - 1);
 
@@ -192,11 +217,13 @@ public class PlaceholderAPIHook {
 
                 for (var entry : this.playerPlaceholders.entrySet()) {
                     String key = entry.getKey() + "_";
-                    if (!params.startsWith(key)) continue;
+                    if (!params.startsWith(key))
+                        continue;
 
                     String currencyId = params.substring(key.length());
                     Currency currency = plugin.getCurrencyRegistry().getById(currencyId);
-                    if (currency == null) continue;
+                    if (currency == null)
+                        continue;
 
                     return entry.getValue().produce(player, user, currency);
                 }

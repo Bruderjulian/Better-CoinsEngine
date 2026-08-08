@@ -1,13 +1,5 @@
 package su.nightexpress.excellenteconomy.currency;
 
-import org.jetbrains.annotations.NotNull;
-
-import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
-import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
-import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
-import su.nightexpress.nightcore.util.TimeUtil;
-import su.nightexpress.nightcore.util.text.night.NightMessage;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,23 +11,29 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
+import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
+import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
+import su.nightexpress.nightcore.util.TimeUtil;
+import su.nightexpress.nightcore.util.text.night.NightMessage;
+
 public class CurrencyLogger {
 
-    private final CoinsEnginePlugin       plugin;
+    private final CoinsEnginePlugin plugin;
     private final BlockingQueue<LogEntry> queue;
-    private final DateTimeFormatter       formatter;
+    private final DateTimeFormatter formatter;
 
     private final boolean logToConsole;
     private final boolean logToFile;
 
     private BufferedWriter writer;
-    private boolean        running;
+    private boolean running;
 
-    public CurrencyLogger(@NotNull CoinsEnginePlugin plugin,
-                          @NotNull DateTimeFormatter formatter,
-                          @NotNull Path filePath,
-                          boolean logToConsole,
-                          boolean logToFile) throws IOException {
+    public CurrencyLogger(CoinsEnginePlugin plugin,
+            DateTimeFormatter formatter,
+            Path filePath,
+            boolean logToConsole,
+            boolean logToFile) throws IOException {
         this.plugin = plugin;
         this.formatter = formatter;
         this.logToConsole = logToConsole;
@@ -43,12 +41,14 @@ public class CurrencyLogger {
         this.queue = new LinkedBlockingQueue<>();
 
         if (logToFile) {
-            this.writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            this.writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8, StandardOpenOption.CREATE,
+                    StandardOpenOption.APPEND);
             this.running = true;
         }
     }
 
-    private record LogEntry(@NotNull String log, long timestamp) {}
+    private record LogEntry(String log, long timestamp) {
+    }
 
     public void shutdown() {
         this.running = false;
@@ -57,14 +57,13 @@ public class CurrencyLogger {
         if (this.writer != null) {
             try {
                 this.writer.close();
-            }
-            catch (IOException exception) {
+            } catch (IOException exception) {
                 exception.printStackTrace();
             }
         }
     }
 
-    public void addEntry(@NotNull OperationContext context, @NotNull String log) {
+    public void addEntry(OperationContext context, String log) {
         String stripped = NightMessage.stripTags(log);
 
         if (this.logToConsole && context.shouldNotify(NotificationTarget.CONSOLE_LOGGER)) {
@@ -78,13 +77,12 @@ public class CurrencyLogger {
     /**
      * Adds an external log entry from Redis sync
      */
-    public void addExternalLogEntry(@NotNull String logEntry) {
+    public void addExternalLogEntry(String logEntry) {
         try {
             this.writer.append(logEntry);
             this.writer.newLine();
             this.writer.flush();
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
@@ -100,8 +98,7 @@ public class CurrencyLogger {
                     this.writer.flush();
                 }
             }
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }

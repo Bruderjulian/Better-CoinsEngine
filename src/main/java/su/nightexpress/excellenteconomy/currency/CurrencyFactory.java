@@ -1,6 +1,6 @@
 package su.nightexpress.excellenteconomy.currency;
 
-import org.jetbrains.annotations.NotNull;
+import java.nio.file.Path;
 
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.currency.impl.AbstractCurrency;
@@ -9,24 +9,21 @@ import su.nightexpress.excellenteconomy.currency.impl.NormalCurrency;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.user.UserManager;
 
-import java.nio.file.Path;
-
 public class CurrencyFactory {
 
-    private CurrencyFactory() {}
+    private CurrencyFactory() {
+    }
 
-    @NotNull
-    public static AbstractCurrency createEconomy(@NotNull Path path,
-                                                 @NotNull String id,
-                                                 @NotNull CoinsEnginePlugin plugin,
-                                                 @NotNull CurrencyManager currencyManager,
-                                                 @NotNull DataHandler dataHandler,
-                                                 @NotNull UserManager userManager) {
+    public static AbstractCurrency createEconomy(Path path,
+            String id,
+            CoinsEnginePlugin plugin,
+            CurrencyManager currencyManager,
+            DataHandler dataHandler,
+            UserManager userManager) {
         return new EconomyCurrency(path, id, plugin, currencyManager, dataHandler, userManager);
     }
 
-    @NotNull
-    public static AbstractCurrency createNormal(@NotNull Path path, @NotNull String id) {
+    public static AbstractCurrency createNormal(Path path, String id) {
         return new NormalCurrency(path, id);
     }
 }

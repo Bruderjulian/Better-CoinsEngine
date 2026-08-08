@@ -20,7 +20,8 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class GiveAllProvider extends CurrencyCommandProvider {
 
-    public GiveAllProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull CurrencyManager manager) {
+    public GiveAllProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.GIVE_ALL);
     }
 
@@ -32,23 +33,25 @@ public class GiveAllProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-            .permission(Perms.COMMAND_CURRENCY_GIVE_ALL)
-            .description(Lang.COMMAND_CURRENCY_GIVE_ALL_DESC)
-            .withArguments(CommandArguments.amount())
-            .withFlags(CommandArguments.FLAG_SILENT, CommandArguments.FLAG_SILENT_FEEDBACK)
-            .executes((context, arguments) -> {
-                double amount = arguments.getDouble(CommandArguments.AMOUNT);
-                if (amount <= 0D) return false;
+                .permission(Perms.COMMAND_CURRENCY_GIVE_ALL)
+                .description(Lang.COMMAND_CURRENCY_GIVE_ALL_DESC)
+                .withArguments(CommandArguments.amount())
+                .withFlags(CommandArguments.FLAG_SILENT, CommandArguments.FLAG_SILENT_FEEDBACK)
+                .executes((context, arguments) -> {
+                    double amount = arguments.getDouble(CommandArguments.AMOUNT);
+                    if (amount <= 0D)
+                        return false;
 
-                OperationContext operationContext = OperationContext.of(context.getSender())
-                    .silentFor(NotificationTarget.CONSOLE_LOGGER)
-                    .silentFor(NotificationTarget.USER, context.hasFlag(CommandArguments.FLAG_SILENT))
-                    .silentFor(NotificationTarget.EXECUTOR, context.hasFlag(CommandArguments.FLAG_SILENT_FEEDBACK));
+                    OperationContext operationContext = OperationContext.of(context.getSender())
+                            .silentFor(NotificationTarget.CONSOLE_LOGGER)
+                            .silentFor(NotificationTarget.USER, context.hasFlag(CommandArguments.FLAG_SILENT))
+                            .silentFor(NotificationTarget.EXECUTOR,
+                                    context.hasFlag(CommandArguments.FLAG_SILENT_FEEDBACK));
 
-                this.manager.giveAll(operationContext, currency, amount);
+                    this.manager.giveAll(operationContext, currency, amount);
 
-                return true;
-            });
+                    return true;
+                });
     }
 
     @Override

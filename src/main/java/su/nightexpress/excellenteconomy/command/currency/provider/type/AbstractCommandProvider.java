@@ -8,7 +8,7 @@ import su.nightexpress.excellenteconomy.command.currency.provider.CommandProvide
 public abstract class AbstractCommandProvider implements CommandProvider {
 
     protected final CoinsEnginePlugin plugin;
-    protected final String            name;
+    protected final String name;
 
     public AbstractCommandProvider(@NotNull CoinsEnginePlugin plugin, @NotNull String name) {
         this.plugin = plugin;

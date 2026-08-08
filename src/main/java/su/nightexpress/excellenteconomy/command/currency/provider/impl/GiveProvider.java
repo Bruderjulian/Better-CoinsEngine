@@ -21,7 +21,8 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class GiveProvider extends CurrencyCommandProvider {
 
-    public GiveProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull CurrencyManager manager) {
+    public GiveProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.GIVE);
     }
 
@@ -33,34 +34,35 @@ public class GiveProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-            .permission(Perms.COMMAND_CURRENCY_GIVE)
-            .description(Lang.COMMAND_CURRENCY_GIVE_DESC)
-            .withArguments(
-                Arguments.playerName(CommandArguments.PLAYER),
-                CommandArguments.amount()
-            )
-            .withFlags(CommandArguments.FLAG_SILENT, CommandArguments.FLAG_SILENT_FEEDBACK)
-            .executes((context, arguments) -> {
-                double amount = arguments.getDouble(CommandArguments.AMOUNT);
-                if (amount <= 0D) return false;
+                .permission(Perms.COMMAND_CURRENCY_GIVE)
+                .description(Lang.COMMAND_CURRENCY_GIVE_DESC)
+                .withArguments(
+                        Arguments.playerName(CommandArguments.PLAYER),
+                        CommandArguments.amount())
+                .withFlags(CommandArguments.FLAG_SILENT, CommandArguments.FLAG_SILENT_FEEDBACK)
+                .executes((context, arguments) -> {
+                    double amount = arguments.getDouble(CommandArguments.AMOUNT);
+                    if (amount <= 0D)
+                        return false;
 
-                String playerName = arguments.getString(CommandArguments.PLAYER);
+                    String playerName = arguments.getString(CommandArguments.PLAYER);
 
-                this.plugin.getUserManager().manageUser(playerName, user -> {
-                    if (user == null) {
-                        context.errorBadPlayer();
-                        return;
-                    }
+                    this.plugin.getUserManager().manageUser(playerName, user -> {
+                        if (user == null) {
+                            context.errorBadPlayer();
+                            return;
+                        }
 
-                    OperationContext operationContext = OperationContext.of(context.getSender())
-                        .silentFor(NotificationTarget.CONSOLE_LOGGER)
-                        .silentFor(NotificationTarget.USER, context.hasFlag(CommandArguments.FLAG_SILENT))
-                        .silentFor(NotificationTarget.EXECUTOR, context.hasFlag(CommandArguments.FLAG_SILENT_FEEDBACK));
+                        OperationContext operationContext = OperationContext.of(context.getSender())
+                                .silentFor(NotificationTarget.CONSOLE_LOGGER)
+                                .silentFor(NotificationTarget.USER, context.hasFlag(CommandArguments.FLAG_SILENT))
+                                .silentFor(NotificationTarget.EXECUTOR,
+                                        context.hasFlag(CommandArguments.FLAG_SILENT_FEEDBACK));
 
-                    this.manager.give(operationContext, user, currency, amount);
+                        this.manager.give(operationContext, user, currency, amount);
+                    });
+                    return true;
                 });
-                return true;
-            });
     }
 
     @Override

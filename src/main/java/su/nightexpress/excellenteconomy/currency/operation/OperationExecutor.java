@@ -1,46 +1,43 @@
 package su.nightexpress.excellenteconomy.currency.operation;
 
-import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Optional;
+
+import org.bukkit.command.CommandSender;
 
 public interface OperationExecutor {
 
-    @NotNull String getName();
+    String getName();
 
-    @NotNull Optional<CommandSender> getBukkitSender();
+    Optional<CommandSender> getBukkitSender();
 
-    @NotNull
-    static OperationExecutor of(@NotNull CommandSender sender) {
+    static OperationExecutor of(CommandSender sender) {
         return new OperationExecutor() {
 
             @Override
-            @NotNull
+
             public String getName() {
                 return sender.getName();
             }
 
             @Override
-            @NotNull
+
             public Optional<CommandSender> getBukkitSender() {
                 return Optional.of(sender);
             }
         };
     }
 
-    @NotNull
-    static OperationExecutor custom(@NotNull String name) {
+    static OperationExecutor custom(String name) {
         return new OperationExecutor() {
 
             @Override
-            @NotNull
+
             public String getName() {
                 return name;
             }
 
             @Override
-            @NotNull
+
             public Optional<CommandSender> getBukkitSender() {
                 return Optional.empty();
             }

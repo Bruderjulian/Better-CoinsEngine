@@ -1,12 +1,10 @@
 package su.nightexpress.excellenteconomy.currency.impl;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.file.Path;
 
 public class NormalCurrency extends AbstractCurrency {
 
-    public NormalCurrency(@NotNull Path path, @NotNull String id) {
+    public NormalCurrency(Path path, String id) {
         super(path, id);
     }
 

@@ -1,5 +1,9 @@
 package su.nightexpress.excellenteconomy.user;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
@@ -11,16 +15,13 @@ import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUserManager;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class UserManager extends AbstractUserManager<CoinsEnginePlugin, CoinsUser> {
 
     private final DataHandler dataHandler;
     private final CurrencyRegistry registry;
 
-    public UserManager(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull DataHandler dataHandler) {
+    public UserManager(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull DataHandler dataHandler) {
         super(plugin, dataHandler);
         this.dataHandler = dataHandler;
         this.registry = registry;
@@ -52,10 +53,12 @@ public class UserManager extends AbstractUserManager<CoinsEnginePlugin, CoinsUse
 
     public void handleSynchronization(@NotNull CoinsUser fresh) {
         CoinsUser user = this.getLoaded(fresh.getId());
-        if (user == null) return;
+        if (user == null)
+            return;
 
         for (Currency currency : this.registry.getCurrencies()) {
-            if (!currency.isSynchronizable()) continue;
+            if (!currency.isSynchronizable())
+                continue;
 
             double balance = fresh.getBalance(currency);
             user.getBalance().set(currency, balance); // Bypass balance event call.

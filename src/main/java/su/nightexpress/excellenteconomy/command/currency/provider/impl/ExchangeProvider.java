@@ -19,7 +19,8 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class ExchangeProvider extends CurrencyCommandProvider {
 
-    public ExchangeProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull CurrencyManager manager) {
+    public ExchangeProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.EXCHANGE);
     }
 
@@ -31,20 +32,20 @@ public class ExchangeProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-            .playerOnly()
-            .permission(Perms.COMMAND_CURRENCY_EXCHANGE)
-            .description(Lang.COMMAND_CURRENCY_EXCHANGE_DESC)
-            .withArguments(CommandArguments.currency(this.registry)
-                .suggestions((reader, context) -> this.registry.getCurrencies().stream().filter(currency::canExchangeTo).map(Currency::getId).toList()),
-                CommandArguments.amount()
-            )
-            .executes((context, arguments) -> {
-                Player player = context.getPlayerOrThrow();
-                Currency targetCurrency = arguments.get(CommandArguments.CURRENCY, Currency.class);
-                double amount = arguments.getDouble(CommandArguments.AMOUNT);
+                .playerOnly()
+                .permission(Perms.COMMAND_CURRENCY_EXCHANGE)
+                .description(Lang.COMMAND_CURRENCY_EXCHANGE_DESC)
+                .withArguments(CommandArguments.currency(this.registry)
+                        .suggestions((reader, context) -> this.registry.getCurrencies().stream()
+                                .filter(currency::canExchangeTo).map(Currency::getId).toList()),
+                        CommandArguments.amount())
+                .executes((context, arguments) -> {
+                    Player player = context.getPlayerOrThrow();
+                    Currency targetCurrency = arguments.get(CommandArguments.CURRENCY, Currency.class);
+                    double amount = arguments.getDouble(CommandArguments.AMOUNT);
 
-                return this.manager.exchange(player, currency, targetCurrency, amount);
-            });
+                    return this.manager.exchange(player, currency, targetCurrency, amount);
+                });
     }
 
     @Override

@@ -1,11 +1,11 @@
 package su.nightexpress.excellenteconomy.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserBalance {
 

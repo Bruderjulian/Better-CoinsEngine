@@ -21,7 +21,8 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class SetProvider extends CurrencyCommandProvider {
 
-    public SetProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull CurrencyManager manager) {
+    public SetProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.SET);
     }
 
@@ -33,32 +34,32 @@ public class SetProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-            .permission(Perms.COMMAND_CURRENCY_SET)
-            .description(Lang.COMMAND_CURRENCY_SET_DESC)
-            .withArguments(
-                Arguments.playerName(CommandArguments.PLAYER),
-                CommandArguments.amount()
-            )
-            .withFlags(CommandArguments.FLAG_SILENT, CommandArguments.FLAG_SILENT_FEEDBACK)
-            .executes((context, arguments) -> {
-                double amount = Math.max(0, arguments.getDouble(CommandArguments.AMOUNT));
-                String playerName = arguments.getString(CommandArguments.PLAYER);
+                .permission(Perms.COMMAND_CURRENCY_SET)
+                .description(Lang.COMMAND_CURRENCY_SET_DESC)
+                .withArguments(
+                        Arguments.playerName(CommandArguments.PLAYER),
+                        CommandArguments.amount())
+                .withFlags(CommandArguments.FLAG_SILENT, CommandArguments.FLAG_SILENT_FEEDBACK)
+                .executes((context, arguments) -> {
+                    double amount = Math.max(0, arguments.getDouble(CommandArguments.AMOUNT));
+                    String playerName = arguments.getString(CommandArguments.PLAYER);
 
-                this.plugin.getUserManager().manageUser(playerName, user -> {
-                    if (user == null) {
-                        context.errorBadPlayer();
-                        return;
-                    }
+                    this.plugin.getUserManager().manageUser(playerName, user -> {
+                        if (user == null) {
+                            context.errorBadPlayer();
+                            return;
+                        }
 
-                    OperationContext operationContext = OperationContext.of(context.getSender())
-                        .silentFor(NotificationTarget.CONSOLE_LOGGER)
-                        .silentFor(NotificationTarget.USER, context.hasFlag(CommandArguments.FLAG_SILENT))
-                        .silentFor(NotificationTarget.EXECUTOR, context.hasFlag(CommandArguments.FLAG_SILENT_FEEDBACK));
+                        OperationContext operationContext = OperationContext.of(context.getSender())
+                                .silentFor(NotificationTarget.CONSOLE_LOGGER)
+                                .silentFor(NotificationTarget.USER, context.hasFlag(CommandArguments.FLAG_SILENT))
+                                .silentFor(NotificationTarget.EXECUTOR,
+                                        context.hasFlag(CommandArguments.FLAG_SILENT_FEEDBACK));
 
-                    this.manager.set(operationContext, user, currency, amount);
+                        this.manager.set(operationContext, user, currency, amount);
+                    });
+                    return true;
                 });
-                return true;
-            });
     }
 
     @Override

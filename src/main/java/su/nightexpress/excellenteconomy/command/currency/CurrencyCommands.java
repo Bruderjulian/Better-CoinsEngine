@@ -1,12 +1,22 @@
 package su.nightexpress.excellenteconomy.command.currency;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.currency.provider.CommandProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.*;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.BalanceProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.ExchangeProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.GiveAllProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.GiveProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.PaymentsProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.RemoveProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.SendProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.SetProvider;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
@@ -16,21 +26,17 @@ import su.nightexpress.nightcore.config.FileConfig;
 import su.nightexpress.nightcore.manager.SimpleManager;
 import su.nightexpress.nightcore.util.LowerCase;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
 
     private final CurrencyRegistry currencyRegistry;
     private final CurrencyManager currencyManager;
 
-    private final Map<String, CommandProvider>   providerByNameMap;
+    private final Map<String, CommandProvider> providerByNameMap;
     private final Map<String, CommandDefinition> definitionByNameMap;
     private final Map<String, Set<NightCommand>> currencyCommands;
 
-    public CurrencyCommands(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry currencyRegistry, @NotNull CurrencyManager currencyManager) {
+    public CurrencyCommands(CoinsEnginePlugin plugin, CurrencyRegistry currencyRegistry,
+            CurrencyManager currencyManager) {
         super(plugin);
         this.currencyRegistry = currencyRegistry;
         this.currencyManager = currencyManager;
@@ -67,7 +73,7 @@ public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
         this.registerProvider(new ExchangeProvider(this.plugin, this.currencyRegistry, this.currencyManager));
     }
 
-    public void registerProvider(@NotNull CommandProvider provider) {
+    public void registerProvider(CommandProvider provider) {
         this.providerByNameMap.put(provider.getName(), provider);
     }
 
@@ -82,7 +88,8 @@ public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
         String path = "Commands.";
 
         if (config.getSection(path).isEmpty()) {
-            this.providerByNameMap.forEach((name, provider) -> config.set(path + "." + name, provider.getDefaultDefinition()));
+            this.providerByNameMap
+                    .forEach((name, provider) -> config.set(path + "." + name, provider.getDefaultDefinition()));
         }
 
         config.getSection(path).forEach(sId -> {
@@ -100,27 +107,32 @@ public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
         config.saveChanges();
     }
 
-    public void loadCommands(@NotNull Currency currency) {
+    public void loadCommands(Currency currency) {
         NightCommand currencyCommand = NightCommand.hub(this.plugin, currency.getCommandAliases(), rootBuilder -> {
             rootBuilder.permission(currency.isPermissionRequired() ? currency.getPermission() : null);
             rootBuilder.description(currency.replacePlaceholders().apply(Lang.COMMAND_CURRENCY_ROOT_DESC.text()));
 
             this.providerByNameMap.forEach((name, provider) -> {
-                CommandDefinition balanceDef = this.definitionByNameMap.getOrDefault(name, provider.getDefaultDefinition());
+                CommandDefinition balanceDef = this.definitionByNameMap.getOrDefault(name,
+                        provider.getDefaultDefinition());
                 CommandVariant children = balanceDef.children();
                 CommandVariant dedicated = balanceDef.dedicated();
 
-                if (!children.enabled() && !dedicated.enabled()) return;
-                if (!provider.isAvailable(currency)) return;
+                if (!children.enabled() && !dedicated.enabled())
+                    return;
+                if (!provider.isAvailable(currency))
+                    return;
 
                 provider.buildRoot(currency, rootBuilder);
 
                 if (children.enabled()) {
-                    rootBuilder.branch(Commands.literal(children.aliases()[0], builder -> provider.build(currency, builder)));
+                    rootBuilder.branch(
+                            Commands.literal(children.aliases()[0], builder -> provider.build(currency, builder)));
                 }
 
                 if (dedicated.enabled() && currency.isPrimary()) {
-                    NightCommand command = NightCommand.literal(this.plugin, dedicated.aliases(), builder -> provider.build(currency, builder));
+                    NightCommand command = NightCommand.literal(this.plugin, dedicated.aliases(),
+                            builder -> provider.build(currency, builder));
                     this.registerCommand(currency, command);
                 }
             });
@@ -129,15 +141,16 @@ public class CurrencyCommands extends SimpleManager<CoinsEnginePlugin> {
         this.registerCommand(currency, currencyCommand);
     }
 
-    private void registerCommand(@NotNull Currency currency, @NotNull NightCommand command) {
+    private void registerCommand(Currency currency, NightCommand command) {
         if (command.register()) {
             this.currencyCommands.computeIfAbsent(currency.getId(), k -> new HashSet<>()).add(command);
         }
     }
 
-    public void unregisterCommands(@NotNull Currency currency) {
+    public void unregisterCommands(Currency currency) {
         Set<NightCommand> commands = this.currencyCommands.remove(currency.getId());
-        if (commands == null) return;
+        if (commands == null)
+            return;
 
         commands.forEach(NightCommand::unregister);
     }

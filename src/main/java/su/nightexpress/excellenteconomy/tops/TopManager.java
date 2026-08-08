@@ -1,9 +1,17 @@
 package su.nightexpress.excellenteconomy.tops;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
@@ -20,10 +28,6 @@ import su.nightexpress.nightcore.manager.AbstractManager;
 import su.nightexpress.nightcore.util.Lists;
 import su.nightexpress.nightcore.util.LowerCase;
 import su.nightexpress.nightcore.util.NumberUtil;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TopManager extends AbstractManager<CoinsEnginePlugin> {
 
@@ -74,9 +78,11 @@ public class TopManager extends AbstractManager<CoinsEnginePlugin> {
             AtomicInteger counter = new AtomicInteger(0);
             Map<String, TopEntry> entries = new LinkedHashMap<>();
 
-            users.stream().sorted(Comparator.comparingDouble((CoinsUser user) -> user.getBalance(currency)).reversed()).forEach(user -> {
-                entries.put(LowerCase.INTERNAL.apply(user.getName()), new TopEntry(counter.incrementAndGet(), user.getName(), user.getId(), user.getBalance(currency)));
-            });
+            users.stream().sorted(Comparator.comparingDouble((CoinsUser user) -> user.getBalance(currency)).reversed())
+                    .forEach(user -> {
+                        entries.put(LowerCase.INTERNAL.apply(user.getName()), new TopEntry(counter.incrementAndGet(),
+                                user.getName(), user.getId(), user.getBalance(currency)));
+                    });
 
             this.topEntries.put(currency.getId(), entries);
         });
@@ -110,24 +116,24 @@ public class TopManager extends AbstractManager<CoinsEnginePlugin> {
         boolean hasPrevPage = index > 0;
 
         currency.sendPrefixed(Lang.TOP_LIST, sender, replacer -> replacer
-            .replace(Placeholders.GENERIC_NEXT_PAGE, () -> (hasNextPage ? Lang.TOP_LIST_NEXT_PAGE_ACTIVE : Lang.TOP_LIST_NEXT_PAGE_INACTIVE).text()
-                .replace(Placeholders.GENERIC_VALUE, String.valueOf(realPage + 1))
-            )
-            .replace(Placeholders.GENERIC_PREVIOUS_PAGE, () -> (hasPrevPage ? Lang.TOP_LIST_PREVIOUS_PAGE_ACTIVE : Lang.TOP_LIST_PREVIOUS_PAGE_INACTIVE).text()
-                .replace(Placeholders.GENERIC_VALUE, String.valueOf(realPage - 1))
-            )
-            .replace(currency.replacePlaceholders())
-            .replace(Placeholders.GENERIC_CURRENT, realPage)
-            .replace(Placeholders.GENERIC_MAX, pages)
-            .replace(Placeholders.GENERIC_ENTRY, list -> {
-                for (TopEntry entry : entries) {
-                    list.add(Lang.TOP_ENTRY.text()
-                        .replace(Placeholders.GENERIC_POS, NumberUtil.format(entry.getPosition()))
-                        .replace(Placeholders.GENERIC_BALANCE, currency.format(entry.getBalance()))
-                        .replace(Placeholders.PLAYER_NAME, entry.getName()));
-                }
-            })
-        );
+                .replace(Placeholders.GENERIC_NEXT_PAGE,
+                        () -> (hasNextPage ? Lang.TOP_LIST_NEXT_PAGE_ACTIVE : Lang.TOP_LIST_NEXT_PAGE_INACTIVE).text()
+                                .replace(Placeholders.GENERIC_VALUE, String.valueOf(realPage + 1)))
+                .replace(Placeholders.GENERIC_PREVIOUS_PAGE,
+                        () -> (hasPrevPage ? Lang.TOP_LIST_PREVIOUS_PAGE_ACTIVE : Lang.TOP_LIST_PREVIOUS_PAGE_INACTIVE)
+                                .text()
+                                .replace(Placeholders.GENERIC_VALUE, String.valueOf(realPage - 1)))
+                .replace(currency.replacePlaceholders())
+                .replace(Placeholders.GENERIC_CURRENT, realPage)
+                .replace(Placeholders.GENERIC_MAX, pages)
+                .replace(Placeholders.GENERIC_ENTRY, list -> {
+                    for (TopEntry entry : entries) {
+                        list.add(Lang.TOP_ENTRY.text()
+                                .replace(Placeholders.GENERIC_POS, NumberUtil.format(entry.getPosition()))
+                                .replace(Placeholders.GENERIC_BALANCE, currency.format(entry.getBalance()))
+                                .replace(Placeholders.PLAYER_NAME, entry.getName()));
+                    }
+                }));
 
         return true;
     }
@@ -142,13 +148,14 @@ public class TopManager extends AbstractManager<CoinsEnginePlugin> {
         return new ArrayList<>(this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap()).values());
     }
 
-    @Nullable
     public TopEntry getTopEntry(@NotNull Currency currency, @NotNull String name) {
-        return this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap()).get(LowerCase.INTERNAL.apply(name));
+        return this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap())
+                .get(LowerCase.INTERNAL.apply(name));
     }
 
     public double getTotalBalance(@NotNull Currency currency) {
-        return this.getTopEntries(currency).stream().mapToDouble(TopEntry::getBalance).sum();
+        return this.getTopEntries(currency).stream().mapToDouble((value) -> value == null ? null : value.getBalance())
+                .sum();
     }
 
     public void applyExternalTopEntries(@NotNull String currencyId, @NotNull Map<String, TopEntry> entries) {

@@ -1,5 +1,11 @@
 package su.nightexpress.excellenteconomy.migration.impl;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.manager.DataManager;
 import org.bukkit.OfflinePlayer;
@@ -9,12 +15,6 @@ import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.Migrator;
-
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class PlayerPointsMigrator extends Migrator {
 
@@ -33,7 +33,8 @@ public class PlayerPointsMigrator extends Migrator {
         Map<OfflinePlayer, Double> balances = new HashMap<>();
 
         PlayerPoints playerPoints = (PlayerPoints) this.getBackend();
-        if (playerPoints == null) return balances;
+        if (playerPoints == null)
+            return balances;
 
         Map<UUID, Integer> pointsMap = new HashMap<>();
 
@@ -52,8 +53,7 @@ public class PlayerPointsMigrator extends Migrator {
                 }
                 statement.close();
             });
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 

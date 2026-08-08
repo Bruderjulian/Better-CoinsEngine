@@ -1,17 +1,16 @@
 package su.nightexpress.excellenteconomy.migration.impl;
 
-import net.milkbowl.vault.economy.Economy;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
+import net.milkbowl.vault.economy.Economy;
 import su.nightexpress.excellenteconomy.CoinsEnginePlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.Migrator;
-import su.nightexpress.nightcore.integration.currency.EconomyBridge;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class VaultMigrator extends Migrator {
 
@@ -35,9 +34,9 @@ public class VaultMigrator extends Migrator {
         for (OfflinePlayer offlinePlayer : this.plugin.getServer().getOfflinePlayers()) {
             try {
                 balances.put(offlinePlayer, this.economy.getBalance(offlinePlayer));
-            }
-            catch (Exception exception) {
-                this.plugin.error("Could not convert Vault <-> Economy balance for '" + offlinePlayer.getUniqueId() + "'! See stacktrace for details:");
+            } catch (Exception exception) {
+                this.plugin.error("Could not convert Vault <-> Economy balance for '" + offlinePlayer.getUniqueId()
+                        + "'! See stacktrace for details:");
                 exception.printStackTrace();
             }
         }

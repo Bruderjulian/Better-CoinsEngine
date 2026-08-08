@@ -20,7 +20,8 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class SendProvider extends CurrencyCommandProvider {
 
-    public SendProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull CurrencyManager manager) {
+    public SendProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.PAY);
     }
 
@@ -32,20 +33,19 @@ public class SendProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-            .playerOnly()
-            .permission(Perms.COMMAND_CURRENCY_SEND)
-            .description(Lang.COMMAND_CURRENCY_SEND_DESC)
-            .withArguments(
-                Arguments.playerName(CommandArguments.PLAYER),
-                CommandArguments.amount()
-            )
-            .executes((context, arguments) -> {
-                Player from = context.getPlayerOrThrow();
-                String targetName = arguments.getString(CommandArguments.PLAYER);
-                double amount = arguments.getDouble(CommandArguments.AMOUNT);
+                .playerOnly()
+                .permission(Perms.COMMAND_CURRENCY_SEND)
+                .description(Lang.COMMAND_CURRENCY_SEND_DESC)
+                .withArguments(
+                        Arguments.playerName(CommandArguments.PLAYER),
+                        CommandArguments.amount())
+                .executes((context, arguments) -> {
+                    Player from = context.getPlayerOrThrow();
+                    String targetName = arguments.getString(CommandArguments.PLAYER);
+                    double amount = arguments.getDouble(CommandArguments.AMOUNT);
 
-                return this.manager.send(from, targetName, currency, amount);
-            });
+                    return this.manager.send(from, targetName, currency, amount);
+                });
     }
 
     @Override

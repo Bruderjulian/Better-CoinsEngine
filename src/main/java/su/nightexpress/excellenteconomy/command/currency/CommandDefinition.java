@@ -1,13 +1,11 @@
 package su.nightexpress.excellenteconomy.command.currency;
 
-import org.jetbrains.annotations.NotNull;
 import su.nightexpress.nightcore.config.FileConfig;
 import su.nightexpress.nightcore.config.Writeable;
 
-public record CommandDefinition(@NotNull CommandVariant children, @NotNull CommandVariant dedicated) implements Writeable {
+public record CommandDefinition(CommandVariant children, CommandVariant dedicated) implements Writeable {
 
-    @NotNull
-    public static CommandDefinition read(@NotNull FileConfig config, @NotNull String path) {
+    public static CommandDefinition read(FileConfig config, String path) {
         CommandVariant childVar = CommandVariant.read(config, path + ".Children");
         CommandVariant dedicVar = CommandVariant.read(config, path + ".Dedicated");
 
@@ -15,7 +13,7 @@ public record CommandDefinition(@NotNull CommandVariant children, @NotNull Comma
     }
 
     @Override
-    public void write(@NotNull FileConfig config, @NotNull String path) {
+    public void write(FileConfig config, String path) {
         config.set(path + ".Children", this.children);
         config.set(path + ".Dedicated", this.dedicated);
     }

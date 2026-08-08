@@ -21,7 +21,8 @@ import su.nightexpress.nightcore.commands.context.ParsedArguments;
 
 public class BalanceProvider extends CurrencyCommandProvider {
 
-    public BalanceProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry, @NotNull CurrencyManager manager) {
+    public BalanceProvider(@NotNull CoinsEnginePlugin plugin, @NotNull CurrencyRegistry registry,
+            @NotNull CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.BALANCE);
     }
 
@@ -33,13 +34,15 @@ public class BalanceProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-            .permission(Perms.COMMAND_CURRENCY_BALANCE)
-            .description(Lang.COMMAND_CURRENCY_BALANCE_DESC)
-            .withArguments(Arguments.playerName(CommandArguments.PLAYER).optional().permission(Perms.COMMAND_CURRENCY_BALANCE_OTHERS))
-            .executes((context, arguments) -> this.showBalance(currency, context, arguments));
+                .permission(Perms.COMMAND_CURRENCY_BALANCE)
+                .description(Lang.COMMAND_CURRENCY_BALANCE_DESC)
+                .withArguments(Arguments.playerName(CommandArguments.PLAYER).optional()
+                        .permission(Perms.COMMAND_CURRENCY_BALANCE_OTHERS))
+                .executes((context, arguments) -> this.showBalance(currency, context, arguments));
     }
 
-    private boolean showBalance(@NotNull Currency currency, @NotNull CommandContext context, @NotNull ParsedArguments arguments) {
+    private boolean showBalance(@NotNull Currency currency, @NotNull CommandContext context,
+            @NotNull ParsedArguments arguments) {
         String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
         this.manager.showBalance(context.getSender(), name, currency);
         return true;

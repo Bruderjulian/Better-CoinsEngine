@@ -1,15 +1,23 @@
 package su.nightexpress.excellenteconomy.data.serialize;
 
-import com.google.gson.*;
+import java.lang.reflect.Type;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 
-import java.lang.reflect.Type;
-
-public class CurrencySettingsSerializer implements JsonSerializer<CurrencySettings>, JsonDeserializer<CurrencySettings> {
+public class CurrencySettingsSerializer
+        implements JsonSerializer<CurrencySettings>, JsonDeserializer<CurrencySettings> {
 
     @Override
-    public CurrencySettings deserialize(JsonElement element, Type type, JsonDeserializationContext context) throws JsonParseException {
+    public CurrencySettings deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+            throws JsonParseException {
         JsonObject object = element.getAsJsonObject();
 
         boolean paymentsEnabled = object.get("paymentsEnabled").getAsBoolean();
