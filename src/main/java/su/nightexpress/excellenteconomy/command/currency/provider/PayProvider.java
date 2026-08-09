@@ -1,7 +1,6 @@
 package su.nightexpress.excellenteconomy.command.currency.provider;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -18,24 +17,24 @@ import su.nightexpress.nightcore.commands.Arguments;
 import su.nightexpress.nightcore.commands.builder.HubNodeBuilder;
 import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
-public class SendProvider extends CurrencyCommandProvider {
+public class PayProvider extends CurrencyCommandProvider {
 
-    public SendProvider(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final CurrencyRegistry registry,
-            @NotNull final CurrencyManager manager) {
+    public PayProvider(final ExcellentEconomyPlugin plugin, final CurrencyRegistry registry,
+            final CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.PAY);
     }
 
     @Override
-    public void buildRoot(@NotNull final Currency currency, @NotNull final HubNodeBuilder builder) {
+    public void buildRoot(final Currency currency, final HubNodeBuilder builder) {
 
     }
 
     @Override
-    public void build(@NotNull final Currency currency, @NotNull final LiteralNodeBuilder builder) {
+    public void build(final Currency currency, final LiteralNodeBuilder builder) {
         builder
                 .playerOnly()
-                .permission(Perms.COMMAND_CURRENCY_SEND)
-                .description(Lang.COMMAND_CURRENCY_SEND_DESC)
+                .permission(Perms.COMMAND_CURRENCY_PAY)
+                .description(Lang.COMMAND_CURRENCY_PAY_DESC)
                 .withArguments(
                         Arguments.playerName(CommandArguments.PLAYER),
                         CommandArguments.amount())
@@ -44,17 +43,17 @@ public class SendProvider extends CurrencyCommandProvider {
                     final String targetName = arguments.getString(CommandArguments.PLAYER);
                     final double amount = arguments.getDouble(CommandArguments.AMOUNT);
 
-                    return this.manager.send(from, targetName, currency, amount);
+                    return this.manager.pay(from, targetName, currency, amount);
                 });
     }
 
     @Override
-    public boolean isAvailable(@NotNull final Currency currency) {
+    public boolean isAvailable(final Currency currency) {
         return currency.isTransferAllowed();
     }
 
     @Override
-    @NotNull
+
     public CommandDefinition getDefaultDefinition() {
         return new CommandDefinition(CommandVariant.enabled("pay"), CommandVariant.enabled("pay"));
     }

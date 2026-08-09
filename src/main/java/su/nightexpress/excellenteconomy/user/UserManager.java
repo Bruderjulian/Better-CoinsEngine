@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
@@ -20,8 +18,8 @@ public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, Coi
     private final DataHandler dataHandler;
     private final CurrencyRegistry registry;
 
-    public UserManager(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry registry,
-            @NotNull DataHandler dataHandler) {
+    public UserManager(ExcellentEconomyPlugin plugin, CurrencyRegistry registry,
+            DataHandler dataHandler) {
         super(plugin, dataHandler);
         this.dataHandler = dataHandler;
         this.registry = registry;
@@ -40,8 +38,8 @@ public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, Coi
     }
 
     @Override
-    @NotNull
-    public CoinsUser create(@NotNull UUID uuid, @NotNull String name) {
+
+    public CoinsUser create(UUID uuid, String name) {
         long dateCreated = System.currentTimeMillis();
 
         UserBalance balance = new UserBalance();
@@ -53,7 +51,7 @@ public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, Coi
         return new CoinsUser(uuid, name, dateCreated, dateCreated, balance, settingsMap, hiddenFromTops);
     }
 
-    public void handleSynchronization(@NotNull CoinsUser fresh) {
+    public void handleSynchronization(CoinsUser fresh) {
         CoinsUser user = this.getLoaded(fresh.getId());
         if (user == null)
             return;

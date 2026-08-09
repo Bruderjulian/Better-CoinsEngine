@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
@@ -36,7 +35,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
 
     private TopMenu topMenu;
 
-    public TopManager(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final CurrencyRegistry currencyRegistry) {
+    public TopManager(final ExcellentEconomyPlugin plugin, final CurrencyRegistry currencyRegistry) {
         super(plugin);
         this.currencyRegistry = currencyRegistry;
         this.topEntries = new ConcurrentHashMap<>();
@@ -87,14 +86,14 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
         });
     }
 
-    public void hideFromTops(@NotNull final Player player) {
+    public void hideFromTops(final Player player) {
         this.plugin.getFoliaScheduler().runAsync(() -> {
             final CoinsUser user = this.plugin.getUserManager().getOrFetch(player);
             user.setHiddenFromTops(player.hasPermission(Perms.HIDE_FROM_TOPS));
         });
     }
 
-    public boolean showLeaderboard(@NotNull final CommandSender sender, @NotNull final Currency currency,
+    public boolean showLeaderboard(final CommandSender sender, final Currency currency,
             final int page) {
         if (sender instanceof final Player player && this.topMenu != null) {
             this.topMenu.open(player, currency);
@@ -138,28 +137,26 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
         return true;
     }
 
-    @NotNull
     public Map<String, Map<String, TopEntry>> getTopEntriesMap() {
         return this.topEntries;
     }
 
-    @NotNull
-    public List<TopEntry> getTopEntries(@NotNull final Currency currency) {
+    public List<TopEntry> getTopEntries(final Currency currency) {
         return new ArrayList<>(this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap()).values());
     }
 
-    public TopEntry getTopEntry(@NotNull final Currency currency, @NotNull final String name) {
+    public TopEntry getTopEntry(final Currency currency, final String name) {
         return this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap())
                 .get(LowerCase.INTERNAL.apply(name));
     }
 
-    public double getTotalBalance(@NotNull final Currency currency) {
+    public double getTotalBalance(final Currency currency) {
         return this.getTopEntries(currency).stream().filter(value -> value != null).mapToDouble(TopEntry::getBalance)
                 .sum();
     }
 
-    public void applyExternalTopEntries(@NotNull final String currencyId,
-            @NotNull final Map<String, TopEntry> entries) {
+    public void applyExternalTopEntries(final String currencyId,
+            final Map<String, TopEntry> entries) {
         this.topEntries.put(currencyId, entries);
     }
 }

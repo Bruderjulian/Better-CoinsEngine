@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.MenuType;
-import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -43,7 +42,7 @@ public class TopMenu extends LinkedMenu<ExcellentEconomyPlugin, Currency> implem
     private List<String> entryLore;
     private int[] entrySlots;
 
-    public TopMenu(@NotNull ExcellentEconomyPlugin plugin, @NotNull TopManager topManager) {
+    public TopMenu(ExcellentEconomyPlugin plugin, TopManager topManager) {
         super(plugin, MenuType.GENERIC_9X5, BLACK.wrap("Balance Top - " + CURRENCY_NAME));
         this.topManager = topManager;
     }
@@ -51,8 +50,8 @@ public class TopMenu extends LinkedMenu<ExcellentEconomyPlugin, Currency> implem
     // TODO Limit to 10 entries only.
 
     @Override
-    @NotNull
-    public MenuFiller<TopEntry> createFiller(@NotNull MenuViewer viewer) {
+
+    public MenuFiller<TopEntry> createFiller(MenuViewer viewer) {
         Player player = viewer.getPlayer();
         Currency currency = this.getLink(player);
 
@@ -74,25 +73,25 @@ public class TopMenu extends LinkedMenu<ExcellentEconomyPlugin, Currency> implem
     }
 
     @Override
-    @NotNull
-    protected String getTitle(@NotNull MenuViewer viewer) {
+
+    protected String getTitle(MenuViewer viewer) {
         Currency currency = this.getLink(viewer);
 
         return currency.replacePlaceholders().apply(super.getTitle(viewer));
     }
 
     @Override
-    protected void onPrepare(@NotNull MenuViewer viewer, @NotNull InventoryView view) {
+    protected void onPrepare(MenuViewer viewer, InventoryView view) {
         this.autoFill(viewer);
     }
 
     @Override
-    protected void onReady(@NotNull MenuViewer viewer, @NotNull Inventory inventory) {
+    protected void onReady(MenuViewer viewer, Inventory inventory) {
 
     }
 
     @Override
-    public void loadConfiguration(@NotNull FileConfig config, @NotNull MenuLoader loader) {
+    public void loadConfiguration(FileConfig config, MenuLoader loader) {
         this.entryName = ConfigValue
                 .create("Entry.Name", YELLOW.wrap("#" + GENERIC_POS) + " " + WHITE.wrap(PLAYER_NAME)).read(config);
 

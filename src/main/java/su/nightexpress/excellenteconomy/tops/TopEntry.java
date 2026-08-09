@@ -2,8 +2,6 @@ package su.nightexpress.excellenteconomy.tops;
 
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.nightcore.util.profile.CachedProfile;
 import su.nightexpress.nightcore.util.profile.PlayerProfiles;
 
@@ -16,7 +14,7 @@ public class TopEntry {
 
     private final CachedProfile profile;
 
-    public TopEntry(int position, @NotNull String name, @NotNull UUID playerId, double balance) {
+    public TopEntry(int position, String name, UUID playerId, double balance) {
         this.position = position;
         this.name = name;
         this.playerId = playerId;
@@ -29,12 +27,10 @@ public class TopEntry {
         return this.position;
     }
 
-    @NotNull
     public String getName() {
         return this.name;
     }
 
-    @NotNull
     public UUID getPlayerId() {
         return this.playerId;
     }
@@ -43,7 +39,6 @@ public class TopEntry {
         return this.balance;
     }
 
-    @NotNull
     public CachedProfile getProfile() {
         return this.profile;
     }

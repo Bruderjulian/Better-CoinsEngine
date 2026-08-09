@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -60,7 +58,7 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
     private void registerDefaultProviders() {
         this.registerProvider(new BankProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new BalanceProvider(this.plugin, this.currencyRegistry, this.currencyManager));
-        this.registerProvider(new SendProvider(this.plugin, this.currencyRegistry, this.currencyManager));
+        this.registerProvider(new PayProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new PaymentsProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new GiveProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new GiveAllProvider(this.plugin, this.currencyRegistry, this.currencyManager));
@@ -104,7 +102,7 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
         config.saveChanges();
     }
 
-    public void loadEcoCommands(@NotNull HubNodeBuilder builder) {
+    public void loadEcoCommands(HubNodeBuilder builder) {
         this.currencyRegistry.findPrimary().ifPresent(primary -> {
             this.providerByNameMap.forEach((name, provider) -> {
                 if (!provider.isAvailable(primary)) {

@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.manager.DataManager;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -18,18 +17,18 @@ import su.nightexpress.excellenteconomy.migration.Migrator;
 
 public class PlayerPointsMigrator extends Migrator {
 
-    public PlayerPointsMigrator(@NotNull ExcellentEconomyPlugin plugin) {
+    public PlayerPointsMigrator(ExcellentEconomyPlugin plugin) {
         super(plugin, HookPlugin.PLAYER_POINTS);
     }
 
     @Override
-    public boolean canMigrate(@NotNull Currency currency) {
+    public boolean canMigrate(Currency currency) {
         return true;
     }
 
     @Override
-    @NotNull
-    public Map<OfflinePlayer, Double> getBalances(@NotNull Currency currency) {
+
+    public Map<OfflinePlayer, Double> getBalances(Currency currency) {
         Map<OfflinePlayer, Double> balances = new HashMap<>();
 
         PlayerPoints playerPoints = (PlayerPoints) this.getBackend();

@@ -7,8 +7,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -24,17 +22,17 @@ public final class UuidResolver {
     private UuidResolver() {
     }
 
-    public record ResolvedIdentity(@NotNull UUID uuid, @NotNull String exactName, boolean online) {
+    public record ResolvedIdentity(UUID uuid, String exactName, boolean online) {
     }
 
-    public static ResolvedIdentity resolvePreferOnline(@NotNull String playerName) {
+    public static ResolvedIdentity resolvePreferOnline(String playerName) {
         ResolvedIdentity online = resolveOnline(playerName);
         if (online != null)
             return online;
         return resolveOffline(playerName);
     }
 
-    public static ResolvedIdentity resolveOnline(@NotNull String playerName) {
+    public static ResolvedIdentity resolveOnline(String playerName) {
         try {
             String url = "https://api.mojang.com/users/profiles/minecraft/" + playerName;
             HttpURLConnection connection = (HttpURLConnection) new URI(url).toURL().openConnection();
@@ -65,7 +63,7 @@ public final class UuidResolver {
         }
     }
 
-    public static ResolvedIdentity resolveOffline(@NotNull String playerName) {
+    public static ResolvedIdentity resolveOffline(String playerName) {
         try {
             UUID uuid = offlineUuid(playerName);
             return new ResolvedIdentity(uuid, playerName, false);
@@ -74,7 +72,7 @@ public final class UuidResolver {
         }
     }
 
-    private static UUID fromMojangId(@NotNull String idNoDashes) {
+    private static UUID fromMojangId(String idNoDashes) {
         if (idNoDashes.length() != 32)
             return null;
         String withDashes = idNoDashes.replaceFirst(
@@ -88,8 +86,8 @@ public final class UuidResolver {
      * UUID.nameUUIDFromBytes(("OfflinePlayer:" +
      * name).getBytes(StandardCharsets.UTF_8))
      */
-    @NotNull
-    public static UUID offlineUuid(@NotNull String playerName) {
+
+    public static UUID offlineUuid(String playerName) {
         return UUID.nameUUIDFromBytes(("OfflinePlayer:" + playerName).getBytes(StandardCharsets.UTF_8));
     }
 }

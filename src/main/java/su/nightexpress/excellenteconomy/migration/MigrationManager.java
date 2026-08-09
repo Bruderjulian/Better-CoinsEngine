@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
@@ -35,11 +34,11 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
 
     private final Map<String, Migrator> migrators;
 
-    public MigrationManager(@NotNull ExcellentEconomyPlugin plugin,
-            @NotNull DataHandler dataHandler,
-            @NotNull UserManager userManager,
-            @NotNull CurrencyRegistry currencyRegistry,
-            @NotNull CurrencyManager currencyManager) {
+    public MigrationManager(ExcellentEconomyPlugin plugin,
+            DataHandler dataHandler,
+            UserManager userManager,
+            CurrencyRegistry currencyRegistry,
+            CurrencyManager currencyManager) {
         super(plugin);
         this.dataHandler = dataHandler;
         this.userManager = userManager;
@@ -65,7 +64,7 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
         this.migrators.clear();
     }
 
-    public boolean registerMigrator(@NotNull String name, @NotNull Supplier<Migrator> supplier) {
+    public boolean registerMigrator(String name, Supplier<Migrator> supplier) {
         if (!Plugins.isInstalled(name))
             return false;
 
@@ -79,7 +78,7 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
         return true;
     }
 
-    public boolean startMigration(@NotNull CommandSender sender, @NotNull String name, @NotNull Currency currency) {
+    public boolean startMigration(CommandSender sender, String name, Currency currency) {
         if (!this.currencyManager.canPerformOperations()) {
             Lang.MIGRATION_START_BLOCKED.message().send(sender);
             return false;
@@ -111,7 +110,7 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
         return true;
     }
 
-    public void migrate(@NotNull Migrator migrator, @NotNull Currency currency) {
+    public void migrate(Migrator migrator, Currency currency) {
         Map<OfflinePlayer, Double> balances = migrator.getBalances(currency);
         balances.forEach((player, amount) -> {
             String name = player.getName();
@@ -130,17 +129,15 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
         });
     }
 
-    @NotNull
     public List<String> getMigratorNames() {
         return new ArrayList<>(this.migrators.keySet());
     }
 
-    @NotNull
     public Map<String, Migrator> getMigratorMap() {
         return this.migrators;
     }
 
-    public Migrator getMigrator(@NotNull String name) {
+    public Migrator getMigrator(String name) {
         return this.migrators.get(LowerCase.INTERNAL.apply(name));
     }
 }

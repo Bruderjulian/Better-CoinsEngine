@@ -1,7 +1,5 @@
 package su.nightexpress.excellenteconomy.data.impl;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 
 public class CurrencySettings {
@@ -12,8 +10,7 @@ public class CurrencySettings {
         this.setPaymentsEnabled(paymentsEnabled);
     }
 
-    @NotNull
-    public static CurrencySettings create(@NotNull Currency currency) {
+    public static CurrencySettings create(Currency currency) {
         return new CurrencySettings(true);
     }
 

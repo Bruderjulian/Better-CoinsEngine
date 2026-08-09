@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
@@ -25,7 +24,7 @@ public class PlaceholderAPIHook {
 
     private static Expansion expansion;
 
-    public static void setup(@NotNull ExcellentEconomyPlugin plugin) {
+    public static void setup(ExcellentEconomyPlugin plugin) {
         if (expansion == null) {
             expansion = new Expansion(plugin);
             expansion.register();
@@ -41,14 +40,12 @@ public class PlaceholderAPIHook {
 
     private interface TopPlaceholder {
 
-        @NotNull
-        String produce(@NotNull TopEntry entry, @NotNull Currency currency, int position);
+        String produce(TopEntry entry, Currency currency, int position);
     }
 
     private interface PlayerPlaceholder {
 
-        @NotNull
-        String produce(@NotNull Player player, @NotNull CoinsUser user, @NotNull Currency currency);
+        String produce(Player player, CoinsUser user, Currency currency);
     }
 
     private static class Expansion extends PlaceholderExpansion {
@@ -63,7 +60,7 @@ public class PlaceholderAPIHook {
         private final Map<String, PlayerPlaceholder> playerPlaceholders;
         private final Map<String, TopPlaceholder> topPlaceholders;
 
-        public Expansion(@NotNull ExcellentEconomyPlugin plugin) {
+        public Expansion(ExcellentEconomyPlugin plugin) {
             this.plugin = plugin;
             this.playerPlaceholders = new LinkedHashMap<>();
             this.topPlaceholders = new LinkedHashMap<>();
@@ -75,19 +72,19 @@ public class PlaceholderAPIHook {
         }
 
         @Override
-        @NotNull
+
         public String getAuthor() {
             return this.plugin.getPluginMeta().getAuthors().getFirst();
         }
 
         @Override
-        @NotNull
+
         public String getIdentifier() {
             return LowerCase.INTERNAL.apply(this.plugin.getPluginMeta().getName());
         }
 
         @Override
-        @NotNull
+
         public String getVersion() {
             return this.plugin.getPluginMeta().getVersion();
         }
@@ -173,7 +170,7 @@ public class PlaceholderAPIHook {
         }
 
         @Override
-        public String onPlaceholderRequest(Player player, @NotNull String params) {
+        public String onPlaceholderRequest(Player player, String params) {
             TopManager topManager = this.plugin.getTopManager().orElse(null);
 
             if (params.startsWith("top_") && topManager != null) {

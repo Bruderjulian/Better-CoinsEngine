@@ -1,7 +1,6 @@
 package su.nightexpress.excellenteconomy.command.currency.provider;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -19,18 +18,18 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class ExchangeProvider extends CurrencyCommandProvider {
 
-    public ExchangeProvider(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final CurrencyRegistry registry,
-            @NotNull final CurrencyManager manager) {
+    public ExchangeProvider(final ExcellentEconomyPlugin plugin, final CurrencyRegistry registry,
+            final CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.EXCHANGE);
     }
 
     @Override
-    public void buildRoot(@NotNull final Currency currency, @NotNull final HubNodeBuilder builder) {
+    public void buildRoot(final Currency currency, final HubNodeBuilder builder) {
 
     }
 
     @Override
-    public void build(@NotNull final Currency currency, @NotNull final LiteralNodeBuilder builder) {
+    public void build(final Currency currency, final LiteralNodeBuilder builder) {
         builder
                 .playerOnly()
                 .permission(Perms.COMMAND_CURRENCY_EXCHANGE)
@@ -49,12 +48,12 @@ public class ExchangeProvider extends CurrencyCommandProvider {
     }
 
     @Override
-    public boolean isAvailable(@NotNull final Currency currency) {
+    public boolean isAvailable(final Currency currency) {
         return currency.isExchangeAllowed();
     }
 
     @Override
-    @NotNull
+
     public CommandDefinition getDefaultDefinition() {
         return new CommandDefinition(CommandVariant.enabled("exchange"), CommandVariant.disabled("exchange"));
     }

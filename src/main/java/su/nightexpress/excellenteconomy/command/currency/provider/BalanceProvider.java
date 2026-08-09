@@ -1,7 +1,5 @@
 package su.nightexpress.excellenteconomy.command.currency.provider;
 
-import org.jetbrains.annotations.NotNull;
-
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
@@ -21,18 +19,18 @@ import su.nightexpress.nightcore.commands.context.ParsedArguments;
 
 public class BalanceProvider extends CurrencyCommandProvider {
 
-    public BalanceProvider(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final CurrencyRegistry registry,
-            @NotNull final CurrencyManager manager) {
+    public BalanceProvider(final ExcellentEconomyPlugin plugin, final CurrencyRegistry registry,
+            final CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.BALANCE);
     }
 
     @Override
-    public void buildRoot(@NotNull final Currency currency, @NotNull final HubNodeBuilder builder) {
+    public void buildRoot(final Currency currency, final HubNodeBuilder builder) {
         builder.executes((context, arguments) -> this.showBalance(currency, context, arguments));
     }
 
     @Override
-    public void build(@NotNull final Currency currency, @NotNull final LiteralNodeBuilder builder) {
+    public void build(final Currency currency, final LiteralNodeBuilder builder) {
         builder
                 .permission(Perms.COMMAND_CURRENCY_BALANCE)
                 .description(Lang.COMMAND_CURRENCY_BALANCE_DESC)
@@ -41,20 +39,20 @@ public class BalanceProvider extends CurrencyCommandProvider {
                 .executes((context, arguments) -> this.showBalance(currency, context, arguments));
     }
 
-    private boolean showBalance(@NotNull final Currency currency, @NotNull final CommandContext context,
-            @NotNull final ParsedArguments arguments) {
+    private boolean showBalance(final Currency currency, final CommandContext context,
+            final ParsedArguments arguments) {
         final String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
         this.manager.showBalance(context.getSender(), name, currency);
         return true;
     }
 
     @Override
-    public boolean isAvailable(@NotNull final Currency currency) {
+    public boolean isAvailable(final Currency currency) {
         return true;
     }
 
     @Override
-    @NotNull
+
     public CommandDefinition getDefaultDefinition() {
         return new CommandDefinition(CommandVariant.enabled("balance", "bal"),
                 CommandVariant.enabled("balance", "bal"));

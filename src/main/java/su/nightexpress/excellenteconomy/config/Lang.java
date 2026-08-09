@@ -56,7 +56,7 @@ public class Lang implements LangContainer {
                         .text("Reset currency of all players.");
         public static final TextLocale COMMAND_CURRENCY_SET_DESC = LangEntry.builder("Command.Currency.Set.Desc")
                         .text("Set player's currency balance.");
-        public static final TextLocale COMMAND_CURRENCY_SEND_DESC = LangEntry.builder("Command.Currency.Send.Desc")
+        public static final TextLocale COMMAND_CURRENCY_PAY_DESC = LangEntry.builder("Command.Currency.Pay.Desc")
                         .text("Transfer currency to a player.");
         public static final TextLocale COMMAND_CURRENCY_PAYMENTS_DESC = LangEntry
                         .builder("Command.Currency.Payments.Desc")

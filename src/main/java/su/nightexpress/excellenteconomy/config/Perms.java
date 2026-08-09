@@ -40,7 +40,7 @@ public class Perms {
         public static final UniPermission COMMAND_CURRENCY_PAYMENTS_OTHERS = new UniPermission(
                         PREFIX_COMMAND + "currency.payments.others");
         public static final UniPermission COMMAND_CURRENCY_TOP = new UniPermission(PREFIX_COMMAND + "currency.top");
-        public static final UniPermission COMMAND_CURRENCY_SEND = new UniPermission(PREFIX_COMMAND + "currency.send");
+        public static final UniPermission COMMAND_CURRENCY_PAY = new UniPermission(PREFIX_COMMAND + "currency.pay");
         public static final UniPermission COMMAND_CURRENCY_SET = new UniPermission(PREFIX_COMMAND + "currency.set");
 
         public static final UniPermission COMMAND_RELOAD = new UniPermission(PREFIX_COMMAND + "reload");
@@ -74,7 +74,7 @@ public class Perms {
                                 COMMAND_CURRENCY_PAYMENTS,
                                 COMMAND_CURRENCY_PAYMENTS_OTHERS,
                                 COMMAND_CURRENCY_EXCHANGE,
-                                COMMAND_CURRENCY_SEND,
+                                COMMAND_CURRENCY_PAY,
                                 COMMAND_CURRENCY_SET,
                                 COMMAND_CURRENCY_TOP);
         }

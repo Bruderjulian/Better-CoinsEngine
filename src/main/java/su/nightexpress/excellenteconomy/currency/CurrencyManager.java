@@ -648,7 +648,7 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         return OperationResult.SUCCESS;
     }
 
-    public boolean send(final Player sender, final String targetName, final Currency currency, final double rawAmount) {
+    public boolean pay(final Player sender, final String targetName, final Currency currency, final double rawAmount) {
         final OperationContext context = OperationContext.of(sender);
 
         if (!this.assertOperationsEnabled(context))
