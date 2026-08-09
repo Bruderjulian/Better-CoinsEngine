@@ -58,7 +58,9 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
 
     @Override
     protected void onShutdown() {
-        topMenu.clear();
+        if (this.topMenu != null) {
+            this.topMenu.clear();
+        }
         this.topEntries.clear();
     }
 
@@ -155,7 +157,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
     }
 
     public double getTotalBalance(@NotNull Currency currency) {
-        return this.getTopEntries(currency).stream().mapToDouble((value) -> value == null ? null : value.getBalance())
+        return this.getTopEntries(currency).stream().filter(value -> value != null).mapToDouble(TopEntry::getBalance)
                 .sum();
     }
 

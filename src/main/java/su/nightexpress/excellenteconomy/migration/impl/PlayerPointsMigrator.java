@@ -42,16 +42,15 @@ public class PlayerPointsMigrator extends Migrator {
         try {
             dataManager.getDatabaseConnector().connect(connection -> {
                 String query = "SELECT * FROM " + dataManager.getTablePrefix() + "points";
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query);
+                try (Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery(query)) {
+                    while (resultSet.next()) {
+                        UUID uuid = UUID.fromString(resultSet.getString("uuid"));
+                        int points = resultSet.getInt("points");
 
-                while (resultSet.next()) {
-                    UUID uuid = UUID.fromString(resultSet.getString("uuid"));
-                    int points = resultSet.getInt("points");
-
-                    pointsMap.put(uuid, points);
+                        pointsMap.put(uuid, points);
+                    }
                 }
-                statement.close();
             });
         } catch (Exception exception) {
             exception.printStackTrace();

@@ -511,7 +511,7 @@ public class RedisSyncManager {
                             .replace(Placeholders.GENERIC_BALANCE, currency.format(newBalance)));
                 }
                 case "REMOVE_NOTIFY" -> {
-                    currency.sendPrefixed(Lang.COMMAND_CURRENCY_TAKE_NOTIFY, player, replacer -> replacer
+                    currency.sendPrefixed(Lang.COMMAND_CURRENCY_REMOVE_NOTIFY, player, replacer -> replacer
                             .replace(currency.replacePlaceholders())
                             .replace(Placeholders.GENERIC_AMOUNT, currency.format(amount))
                             .replace(Placeholders.GENERIC_BALANCE, currency.format(newBalance)));

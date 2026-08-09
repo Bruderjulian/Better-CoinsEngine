@@ -20,6 +20,7 @@ public class Perms {
 
         public static final UniPermission COMMAND_CURRENCY_BALANCE = new UniPermission(
                         PREFIX_COMMAND + "currency.balance");
+        public static final UniPermission COMMAND_CURRENCY_BANK = new UniPermission(PREFIX_COMMAND + "currency.bank");
         public static final UniPermission COMMAND_CURRENCY_BALANCE_OTHERS = new UniPermission(
                         PREFIX_COMMAND + "currency.balance.others");
         public static final UniPermission COMMAND_CURRENCY_EXCHANGE = new UniPermission(
@@ -27,6 +28,13 @@ public class Perms {
         public static final UniPermission COMMAND_CURRENCY_GIVE = new UniPermission(PREFIX_COMMAND + "currency.add");
         public static final UniPermission COMMAND_CURRENCY_GIVE_ALL = new UniPermission(
                         PREFIX_COMMAND + "currency.addall");
+        public static final UniPermission COMMAND_CURRENCY_REMOVE = new UniPermission(
+                        PREFIX_COMMAND + "currency.remove");
+        public static final UniPermission COMMAND_CURRENCY_REMOVE_ALL = new UniPermission(
+                        PREFIX_COMMAND + "currency.removeall");
+        public static final UniPermission COMMAND_CURRENCY_RESET = new UniPermission(PREFIX_COMMAND + "currency.reset");
+        public static final UniPermission COMMAND_CURRENCY_RESET_ALL = new UniPermission(
+                        PREFIX_COMMAND + "currency.resetall");
         public static final UniPermission COMMAND_CURRENCY_PAYMENTS = new UniPermission(
                         PREFIX_COMMAND + "currency.payments");
         public static final UniPermission COMMAND_CURRENCY_PAYMENTS_OTHERS = new UniPermission(
@@ -34,12 +42,9 @@ public class Perms {
         public static final UniPermission COMMAND_CURRENCY_TOP = new UniPermission(PREFIX_COMMAND + "currency.top");
         public static final UniPermission COMMAND_CURRENCY_SEND = new UniPermission(PREFIX_COMMAND + "currency.send");
         public static final UniPermission COMMAND_CURRENCY_SET = new UniPermission(PREFIX_COMMAND + "currency.set");
-        public static final UniPermission COMMAND_CURRENCY_TAKE = new UniPermission(PREFIX_COMMAND + "currency.take");
 
         public static final UniPermission COMMAND_RELOAD = new UniPermission(PREFIX_COMMAND + "reload");
         public static final UniPermission COMMAND_CREATE = new UniPermission(PREFIX_COMMAND + "create");
-        public static final UniPermission COMMAND_RESET = new UniPermission(PREFIX_COMMAND + "reset");
-        public static final UniPermission COMMAND_RESET_ALL = new UniPermission(PREFIX_COMMAND + "resetall");
         public static final UniPermission COMMAND_MIGRATE = new UniPermission(PREFIX_COMMAND + "migrate");
         public static final UniPermission COMMAND_WALLET = new UniPermission(PREFIX_COMMAND + "wallet");
         public static final UniPermission COMMAND_WALLET_OTHERS = new UniPermission(PREFIX_COMMAND + "wallet.others");
@@ -53,14 +58,17 @@ public class Perms {
                 COMMAND.addChildren(
                                 COMMAND_RELOAD,
                                 COMMAND_CREATE,
-                                COMMAND_RESET,
-                                COMMAND_RESET_ALL,
                                 COMMAND_MIGRATE,
                                 COMMAND_WALLET,
                                 COMMAND_WALLET_OTHERS,
 
                                 COMMAND_CURRENCY_GIVE,
                                 COMMAND_CURRENCY_GIVE_ALL,
+                                COMMAND_CURRENCY_REMOVE,
+                                COMMAND_CURRENCY_REMOVE_ALL,
+                                COMMAND_CURRENCY_RESET,
+                                COMMAND_CURRENCY_RESET_ALL,
+                                COMMAND_CURRENCY_BANK,
                                 COMMAND_CURRENCY_BALANCE,
                                 COMMAND_CURRENCY_BALANCE_OTHERS,
                                 COMMAND_CURRENCY_PAYMENTS,
@@ -68,7 +76,6 @@ public class Perms {
                                 COMMAND_CURRENCY_EXCHANGE,
                                 COMMAND_CURRENCY_SEND,
                                 COMMAND_CURRENCY_SET,
-                                COMMAND_CURRENCY_TAKE,
                                 COMMAND_CURRENCY_TOP);
         }
 }

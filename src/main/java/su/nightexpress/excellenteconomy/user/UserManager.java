@@ -33,7 +33,9 @@ public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, Coi
 
         this.dataHandler.addTableSync(this.dataHandler.getUsersTable(), resultSet -> {
             CoinsUser user = DataQueries.USER_LOADER.apply(resultSet);
-            this.handleSynchronization(user);
+            if (user != null) {
+                this.handleSynchronization(user);
+            }
         });
     }
 
