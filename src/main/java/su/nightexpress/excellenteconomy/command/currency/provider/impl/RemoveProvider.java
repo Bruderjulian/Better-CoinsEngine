@@ -7,8 +7,8 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
+import su.nightexpress.excellenteconomy.command.currency.CurrencyCommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
-import su.nightexpress.excellenteconomy.command.currency.provider.type.CurrencyCommandProvider;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
@@ -34,8 +34,8 @@ public class RemoveProvider extends CurrencyCommandProvider {
     @Override
     public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
         builder
-                .permission(Perms.COMMAND_CURRENCY_TAKE)
-                .description(Lang.COMMAND_CURRENCY_TAKE_DESC)
+                .permission(Perms.COMMAND_CURRENCY_REMOVE)
+                .description(Lang.COMMAND_CURRENCY_REMOVE_DESC)
                 .withArguments(
                         Arguments.playerName(CommandArguments.PLAYER),
                         CommandArguments.amount())

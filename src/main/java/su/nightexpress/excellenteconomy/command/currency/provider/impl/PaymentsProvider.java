@@ -7,8 +7,8 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
+import su.nightexpress.excellenteconomy.command.currency.CurrencyCommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
-import su.nightexpress.excellenteconomy.command.currency.provider.type.CurrencyCommandProvider;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
@@ -54,7 +54,22 @@ public class PaymentsProvider extends CurrencyCommandProvider {
     @Override
     @NotNull
     public CommandDefinition getDefaultDefinition() {
-        return new CommandDefinition(CommandVariant.enabled("payments"),
-                CommandVariant.enabled("paytoggle", "payments"));
+        return new CommandDefinition(CommandVariant.enabled("paytoggle"), CommandVariant.enabled("payments"));
+    }
+
+    @Override
+    public void buildEco(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
+        builder
+                .permission(Perms.COMMAND_CURRENCY_PAYMENTS)
+                .description(Lang.COMMAND_CURRENCY_PAYMENTS_DESC)
+                .withArguments(Arguments.playerName(CommandArguments.PLAYER))
+                .withFlags(CommandArguments.FLAG_SILENT)
+                .executes((context, arguments) -> {
+                    String name = arguments.getString(CommandArguments.PLAYER);
+                    boolean silent = context.hasFlag(CommandArguments.FLAG_SILENT);
+
+                    this.manager.togglePayments(context.getSender(), name, currency, silent);
+                    return true;
+                });
     }
 }

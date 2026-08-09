@@ -5,22 +5,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.command.currency.provider.CommandProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.BalanceProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.ExchangeProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.GiveAllProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.GiveProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.PaymentsProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.RemoveProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.SendProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.SetProvider;
+import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
+import su.nightexpress.excellenteconomy.command.currency.provider.impl.*;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.nightcore.commands.Commands;
+import su.nightexpress.nightcore.commands.builder.HubNodeBuilder;
 import su.nightexpress.nightcore.commands.command.NightCommand;
 import su.nightexpress.nightcore.config.FileConfig;
 import su.nightexpress.nightcore.manager.SimpleManager;
@@ -63,6 +59,7 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
     }
 
     private void registerDefaultProviders() {
+        this.registerProvider(new BankProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new BalanceProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new SendProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new PaymentsProvider(this.plugin, this.currencyRegistry, this.currencyManager));
@@ -70,6 +67,7 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
         this.registerProvider(new GiveAllProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new SetProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new RemoveProvider(this.plugin, this.currencyRegistry, this.currencyManager));
+        this.registerProvider(new RemoveAllProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new ExchangeProvider(this.plugin, this.currencyRegistry, this.currencyManager));
     }
 
@@ -79,7 +77,6 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
 
     private void loadCommands() {
         this.loadCommandDefinitions();
-
         this.currencyRegistry.getCurrencies().forEach(this::loadCommands);
     }
 
@@ -107,33 +104,71 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
         config.saveChanges();
     }
 
+    public void loadEcoCommands(@NotNull HubNodeBuilder builder) {
+        this.currencyRegistry.findPrimary().ifPresent(primary -> {
+            this.providerByNameMap.forEach((name, provider) -> {
+                if (!provider.isAvailable(primary)) {
+                    return;
+                }
+
+                if (provider.isEcoCommand()) {
+                    String ecoName = provider.getEcoCommandName();
+                    if (ecoName == null) {
+                        return;
+                    }
+
+                    builder.branch(Commands.literal(ecoName, literal -> provider.buildEco(primary, literal)));
+                    return;
+                }
+
+                if (ProviderNames.PAYMENTS.equals(name)) {
+                    builder.branch(Commands.literal("payments", literal -> provider.buildEco(primary, literal)));
+                }
+            });
+        });
+    }
+
     public void loadCommands(Currency currency) {
         NightCommand currencyCommand = NightCommand.hub(this.plugin, currency.getCommandAliases(), rootBuilder -> {
             rootBuilder.permission(currency.isPermissionRequired() ? currency.getPermission() : null);
             rootBuilder.description(currency.replacePlaceholders().apply(Lang.COMMAND_CURRENCY_ROOT_DESC.text()));
 
             this.providerByNameMap.forEach((name, provider) -> {
-                CommandDefinition balanceDef = this.definitionByNameMap.getOrDefault(name,
+                CommandDefinition definition = this.definitionByNameMap.getOrDefault(name,
                         provider.getDefaultDefinition());
-                CommandVariant children = balanceDef.children();
-                CommandVariant dedicated = balanceDef.dedicated();
+                CommandVariant children = definition.children();
+                CommandVariant dedicated = definition.dedicated();
 
-                if (!children.enabled() && !dedicated.enabled())
+                if (!children.enabled() && !dedicated.enabled()) {
                     return;
-                if (!provider.isAvailable(currency))
+                }
+                if (!provider.isAvailable(currency)) {
                     return;
-
+                }
                 provider.buildRoot(currency, rootBuilder);
 
                 if (children.enabled()) {
-                    rootBuilder.branch(
-                            Commands.literal(children.aliases()[0], builder -> provider.build(currency, builder)));
-                }
+                    for (String alias : children.aliases()) {
+                        if (provider.isHubCommand()) {
+                            rootBuilder
+                                    .branch(Commands.hub(alias, literal -> provider.buildHub(currency, literal)));
+                        } else {
+                            rootBuilder.branch(Commands.literal(alias,
+                                    literal -> provider.build(currency, literal)));
+                        }
 
+                    }
+                }
                 if (dedicated.enabled() && currency.isPrimary()) {
-                    NightCommand command = NightCommand.literal(this.plugin, dedicated.aliases(),
-                            builder -> provider.build(currency, builder));
-                    this.registerCommand(currency, command);
+                    if (provider.isHubCommand()) {
+                        NightCommand command = NightCommand.hub(this.plugin, dedicated.aliases(),
+                                hub -> provider.buildHub(currency, hub));
+                        this.registerCommand(currency, command);
+                    } else {
+                        NightCommand command = NightCommand.literal(this.plugin, dedicated.aliases(),
+                                literal -> provider.build(currency, literal));
+                        this.registerCommand(currency, command);
+                    }
                 }
             });
         });
@@ -149,9 +184,8 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
 
     public void unregisterCommands(Currency currency) {
         Set<NightCommand> commands = this.currencyCommands.remove(currency.getId());
-        if (commands == null)
-            return;
-
-        commands.forEach(NightCommand::unregister);
+        if (commands != null) {
+            commands.forEach(NightCommand::unregister);
+        }
     }
 }

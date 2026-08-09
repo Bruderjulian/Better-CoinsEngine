@@ -9,9 +9,9 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.CommandNames;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
+import su.nightexpress.excellenteconomy.command.currency.CommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
 import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
-import su.nightexpress.excellenteconomy.command.currency.provider.type.AbstractCommandProvider;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.tops.TopManager;
@@ -19,7 +19,7 @@ import su.nightexpress.nightcore.commands.Arguments;
 import su.nightexpress.nightcore.commands.builder.HubNodeBuilder;
 import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
-public class TopCommandProvider extends AbstractCommandProvider {
+public class TopCommandProvider extends CommandProvider {
 
     private final TopManager manager;
 

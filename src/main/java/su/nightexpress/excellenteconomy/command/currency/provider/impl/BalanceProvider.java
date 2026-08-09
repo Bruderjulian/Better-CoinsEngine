@@ -7,8 +7,8 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
+import su.nightexpress.excellenteconomy.command.currency.CurrencyCommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
-import su.nightexpress.excellenteconomy.command.currency.provider.type.CurrencyCommandProvider;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
@@ -56,6 +56,7 @@ public class BalanceProvider extends CurrencyCommandProvider {
     @Override
     @NotNull
     public CommandDefinition getDefaultDefinition() {
-        return new CommandDefinition(CommandVariant.enabled("balance"), CommandVariant.enabled("balance", "bal"));
+        return new CommandDefinition(CommandVariant.enabled("balance", "bal"),
+                CommandVariant.enabled("balance", "bal"));
     }
 }

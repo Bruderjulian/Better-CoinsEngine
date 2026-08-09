@@ -19,6 +19,7 @@ public class CommandArguments {
     public static final String SYMBOL = "symbol";
     public static final String DECIMALS = "decimals";
 
+    public static final String FLAG_INCLUDE_OFFLINE = "o";
     public static final String FLAG_SILENT = "s";
     public static final String FLAG_SILENT_FEEDBACK = "sf";
 
