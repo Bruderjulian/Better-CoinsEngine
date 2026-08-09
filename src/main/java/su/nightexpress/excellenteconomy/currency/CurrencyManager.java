@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
@@ -321,13 +322,43 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         });
     }
 
-    public void togglePayments(final Player player, final Currency currency) {
-        this.togglePayments(player, player.getName(), currency, false);
+    public void managePayments(final Player player, final Currency currency, final Function<Boolean, Boolean> handler) {
+        this.managePayments(player, player.getName(), currency, false, handler);
     }
 
-    public void togglePayments(final CommandSender sender, final String name, final Currency currency,
-            final boolean silent) {
-        final boolean isOwn = sender.getName().equalsIgnoreCase(name);
+    public void managePayments(final CommandSender sender, final String name, final Currency currency,
+            final boolean silent, final Function<Boolean, Boolean> handler) {
+
+        if (name != null && !sender.getName().equalsIgnoreCase(name)) {
+            managePaymentsOther(sender, name, currency, silent, handler);
+            return;
+        }
+
+        this.userManager.manageUser((Player) sender, user -> {
+            if (user == null) {
+                CoreLang.ERROR_INVALID_PLAYER.withPrefix(this.plugin).send(sender);
+                return;
+            }
+
+            final CurrencySettings settings = user.getSettings(currency);
+            try {
+                settings.setPaymentsEnabled(handler.apply(settings.isPaymentsEnabled()));
+                this.userManager.save(user);
+            } catch (final Exception e) {
+                return;
+            }
+
+            final Player target = user.getPlayer();
+            if (!silent && target != null) {
+                currency.sendPrefixed(Lang.COMMAND_CURRENCY_PAYMENTS_TOGGLE, target, replacer -> replacer
+                        .replace(Placeholders.GENERIC_STATE,
+                                CoreLang.STATE_ENABLED_DISALBED.get(settings.isPaymentsEnabled())));
+            }
+        });
+    }
+
+    public void managePaymentsOther(final CommandSender sender, final String name, final Currency currency,
+            final boolean silent, final Function<Boolean, Boolean> handler) {
 
         this.userManager.manageUser(name, user -> {
             if (user == null) {
@@ -336,15 +367,17 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
             }
 
             final CurrencySettings settings = user.getSettings(currency);
-            settings.setPaymentsEnabled(!settings.isPaymentsEnabled());
-            this.userManager.save(user);
-
-            if (!isOwn) {
-                currency.sendPrefixed(Lang.COMMAND_CURRENCY_PAYMENTS_TARGET, sender, replacer -> replacer
-                        .replace(Placeholders.PLAYER_NAME, user.getName())
-                        .replace(Placeholders.GENERIC_STATE,
-                                CoreLang.STATE_ENABLED_DISALBED.get(settings.isPaymentsEnabled())));
+            try {
+                settings.setPaymentsEnabled(handler.apply(settings.isPaymentsEnabled()));
+                this.userManager.save(user);
+            } catch (final Exception e) {
+                return;
             }
+
+            currency.sendPrefixed(Lang.COMMAND_CURRENCY_PAYMENTS_TARGET, sender, replacer -> replacer
+                    .replace(Placeholders.PLAYER_NAME, user.getName())
+                    .replace(Placeholders.GENERIC_STATE,
+                            CoreLang.STATE_ENABLED_DISALBED.get(settings.isPaymentsEnabled())));
 
             final Player target = user.getPlayer();
             if (!silent && target != null) {

@@ -12,62 +12,94 @@ import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.nightcore.commands.Arguments;
+import su.nightexpress.nightcore.commands.Commands;
 import su.nightexpress.nightcore.commands.builder.HubNodeBuilder;
 import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class PaymentsProvider extends CurrencyCommandProvider {
 
-    public PaymentsProvider(final ExcellentEconomyPlugin plugin, final CurrencyRegistry registry,
-            final CurrencyManager manager) {
-        super(plugin, registry, manager, ProviderNames.PAYMENTS);
-    }
+        public PaymentsProvider(final ExcellentEconomyPlugin plugin, final CurrencyRegistry registry,
+                        final CurrencyManager manager) {
+                super(plugin, registry, manager, ProviderNames.PAYMENTS);
+        }
 
-    @Override
-    public void buildRoot(final Currency currency, final HubNodeBuilder builder) {
+        @Override
+        public void buildRoot(final Currency currency, final HubNodeBuilder builder) {
+        }
 
-    }
+        @Override
+        public void build(final Currency currency, final LiteralNodeBuilder builder) {
+        }
 
-    @Override
-    public void build(final Currency currency, final LiteralNodeBuilder builder) {
-        builder
-                .permission(Perms.COMMAND_CURRENCY_PAYMENTS)
-                .description(Lang.COMMAND_CURRENCY_PAYMENTS_DESC)
-                .withArguments(Arguments.playerName(CommandArguments.PLAYER)
-                        .permission(Perms.COMMAND_CURRENCY_PAYMENTS_OTHERS).optional())
-                .withFlags(CommandArguments.FLAG_SILENT)
-                .executes((context, arguments) -> {
-                    final String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
-                    final boolean silent = context.hasFlag(CommandArguments.FLAG_SILENT);
+        @Override
+        public void buildHub(final Currency currency, final HubNodeBuilder builder) {
+                builder
+                                .playerOnly()
+                                .permission(Perms.COMMAND_CURRENCY_PAYMENTS)
+                                .description(Lang.COMMAND_CURRENCY_PAYMENTS_DESC);
 
-                    this.manager.togglePayments(context.getSender(), name, currency, silent);
-                    return true;
-                });
-    }
+                builder.branch(Commands.literal("toggle", node -> node
+                                .withFlags(CommandArguments.FLAG_SILENT)
+                                .withArguments(Arguments.playerName(CommandArguments.PLAYER)
+                                                .permission(Perms.COMMAND_CURRENCY_PAYMENTS_OTHERS).optional())
+                                .executes((context, arguments) -> {
+                                        final String name = arguments.contains(CommandArguments.PLAYER)
+                                                        ? arguments.get(CommandArguments.PLAYER, String.class)
+                                                        : null;
 
-    @Override
-    public boolean isAvailable(final Currency currency) {
-        return currency.isTransferAllowed();
-    }
+                                        this.manager.managePayments(context.getSender(), name, currency,
+                                                        context.hasFlag(CommandArguments.FLAG_SILENT), (value) -> {
+                                                                return !value;
+                                                        });
+                                        return true;
+                                })));
 
-    @Override
+                builder.branch(Commands.literal("on", node -> node
+                                .withFlags(CommandArguments.FLAG_SILENT)
+                                .withArguments(Arguments.playerName(CommandArguments.PLAYER)
+                                                .permission(Perms.COMMAND_CURRENCY_PAYMENTS_OTHERS).optional())
+                                .executes((context, arguments) -> {
+                                        final String name = arguments.contains(CommandArguments.PLAYER)
+                                                        ? arguments.get(CommandArguments.PLAYER, String.class)
+                                                        : null;
 
-    public CommandDefinition getDefaultDefinition() {
-        return new CommandDefinition(CommandVariant.enabled("paytoggle"), CommandVariant.enabled("payments"));
-    }
+                                        this.manager.managePayments(context.getSender(), name, currency,
+                                                        context.hasFlag(CommandArguments.FLAG_SILENT), (value) -> {
+                                                                return true;
+                                                        });
+                                        return true;
+                                })));
 
-    @Override
-    public void buildEco(final Currency currency, final LiteralNodeBuilder builder) {
-        builder
-                .permission(Perms.COMMAND_CURRENCY_PAYMENTS)
-                .description(Lang.COMMAND_CURRENCY_PAYMENTS_DESC)
-                .withArguments(Arguments.playerName(CommandArguments.PLAYER))
-                .withFlags(CommandArguments.FLAG_SILENT)
-                .executes((context, arguments) -> {
-                    final String name = arguments.getString(CommandArguments.PLAYER);
-                    final boolean silent = context.hasFlag(CommandArguments.FLAG_SILENT);
+                builder.branch(Commands.literal("off", node -> node
+                                .withFlags(CommandArguments.FLAG_SILENT)
+                                .withArguments(Arguments.playerName(CommandArguments.PLAYER)
+                                                .permission(Perms.COMMAND_CURRENCY_PAYMENTS_OTHERS).optional())
+                                .executes((context, arguments) -> {
+                                        final String name = arguments.contains(CommandArguments.PLAYER)
+                                                        ? arguments.get(CommandArguments.PLAYER, String.class)
+                                                        : null;
 
-                    this.manager.togglePayments(context.getSender(), name, currency, silent);
-                    return true;
-                });
-    }
+                                        this.manager.managePayments(context.getSender(), name, currency,
+                                                        context.hasFlag(CommandArguments.FLAG_SILENT), (value) -> {
+                                                                return false;
+                                                        });
+                                        return true;
+                                })));
+        }
+
+        @Override
+        public boolean isHubCommand() {
+                return true;
+        }
+
+        @Override
+        public boolean isAvailable(final Currency currency) {
+                return currency.isTransferAllowed();
+        }
+
+        @Override
+
+        public CommandDefinition getDefaultDefinition() {
+                return new CommandDefinition(CommandVariant.enabled("payments"), CommandVariant.enabled("payments"));
+        }
 }
