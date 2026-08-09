@@ -109,7 +109,7 @@ public class BankProvider extends CurrencyCommandProvider {
 
   @Override
   public boolean isAvailable(final Currency currency) {
-    return currency instanceof EconomyCurrency && currency.isPrimary();
+    return currency.isTransferAllowed();
   }
 
   @Override

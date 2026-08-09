@@ -5,7 +5,6 @@ import static su.nightexpress.nightcore.util.Placeholders.GENERIC_INPUT;
 import static su.nightexpress.nightcore.util.Placeholders.PLAYER_NAME;
 import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.*;
 
-import su.nightexpress.excellenteconomy.command.CommandNames;
 import su.nightexpress.nightcore.locale.LangContainer;
 import su.nightexpress.nightcore.locale.LangEntry;
 import su.nightexpress.nightcore.locale.entry.MessageLocale;
@@ -273,7 +272,7 @@ public class Lang implements LangContainer {
 
         public static final TextLocale TOP_LIST_NEXT_PAGE_ACTIVE = LangEntry.builder("TopList.NextPage.Active").text(
                         SHOW_TEXT.with(GRAY.wrap("Click to get to the next page.")).wrap(
-                                        RUN_COMMAND.with("/" + CURRENCY_LABEL + " " + CommandNames.CURRENCY_TOP + " "
+                                        RUN_COMMAND.with("/" + CURRENCY_LABEL + " top "
                                                         + GENERIC_VALUE).wrap(
                                                                         GREEN.wrap("[→]"))));
 
@@ -285,9 +284,8 @@ public class Lang implements LangContainer {
                         .text(
                                         SHOW_TEXT.with(GRAY.wrap("Click to get to the previous page.")).wrap(
                                                         RUN_COMMAND
-                                                                        .with("/" + CURRENCY_LABEL + " "
-                                                                                        + CommandNames.CURRENCY_TOP
-                                                                                        + " " + GENERIC_VALUE)
+                                                                        .with("/" + CURRENCY_LABEL + " top "
+                                                                                        + GENERIC_VALUE)
                                                                         .wrap(
                                                                                         GREEN.wrap("[←]"))));
 

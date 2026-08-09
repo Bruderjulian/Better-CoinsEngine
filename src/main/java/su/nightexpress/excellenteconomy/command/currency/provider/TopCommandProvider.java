@@ -5,7 +5,6 @@ import java.util.stream.IntStream;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
-import su.nightexpress.excellenteconomy.command.CommandNames;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
@@ -53,7 +52,7 @@ public class TopCommandProvider extends CommandProvider {
     @Override
 
     public CommandDefinition getDefaultDefinition() {
-        return new CommandDefinition(CommandVariant.enabled(CommandNames.CURRENCY_TOP),
+        return new CommandDefinition(CommandVariant.enabled("top"),
                 CommandVariant.enabled("balancetop", "baltop"));
     }
 }

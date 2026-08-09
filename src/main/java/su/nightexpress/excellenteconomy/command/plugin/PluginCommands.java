@@ -6,7 +6,6 @@ import java.util.Set;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
-import su.nightexpress.excellenteconomy.command.CommandNames;
 import su.nightexpress.excellenteconomy.config.Config;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
@@ -50,14 +49,14 @@ public class PluginCommands extends SimpleManager<ExcellentEconomyPlugin> {
 
     private void loadAdminCommands() {
         this.registerCommand(NightCommand.forPlugin(this.plugin, builder -> {
-            builder.branch(Commands.literal(CommandNames.ADMIN_RELOAD)
+            builder.branch(Commands.literal("reload")
                     .description(CoreLang.COMMAND_RELOAD_DESC)
                     .permission(Perms.COMMAND_RELOAD)
                     .executes((context, arguments) -> {
                         this.plugin.doReload(context.getSender());
                         return true;
                     }));
-            builder.branch(Commands.literal(CommandNames.ADMIN_CREATE)
+            builder.branch(Commands.literal("create")
                     .permission(Perms.COMMAND_CREATE)
                     .description(Lang.COMMAND_CREATE_DESC)
                     .withArguments(
