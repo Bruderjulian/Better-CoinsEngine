@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
-import su.nightexpress.excellenteconomy.command.currency.provider.impl.*;
+import su.nightexpress.excellenteconomy.command.currency.provider.*;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
@@ -69,6 +68,7 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
         this.registerProvider(new RemoveProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new RemoveAllProvider(this.plugin, this.currencyRegistry, this.currencyManager));
         this.registerProvider(new ExchangeProvider(this.plugin, this.currencyRegistry, this.currencyManager));
+        this.registerProvider(new TopCommandProvider(this.plugin, this.plugin.getTopManager().get()));
     }
 
     public void registerProvider(CommandProvider provider) {

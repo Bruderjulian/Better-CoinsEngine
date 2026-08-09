@@ -15,7 +15,7 @@ public class CommandManager extends SimpleManager<ExcellentEconomyPlugin> {
     public CommandManager(ExcellentEconomyPlugin plugin, CurrencyRegistry currencyRegistry,
             CurrencyManager currencyManager) {
         super(plugin);
-        this.pluginCommands = new PluginCommands(plugin, currencyManager);
+        this.pluginCommands = new PluginCommands(plugin, currencyRegistry, currencyManager);
         this.currencyCommands = new CurrencyCommands(plugin, currencyRegistry, currencyManager);
     }
 

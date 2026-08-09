@@ -20,7 +20,6 @@ import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.hook.HookPlugin;
-import su.nightexpress.excellenteconomy.migration.command.MigrationCommands;
 import su.nightexpress.excellenteconomy.migration.impl.PlayerPointsMigrator;
 import su.nightexpress.excellenteconomy.user.UserManager;
 import su.nightexpress.nightcore.manager.SimpleManager;
@@ -59,8 +58,6 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
                 this.registerMigrator(HookPlugin.VAULT, () -> MigratorFactory.forVault(this.plugin));
             }
         });
-
-        new MigrationCommands(this.plugin, this, this.currencyRegistry).load();
     }
 
     @Override

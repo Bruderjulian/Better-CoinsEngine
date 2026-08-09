@@ -22,7 +22,6 @@ import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
-import su.nightexpress.excellenteconomy.tops.command.TopCommandProvider;
 import su.nightexpress.excellenteconomy.tops.menu.TopMenu;
 import su.nightexpress.nightcore.manager.AbstractManager;
 import su.nightexpress.nightcore.util.Lists;
@@ -37,7 +36,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
 
     private TopMenu topMenu;
 
-    public TopManager(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry currencyRegistry) {
+    public TopManager(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final CurrencyRegistry currencyRegistry) {
         super(plugin);
         this.currencyRegistry = currencyRegistry;
         this.topEntries = new ConcurrentHashMap<>();
@@ -48,11 +47,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (Config.TOPS_USE_GUI.get()) {
             this.topMenu = this.addMenu(new TopMenu(this.plugin, this), COEFiles.DIR_MENU, COEFiles.FILE_LEADERBOARD);
         }
-
-        this.plugin.getCommander().getCurrencyCommands().registerProvider(new TopCommandProvider(this.plugin, this));
-
         this.addListener(new TopsListener(this.plugin, this));
-
         this.addAsyncTask(this::updateBalances, Config.TOPS_UPDATE_INTERVAL.get());
     }
 
@@ -67,10 +62,10 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
     public void updateBalances() {
         this.topEntries.clear();
 
-        List<CoinsUser> users = this.plugin.getDataHandler().getUsers();
+        final List<CoinsUser> users = this.plugin.getDataHandler().getUsers();
 
         users.removeIf(user -> {
-            Player player = user.getPlayer();
+            final Player player = user.getPlayer();
             if (player != null) {
                 this.hideFromTops(player);
             }
@@ -78,10 +73,11 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
         });
 
         this.currencyRegistry.getCurrencies().forEach(currency -> {
-            AtomicInteger counter = new AtomicInteger(0);
-            Map<String, TopEntry> entries = new LinkedHashMap<>();
+            final AtomicInteger counter = new AtomicInteger(0);
+            final Map<String, TopEntry> entries = new LinkedHashMap<>();
 
-            users.stream().sorted(Comparator.comparingDouble((CoinsUser user) -> user.getBalance(currency)).reversed())
+            users.stream()
+                    .sorted(Comparator.comparingDouble((final CoinsUser user) -> user.getBalance(currency)).reversed())
                     .forEach(user -> {
                         entries.put(LowerCase.INTERNAL.apply(user.getName()), new TopEntry(counter.incrementAndGet(),
                                 user.getName(), user.getId(), user.getBalance(currency)));
@@ -91,32 +87,33 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
         });
     }
 
-    public void hideFromTops(@NotNull Player player) {
+    public void hideFromTops(@NotNull final Player player) {
         this.plugin.getFoliaScheduler().runAsync(() -> {
-            CoinsUser user = this.plugin.getUserManager().getOrFetch(player);
+            final CoinsUser user = this.plugin.getUserManager().getOrFetch(player);
             user.setHiddenFromTops(player.hasPermission(Perms.HIDE_FROM_TOPS));
         });
     }
 
-    public boolean showLeaderboard(@NotNull CommandSender sender, @NotNull Currency currency, int page) {
-        if (sender instanceof Player player && this.topMenu != null) {
+    public boolean showLeaderboard(@NotNull final CommandSender sender, @NotNull final Currency currency,
+            final int page) {
+        if (sender instanceof final Player player && this.topMenu != null) {
             this.topMenu.open(player, currency);
             return true;
         }
 
-        int perPage = Config.TOPS_ENTRIES_PER_PAGE.get();
+        final int perPage = Config.TOPS_ENTRIES_PER_PAGE.get();
 
-        List<TopEntry> full = this.getTopEntries(currency);
+        final List<TopEntry> full = this.getTopEntries(currency);
 
-        List<List<TopEntry>> split = Lists.split(full, perPage);
-        int pages = split.size();
-        int index = Math.max(0, Math.min(pages, page) - 1);
-        int realPage = index + 1;
+        final List<List<TopEntry>> split = Lists.split(full, perPage);
+        final int pages = split.size();
+        final int index = Math.max(0, Math.min(pages, page) - 1);
+        final int realPage = index + 1;
 
-        List<TopEntry> entries = pages > 0 ? split.get(index) : new ArrayList<>();
+        final List<TopEntry> entries = pages > 0 ? split.get(index) : new ArrayList<>();
 
-        boolean hasNextPage = realPage < pages;
-        boolean hasPrevPage = index > 0;
+        final boolean hasNextPage = realPage < pages;
+        final boolean hasPrevPage = index > 0;
 
         currency.sendPrefixed(Lang.TOP_LIST, sender, replacer -> replacer
                 .replace(Placeholders.GENERIC_NEXT_PAGE,
@@ -130,7 +127,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
                 .replace(Placeholders.GENERIC_CURRENT, realPage)
                 .replace(Placeholders.GENERIC_MAX, pages)
                 .replace(Placeholders.GENERIC_ENTRY, list -> {
-                    for (TopEntry entry : entries) {
+                    for (final TopEntry entry : entries) {
                         list.add(Lang.TOP_ENTRY.text()
                                 .replace(Placeholders.GENERIC_POS, NumberUtil.format(entry.getPosition()))
                                 .replace(Placeholders.GENERIC_BALANCE, currency.format(entry.getBalance()))
@@ -147,21 +144,22 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
     }
 
     @NotNull
-    public List<TopEntry> getTopEntries(@NotNull Currency currency) {
+    public List<TopEntry> getTopEntries(@NotNull final Currency currency) {
         return new ArrayList<>(this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap()).values());
     }
 
-    public TopEntry getTopEntry(@NotNull Currency currency, @NotNull String name) {
+    public TopEntry getTopEntry(@NotNull final Currency currency, @NotNull final String name) {
         return this.topEntries.getOrDefault(currency.getId(), Collections.emptyMap())
                 .get(LowerCase.INTERNAL.apply(name));
     }
 
-    public double getTotalBalance(@NotNull Currency currency) {
+    public double getTotalBalance(@NotNull final Currency currency) {
         return this.getTopEntries(currency).stream().filter(value -> value != null).mapToDouble(TopEntry::getBalance)
                 .sum();
     }
 
-    public void applyExternalTopEntries(@NotNull String currencyId, @NotNull Map<String, TopEntry> entries) {
+    public void applyExternalTopEntries(@NotNull final String currencyId,
+            @NotNull final Map<String, TopEntry> entries) {
         this.topEntries.put(currencyId, entries);
     }
 }

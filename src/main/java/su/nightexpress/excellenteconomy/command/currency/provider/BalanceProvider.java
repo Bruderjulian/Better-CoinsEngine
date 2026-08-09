@@ -1,4 +1,4 @@
-package su.nightexpress.excellenteconomy.command.currency.provider.impl;
+package su.nightexpress.excellenteconomy.command.currency.provider;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,7 +8,7 @@ import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
 import su.nightexpress.excellenteconomy.command.currency.CurrencyCommandProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
+import su.nightexpress.excellenteconomy.command.currency.ProviderNames;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
@@ -21,18 +21,18 @@ import su.nightexpress.nightcore.commands.context.ParsedArguments;
 
 public class BalanceProvider extends CurrencyCommandProvider {
 
-    public BalanceProvider(@NotNull ExcellentEconomyPlugin plugin, @NotNull CurrencyRegistry registry,
-            @NotNull CurrencyManager manager) {
+    public BalanceProvider(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final CurrencyRegistry registry,
+            @NotNull final CurrencyManager manager) {
         super(plugin, registry, manager, ProviderNames.BALANCE);
     }
 
     @Override
-    public void buildRoot(@NotNull Currency currency, @NotNull HubNodeBuilder builder) {
+    public void buildRoot(@NotNull final Currency currency, @NotNull final HubNodeBuilder builder) {
         builder.executes((context, arguments) -> this.showBalance(currency, context, arguments));
     }
 
     @Override
-    public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
+    public void build(@NotNull final Currency currency, @NotNull final LiteralNodeBuilder builder) {
         builder
                 .permission(Perms.COMMAND_CURRENCY_BALANCE)
                 .description(Lang.COMMAND_CURRENCY_BALANCE_DESC)
@@ -41,15 +41,15 @@ public class BalanceProvider extends CurrencyCommandProvider {
                 .executes((context, arguments) -> this.showBalance(currency, context, arguments));
     }
 
-    private boolean showBalance(@NotNull Currency currency, @NotNull CommandContext context,
-            @NotNull ParsedArguments arguments) {
-        String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
+    private boolean showBalance(@NotNull final Currency currency, @NotNull final CommandContext context,
+            @NotNull final ParsedArguments arguments) {
+        final String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
         this.manager.showBalance(context.getSender(), name, currency);
         return true;
     }
 
     @Override
-    public boolean isAvailable(@NotNull Currency currency) {
+    public boolean isAvailable(@NotNull final Currency currency) {
         return true;
     }
 

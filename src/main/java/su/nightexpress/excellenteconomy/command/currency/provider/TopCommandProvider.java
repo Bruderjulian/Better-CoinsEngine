@@ -1,4 +1,4 @@
-package su.nightexpress.excellenteconomy.tops.command;
+package su.nightexpress.excellenteconomy.command.currency.provider;
 
 import java.util.stream.IntStream;
 
@@ -11,7 +11,6 @@ import su.nightexpress.excellenteconomy.command.CommandNames;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandProvider;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
-import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.tops.TopManager;
@@ -23,18 +22,18 @@ public class TopCommandProvider extends CommandProvider {
 
     private final TopManager manager;
 
-    public TopCommandProvider(@NotNull ExcellentEconomyPlugin plugin, @NotNull TopManager manager) {
+    public TopCommandProvider(@NotNull final ExcellentEconomyPlugin plugin, @NotNull final TopManager manager) {
         super(plugin, ProviderNames.TOP);
         this.manager = manager;
     }
 
     @Override
-    public void buildRoot(@NotNull Currency currency, @NotNull HubNodeBuilder builder) {
+    public void buildRoot(@NotNull final Currency currency, @NotNull final HubNodeBuilder builder) {
 
     }
 
     @Override
-    public void build(@NotNull Currency currency, @NotNull LiteralNodeBuilder builder) {
+    public void build(@NotNull final Currency currency, @NotNull final LiteralNodeBuilder builder) {
         builder
                 .permission(Perms.COMMAND_CURRENCY_TOP)
                 .description(Lang.COMMAND_CURRENCY_TOP_DESC)
@@ -42,14 +41,14 @@ public class TopCommandProvider extends CommandProvider {
                         .localized(Lang.COMMAND_ARGUMENT_NAME_PAGE)
                         .suggestions((reader, context) -> IntStream.range(1, 11).boxed().map(String::valueOf).toList()))
                 .executes((context, arguments) -> {
-                    int page = arguments.getInt(CommandArguments.AMOUNT, 1);
+                    final int page = arguments.getInt(CommandArguments.AMOUNT, 1);
                     this.manager.showLeaderboard(context.getSender(), currency, page);
                     return true;
                 });
     }
 
     @Override
-    public boolean isAvailable(@NotNull Currency currency) {
+    public boolean isAvailable(@NotNull final Currency currency) {
         return currency.isLeaderboardEnabled();
     }
 

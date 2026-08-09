@@ -37,7 +37,6 @@ public class Placeholders extends su.nightexpress.nightcore.util.Placeholders {
     public static final String CURRENCY_PREFIX = "%currency_prefix%";
     public static final String CURRENCY_LABEL = "%currency_label%";
 
-    @SuppressWarnings("null")
     public static final PlaceholderList<Currency> CURRENCY = PlaceholderList.create(list -> list
             .add(CURRENCY_ID, Currency::getId)
             .add(CURRENCY_NAME, Currency::getName)

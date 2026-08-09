@@ -4,12 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
+import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.CommandNames;
 import su.nightexpress.excellenteconomy.config.Config;
 import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
+import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.nightcore.commands.Arguments;
 import su.nightexpress.nightcore.commands.Commands;
 import su.nightexpress.nightcore.commands.command.NightCommand;
@@ -22,14 +24,15 @@ import su.nightexpress.nightcore.util.Lists;
 public class PluginCommands extends SimpleManager<ExcellentEconomyPlugin> {
 
     private final CurrencyManager currencyManager;
+    private final CurrencyRegistry currencyRegistry;
 
-    private final Set<CommandProvider> providers;
     private final Set<NightCommand> commands;
 
-    public PluginCommands(ExcellentEconomyPlugin plugin, CurrencyManager currencyManager) {
+    public PluginCommands(final ExcellentEconomyPlugin plugin, final CurrencyRegistry currencyRegistry,
+            final CurrencyManager currencyManager) {
         super(plugin);
         this.currencyManager = currencyManager;
-        this.providers = new HashSet<>();
+        this.currencyRegistry = currencyRegistry;
         this.commands = new HashSet<>();
     }
 
@@ -43,10 +46,6 @@ public class PluginCommands extends SimpleManager<ExcellentEconomyPlugin> {
     protected void onShutdown() {
         this.commands.forEach(NightCommand::unregister);
         this.commands.clear();
-    }
-
-    public void registerProvider(CommandProvider provider) {
-        this.providers.add(provider);
     }
 
     private void loadAdminCommands() {
@@ -67,8 +66,16 @@ public class PluginCommands extends SimpleManager<ExcellentEconomyPlugin> {
                             Arguments.bool(CommandArguments.DECIMALS).localized(Lang.COMMAND_ARGUMENT_NAME_DECIMAL)
                                     .optional().suggestions((reader, context) -> Lists.newList("true", "false")))
                     .executes(this::createCurrency));
-
-            this.providers.forEach(provider -> provider.build(builder));
+            builder.branch(Commands.literal("migrate")
+                    .permission(Perms.COMMAND_MIGRATE)
+                    .description(Lang.COMMAND_MIGRATE_DESC)
+                    .withArguments(
+                            Arguments.string(CommandArguments.NAME).localized(Lang.COMMAND_ARGUMENT_NAME_PLUGIN)
+                                    .suggestions(
+                                            (reader, context) -> this.plugin.getMigrationManager().get()
+                                                    .getMigratorNames()),
+                            CommandArguments.currency(this.currencyRegistry))
+                    .executes(this::migrate));
         }));
     }
 
@@ -83,23 +90,30 @@ public class PluginCommands extends SimpleManager<ExcellentEconomyPlugin> {
         }
     }
 
-    private void registerCommand(NightCommand command) {
+    private void registerCommand(final NightCommand command) {
         if (command.register()) {
             this.commands.add(command);
         }
     }
 
-    private boolean createCurrency(CommandContext context, ParsedArguments arguments) {
-        String name = arguments.getString(CommandArguments.NAME);
-        String symbol = arguments.getString(CommandArguments.SYMBOL);
-        boolean decimals = arguments.getBoolean(CommandArguments.DECIMALS, true);
+    private boolean createCurrency(final CommandContext context, final ParsedArguments arguments) {
+        final String name = arguments.getString(CommandArguments.NAME);
+        final String symbol = arguments.getString(CommandArguments.SYMBOL);
+        final boolean decimals = arguments.getBoolean(CommandArguments.DECIMALS, true);
 
         return this.currencyManager.createCurrency(context.getSender(), name, symbol, decimals);
     }
 
-    private boolean showWallet(CommandContext context, ParsedArguments arguments) {
-        String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
+    private boolean showWallet(final CommandContext context, final ParsedArguments arguments) {
+        final String name = arguments.getString(CommandArguments.PLAYER, context.getSender().getName());
         this.currencyManager.showWallet(context.getSender(), name);
         return true;
+    }
+
+    private boolean migrate(final CommandContext context, final ParsedArguments arguments) {
+        return this.plugin.getMigrationManager().get().startMigration(
+                context.getSender(),
+                arguments.getString(CommandArguments.NAME),
+                arguments.get(CommandArguments.CURRENCY, Currency.class));
     }
 }

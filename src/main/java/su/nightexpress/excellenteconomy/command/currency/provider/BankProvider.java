@@ -1,4 +1,4 @@
-package su.nightexpress.excellenteconomy.command.currency.provider.impl;
+package su.nightexpress.excellenteconomy.command.currency.provider;
 
 import org.bukkit.entity.Player;
 
@@ -9,7 +9,7 @@ import su.nightexpress.excellenteconomy.command.CommandArguments;
 import su.nightexpress.excellenteconomy.command.currency.CommandDefinition;
 import su.nightexpress.excellenteconomy.command.currency.CommandVariant;
 import su.nightexpress.excellenteconomy.command.currency.CurrencyCommandProvider;
-import su.nightexpress.excellenteconomy.command.currency.provider.ProviderNames;
+import su.nightexpress.excellenteconomy.command.currency.ProviderNames;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
@@ -21,22 +21,22 @@ import su.nightexpress.nightcore.commands.builder.LiteralNodeBuilder;
 
 public class BankProvider extends CurrencyCommandProvider {
 
-  public BankProvider(ExcellentEconomyPlugin plugin, CurrencyRegistry registry,
-      CurrencyManager manager) {
+  public BankProvider(final ExcellentEconomyPlugin plugin, final CurrencyRegistry registry,
+      final CurrencyManager manager) {
     super(plugin, registry, manager, ProviderNames.BANK);
   }
 
   @Override
-  public void buildRoot(Currency currency, HubNodeBuilder builder) {
+  public void buildRoot(final Currency currency, final HubNodeBuilder builder) {
   }
 
   @Override
-  public void build(Currency currency, LiteralNodeBuilder builder) {
+  public void build(final Currency currency, final LiteralNodeBuilder builder) {
   }
 
   @Override
-  public void buildHub(Currency currency, HubNodeBuilder builder) {
-    EconomyCurrency economy = (EconomyCurrency) currency;
+  public void buildHub(final Currency currency, final HubNodeBuilder builder) {
+    final EconomyCurrency economy = (EconomyCurrency) currency;
 
     builder.playerOnly().permission(Perms.COMMAND_CURRENCY_BANK);
 
@@ -72,8 +72,9 @@ public class BankProvider extends CurrencyCommandProvider {
             arguments.getString(CommandArguments.NAME), 0D))));
   }
 
-  private static boolean execute(Player player, EconomyCurrency economy, Currency currency, String action, String name,
-      double amount) {
+  private static boolean execute(final Player player, final EconomyCurrency economy, final Currency currency,
+      final String action, final String name,
+      final double amount) {
     return switch (action.toLowerCase(java.util.Locale.ROOT)) {
       case "create" -> respond(player, economy.createBank(name, (org.bukkit.OfflinePlayer) player), currency);
       case "balance" -> respond(player, economy.bankBalance(name), currency);
@@ -87,7 +88,8 @@ public class BankProvider extends CurrencyCommandProvider {
     };
   }
 
-  private static boolean delete(Player player, EconomyCurrency economy, String name, Currency currency) {
+  private static boolean delete(final Player player, final EconomyCurrency economy, final String name,
+      final Currency currency) {
     if (!economy.isBankOwner(name, player)) {
       player.sendMessage("You must be the bank owner to delete it.");
       return false;
@@ -96,7 +98,7 @@ public class BankProvider extends CurrencyCommandProvider {
   }
 
   @SuppressWarnings("deprecation")
-  private static boolean respond(Player player, EconomyResponse response, Currency currency) {
+  private static boolean respond(final Player player, final EconomyResponse response, final Currency currency) {
     if (response.type == EconomyResponse.ResponseType.SUCCESS) {
       player.sendMessage("Bank balance: " + currency.format(response.balance));
       return true;
@@ -106,7 +108,7 @@ public class BankProvider extends CurrencyCommandProvider {
   }
 
   @Override
-  public boolean isAvailable(Currency currency) {
+  public boolean isAvailable(final Currency currency) {
     return currency instanceof EconomyCurrency && currency.isPrimary();
   }
 
