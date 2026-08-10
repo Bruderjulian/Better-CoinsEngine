@@ -9,9 +9,9 @@ import java.util.function.Function;
 
 import com.google.gson.reflect.TypeToken;
 
-import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserBalance;
+import su.nightexpress.excellenteconomy.user.UserCurrencySettings;
 
 public class DataQueries {
 
@@ -37,9 +37,9 @@ public class DataQueries {
             long dateCreated = resultSet.getLong(DataHandler.COLUMN_USER_DATE_CREATED.getName());
             long lastOnline = resultSet.getLong(DataHandler.COLUMN_USER_LAST_ONLINE.getName());
 
-            Map<String, CurrencySettings> settingsMap = DataHandler.GSON.fromJson(
+            Map<String, UserCurrencySettings> settingsMap = DataHandler.GSON.fromJson(
                     resultSet.getString(DataHandler.COLUMN_SETTINGS.getName()),
-                    new TypeToken<Map<String, CurrencySettings>>() {
+                    new TypeToken<Map<String, UserCurrencySettings>>() {
                     }.getType());
             if (settingsMap == null)
                 settingsMap = new HashMap<>();

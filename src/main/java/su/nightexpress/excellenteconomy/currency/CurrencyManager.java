@@ -30,8 +30,8 @@ import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
 import su.nightexpress.excellenteconomy.currency.operation.OperationExecutor;
 import su.nightexpress.excellenteconomy.currency.operation.OperationResult;
 import su.nightexpress.excellenteconomy.data.DataHandler;
-import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
+import su.nightexpress.excellenteconomy.user.UserCurrencySettings;
 import su.nightexpress.excellenteconomy.user.UserManager;
 import su.nightexpress.nightcore.config.FileConfig;
 import su.nightexpress.nightcore.core.config.CoreLang;
@@ -339,7 +339,7 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
                 return;
             }
 
-            final CurrencySettings settings = user.getSettings(currency);
+            final UserCurrencySettings settings = user.getSettings(currency);
             try {
                 settings.setPaymentsEnabled(handler.apply(settings.isPaymentsEnabled()));
                 this.userManager.save(user);
@@ -365,7 +365,7 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
                 return;
             }
 
-            final CurrencySettings settings = user.getSettings(currency);
+            final UserCurrencySettings settings = user.getSettings(currency);
             try {
                 settings.setPaymentsEnabled(handler.apply(settings.isPaymentsEnabled()));
                 this.userManager.save(user);
@@ -714,7 +714,7 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
                 return;
             }
 
-            final CurrencySettings settings = targetUser.getSettings(currency);
+            final UserCurrencySettings settings = targetUser.getSettings(currency);
             if (!settings.isPaymentsEnabled()) {
                 currency.sendPrefixed(Lang.CURRENCY_SEND_ERROR_NO_PAYMENTS, sender, replacer -> replacer
                         .replace(Placeholders.PLAYER_NAME, targetUser.getName()));

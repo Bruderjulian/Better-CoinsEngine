@@ -10,13 +10,12 @@ import org.bukkit.Bukkit;
 
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.api.event.ChangeBalanceEvent;
-import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUser;
 
 public class CoinsUser extends AbstractUser {
 
     private final UserBalance balance;
-    private final Map<String, CurrencySettings> settingsMap;
+    private final Map<String, UserCurrencySettings> settingsMap;
 
     private boolean hiddenFromTops;
 
@@ -25,7 +24,7 @@ public class CoinsUser extends AbstractUser {
             long dateCreated,
             long lastLogin,
             UserBalance balance,
-            Map<String, CurrencySettings> settingsMap,
+            Map<String, UserCurrencySettings> settingsMap,
             boolean hiddenFromTops) {
         super(uuid, name, dateCreated, lastLogin);
         this.balance = balance;
@@ -91,12 +90,12 @@ public class CoinsUser extends AbstractUser {
         this.editBalance(currency, lookup -> lookup.set(currency, amount));
     }
 
-    public Map<String, CurrencySettings> getSettingsMap() {
+    public Map<String, UserCurrencySettings> getSettingsMap() {
         return this.settingsMap;
     }
 
-    public CurrencySettings getSettings(Currency currency) {
-        return this.settingsMap.computeIfAbsent(currency.getId(), k -> CurrencySettings.create(currency));
+    public UserCurrencySettings getSettings(Currency currency) {
+        return this.settingsMap.computeIfAbsent(currency.getId(), k -> UserCurrencySettings.create(currency));
     }
 
     public boolean isHiddenFromTops() {

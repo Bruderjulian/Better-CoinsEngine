@@ -9,7 +9,6 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.data.DataQueries;
-import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUserManager;
 
 public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, CoinsUser> {
@@ -44,7 +43,7 @@ public class UserManager extends AbstractUserManager<ExcellentEconomyPlugin, Coi
         UserBalance balance = new UserBalance();
         this.registry.getCurrencies().forEach(currency -> balance.set(currency, currency.getStartValue()));
 
-        Map<String, CurrencySettings> settingsMap = new HashMap<>();
+        Map<String, UserCurrencySettings> settingsMap = new HashMap<>();
         boolean hiddenFromTops = false;
 
         return new CoinsUser(uuid, name, dateCreated, dateCreated, balance, settingsMap, hiddenFromTops);

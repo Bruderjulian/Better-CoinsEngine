@@ -1,17 +1,17 @@
-package su.nightexpress.excellenteconomy.data.impl;
+package su.nightexpress.excellenteconomy.user;
 
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 
-public class CurrencySettings {
+public class UserCurrencySettings {
 
     private boolean paymentsEnabled;
 
-    public CurrencySettings(boolean paymentsEnabled) {
+    public UserCurrencySettings(boolean paymentsEnabled) {
         this.setPaymentsEnabled(paymentsEnabled);
     }
 
-    public static CurrencySettings create(Currency currency) {
-        return new CurrencySettings(true);
+    public static UserCurrencySettings create(Currency currency) {
+        return new UserCurrencySettings(true);
     }
 
     public boolean isPaymentsEnabled() {

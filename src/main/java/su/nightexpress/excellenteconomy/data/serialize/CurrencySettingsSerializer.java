@@ -10,23 +10,23 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
+import su.nightexpress.excellenteconomy.user.UserCurrencySettings;
 
 public class CurrencySettingsSerializer
-        implements JsonSerializer<CurrencySettings>, JsonDeserializer<CurrencySettings> {
+        implements JsonSerializer<UserCurrencySettings>, JsonDeserializer<UserCurrencySettings> {
 
     @Override
-    public CurrencySettings deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+    public UserCurrencySettings deserialize(JsonElement element, Type type, JsonDeserializationContext context)
             throws JsonParseException {
         JsonObject object = element.getAsJsonObject();
 
         boolean paymentsEnabled = object.get("paymentsEnabled").getAsBoolean();
 
-        return new CurrencySettings(paymentsEnabled);
+        return new UserCurrencySettings(paymentsEnabled);
     }
 
     @Override
-    public JsonElement serialize(CurrencySettings data, Type type, JsonSerializationContext context) {
+    public JsonElement serialize(UserCurrencySettings data, Type type, JsonSerializationContext context) {
         JsonObject object = new JsonObject();
         object.addProperty("paymentsEnabled", data.isPaymentsEnabled());
         return object;
