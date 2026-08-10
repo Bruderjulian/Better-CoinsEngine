@@ -1,4 +1,4 @@
-package su.nightexpress.excellenteconomy.hook.impl;
+package su.nightexpress.excellenteconomy.hooks;
 
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
@@ -23,7 +23,8 @@ import su.nightexpress.nightcore.util.text.night.NightMessage;
 public class PlaceholderAPIHook {
 
     private static Expansion expansion;
-
+    public static String NAME = "PlaceholderAPI";
+    
     public static void setup(ExcellentEconomyPlugin plugin) {
         if (expansion == null) {
             expansion = new Expansion(plugin);

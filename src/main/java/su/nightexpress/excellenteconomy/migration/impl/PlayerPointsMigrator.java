@@ -12,13 +12,13 @@ import org.bukkit.OfflinePlayer;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.Migrator;
 
 public class PlayerPointsMigrator extends Migrator {
+    public static String NAME = "PlayerPoints";
 
     public PlayerPointsMigrator(ExcellentEconomyPlugin plugin) {
-        super(plugin, HookPlugin.PLAYER_POINTS);
+        super(plugin, PlayerPointsMigrator.NAME);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package su.nightexpress.excellenteconomy.hook.impl;
+package su.nightexpress.excellenteconomy.hooks;
 
 import org.bukkit.OfflinePlayer;
 
@@ -9,13 +9,13 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
 import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
-import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
 
 public class DeluxeCoinflipHook {
+    public static String NAME = "DeluxeCoinflip";
 
     public static void setup(ExcellentEconomyPlugin plugin) {
-        DeluxeCoinflipAPI api = (DeluxeCoinflipAPI) plugin.getPluginManager().getPlugin(HookPlugin.DELUXE_COINFLIP);
+        DeluxeCoinflipAPI api = (DeluxeCoinflipAPI) plugin.getPluginManager().getPlugin(DeluxeCoinflipHook.NAME);
         if (api == null)
             return;
 

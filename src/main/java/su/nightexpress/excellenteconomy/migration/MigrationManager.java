@@ -17,7 +17,6 @@ import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.DataHandler;
-import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.impl.PlayerPointsMigrator;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserManager;
@@ -49,12 +48,12 @@ public class MigrationManager extends SimpleManager<ExcellentEconomyPlugin> {
 
     @Override
     protected void onLoad() {
-        this.registerMigrator(HookPlugin.PLAYER_POINTS, () -> new PlayerPointsMigrator(this.plugin));
+        this.registerMigrator(PlayerPointsMigrator.NAME, () -> new PlayerPointsMigrator(this.plugin));
 
         // Schedule to ensure 3rd party economy plugins are loaded.
         this.plugin.runTask(() -> {
             if (!this.currencyRegistry.hasPrimary()) {
-                this.registerMigrator(HookPlugin.VAULT, () -> MigratorFactory.forVault(this.plugin));
+                this.registerMigrator("Vault", () -> MigratorFactory.forVault(this.plugin));
             }
         });
     }

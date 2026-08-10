@@ -31,7 +31,6 @@ import su.nightexpress.excellenteconomy.currency.operation.OperationExecutor;
 import su.nightexpress.excellenteconomy.currency.operation.OperationResult;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
-import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserManager;
 import su.nightexpress.nightcore.config.FileConfig;
@@ -116,7 +115,7 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         final String id = Strings.varStyle(name)
                 .orElseThrow(() -> new IllegalStateException("Malformed file name '" + fileName + "'"));
 
-        final boolean isVault = Plugins.isInstalled(HookPlugin.VAULT) && Config.INTEGRATION_VAULT_ENABLED.get();
+        final boolean isVault = Plugins.isInstalled("Vault") && Config.INTEGRATION_VAULT_ENABLED.get();
         final boolean isGoodId = Config.INTEGRATION_VAULT_ECONOMY_CURRENCY.get().equalsIgnoreCase(id);
 
         AbstractCurrency currency;

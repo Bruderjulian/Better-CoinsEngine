@@ -8,16 +8,16 @@ import org.bukkit.OfflinePlayer;
 import net.milkbowl.vault.economy.Economy;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.Migrator;
 
 @SuppressWarnings("deprecation")
 public class VaultMigrator extends Migrator {
 
     private final Economy economy;
+    public static String NAME = "Vault";
 
     public VaultMigrator(ExcellentEconomyPlugin plugin, Economy economy) {
-        super(plugin, HookPlugin.VAULT);
+        super(plugin, VaultMigrator.NAME);
         this.economy = economy;
     }
 

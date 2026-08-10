@@ -10,9 +10,8 @@ import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.DataHandler;
-import su.nightexpress.excellenteconomy.hook.HookPlugin;
-import su.nightexpress.excellenteconomy.hook.impl.DeluxeCoinflipHook;
-import su.nightexpress.excellenteconomy.hook.impl.PlaceholderAPIHook;
+import su.nightexpress.excellenteconomy.hooks.DeluxeCoinflipHook;
+import su.nightexpress.excellenteconomy.hooks.PlaceholderAPIHook;
 import su.nightexpress.excellenteconomy.migration.MigrationManager;
 import su.nightexpress.excellenteconomy.tops.TopManager;
 import su.nightexpress.excellenteconomy.user.UserManager;
@@ -71,7 +70,7 @@ public class ExcellentEconomyPlugin extends NightPlugin {
             PlaceholderAPIHook.setup(this);
         }
 
-        if (Plugins.isInstalled(HookPlugin.DELUXE_COINFLIP)) {
+        if (Plugins.isInstalled(DeluxeCoinflipHook.NAME)) {
             this.runTask(() -> DeluxeCoinflipHook.setup(this));
         }
 
