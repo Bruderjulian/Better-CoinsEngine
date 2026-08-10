@@ -9,10 +9,12 @@ import su.nightexpress.excellenteconomy.config.Lang;
 import su.nightexpress.excellenteconomy.config.Perms;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
+import su.nightexpress.excellenteconomy.data.BalanceSnapshotCache;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.hooks.DeluxeCoinflipHook;
 import su.nightexpress.excellenteconomy.hooks.PlaceholderAPIHook;
 import su.nightexpress.excellenteconomy.migration.MigrationManager;
+import su.nightexpress.excellenteconomy.sync.RedisSyncManager;
 import su.nightexpress.excellenteconomy.tops.TopManager;
 import su.nightexpress.excellenteconomy.user.UserManager;
 import su.nightexpress.nightcore.NightPlugin;
@@ -30,8 +32,8 @@ public class ExcellentEconomyPlugin extends NightPlugin {
     private CommandManager commandManager;
 
     // Custom additions
-    private su.nightexpress.excellenteconomy.sync.RedisSyncManager redisSyncManager;
-    private su.nightexpress.excellenteconomy.data.BalanceSnapshotCache snapshotCache;
+    private Optional<RedisSyncManager> redisSyncManager;
+    private BalanceSnapshotCache snapshotCache;
 
     @Override
     protected void onStartup() {
@@ -74,8 +76,11 @@ public class ExcellentEconomyPlugin extends NightPlugin {
             this.runTask(() -> DeluxeCoinflipHook.setup(this));
         }
 
-        this.redisSyncManager = new su.nightexpress.excellenteconomy.sync.RedisSyncManager(this);
-        this.redisSyncManager.setup();
+        if (Config.isRedisEnabled()) {
+            this.redisSyncManager = Optional.of(new RedisSyncManager(this).setup());
+        } else {
+            this.redisSyncManager = Optional.empty();
+        }
     }
 
     @Override
@@ -107,7 +112,7 @@ public class ExcellentEconomyPlugin extends NightPlugin {
         if (this.currencyManager != null)
             this.currencyManager.shutdown();
         if (this.redisSyncManager != null)
-            this.redisSyncManager.shutdown();
+            this.redisSyncManager.ifPresent(manager -> manager.shutdown());
     }
 
     @Override
@@ -155,11 +160,11 @@ public class ExcellentEconomyPlugin extends NightPlugin {
 
     // Custom getters
 
-    public java.util.Optional<su.nightexpress.excellenteconomy.sync.RedisSyncManager> getRedisSyncManager() {
-        return java.util.Optional.ofNullable(this.redisSyncManager);
+    public Optional<RedisSyncManager> getRedisSyncManager() {
+        return this.redisSyncManager;
     }
 
-    public su.nightexpress.excellenteconomy.data.BalanceSnapshotCache getSnapshotCache() {
+    public BalanceSnapshotCache getSnapshotCache() {
         return this.snapshotCache;
     }
 }

@@ -64,9 +64,9 @@ public class RedisSyncManager {
         this.nodeId = nid;
     }
 
-    public void setup() {
+    public RedisSyncManager setup() {
         if (!Config.isRedisEnabled()) {
-            return;
+            return this;
         }
 
         String host = Config.REDIS_HOST.get();
@@ -105,6 +105,7 @@ public class RedisSyncManager {
             this.plugin.error("Failed to initialize Redis: " + e.getMessage());
             this.active = false;
         }
+        return this;
     }
 
     public void shutdown() {
