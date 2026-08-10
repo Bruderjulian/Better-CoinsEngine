@@ -26,7 +26,6 @@ import su.nightexpress.excellenteconomy.currency.impl.AbstractCurrency;
 import su.nightexpress.excellenteconomy.currency.impl.NormalCurrency;
 import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
 import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
-import su.nightexpress.excellenteconomy.currency.operation.OperationExecutor;
 import su.nightexpress.excellenteconomy.currency.operation.OperationResult;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
@@ -396,8 +395,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
-
         user.addBalance(currency, amount);
         this.userManager.save(user);
         // Custom: publish Redis sync
@@ -408,12 +405,12 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
         if (this.logger != null && context.shouldNotifyLogger()) {
             this.logger.addEntry(context, "[%s] %s gave %s to %s. New balance: %s"
-                    .formatted(currency.getId(), executor.getName(), currency.format(amount), user.getName(),
+                    .formatted(currency.getId(), context.getName(), currency.format(amount), user.getName(),
                             currency.format(user.getBalance(currency))));
         }
 
         if (context.shouldNotify(NotificationTarget.EXECUTOR)) {
-            executor.getBukkitSender().ifPresent(sender -> {
+            context.getBukkitSender().ifPresent(sender -> {
                 currency.sendPrefixed(Lang.COMMAND_CURRENCY_GIVE_DONE, sender, replacer -> replacer
                         .replace(Placeholders.PLAYER_NAME, user::getName)
                         .replace(Placeholders.GENERIC_AMOUNT, () -> currency.format(amount))
@@ -437,7 +434,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
         final Set<CoinsUser> users = this.userManager.getLoaded();
 
         users.forEach(user -> {
@@ -457,12 +453,12 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
         if (this.logger != null && context.shouldNotifyLogger()) {
             this.logger.addEntry(context, "[%s] %s gave %s to all online players. Affected players (%s): %s"
-                    .formatted(currency.getId(), executor.getName(), currency.format(amount), users.size(),
+                    .formatted(currency.getId(), context.getName(), currency.format(amount), users.size(),
                             users.stream().map(AbstractUser::getName).collect(Collectors.joining(", "))));
         }
 
         if (context.shouldNotify(NotificationTarget.EXECUTOR)) {
-            executor.getBukkitSender().ifPresent(sender -> {
+            context.getBukkitSender().ifPresent(sender -> {
                 currency.sendPrefixed(Lang.COMMAND_CURRENCY_GIVE_ALL_DONE, sender, replacer -> replacer
                         .replace(Placeholders.GENERIC_AMOUNT, currency.format(amount)));
             });
@@ -475,7 +471,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
         final Set<CoinsUser> users = this.userManager.getLoaded();
 
         users.forEach(user -> {
@@ -495,12 +490,12 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
         if (this.logger != null && context.shouldNotifyLogger()) {
             this.logger.addEntry(context, "[%s] %s removed %s from all online players. Affected players (%s): %s"
-                    .formatted(currency.getId(), executor.getName(), currency.format(amount), users.size(),
+                    .formatted(currency.getId(), context.getName(), currency.format(amount), users.size(),
                             users.stream().map(AbstractUser::getName).collect(Collectors.joining(", "))));
         }
 
         if (context.shouldNotify(NotificationTarget.EXECUTOR)) {
-            executor.getBukkitSender().ifPresent(sender -> {
+            context.getBukkitSender().ifPresent(sender -> {
                 currency.sendPrefixed(Lang.COMMAND_CURRENCY_REMOVE_ALL_DONE, sender, replacer -> replacer
                         .replace(Placeholders.GENERIC_AMOUNT, currency.format(amount)));
             });
@@ -519,8 +514,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
-
         user.removeBalance(currency, amount);
         this.userManager.save(user);
         // Custom: publish Redis sync
@@ -531,12 +524,12 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
         if (this.logger != null && context.shouldNotifyLogger()) {
             this.logger.addEntry(context, "[%s] %s took %s from %s's balance. New balance: %s"
-                    .formatted(currency.getId(), executor.getName(), currency.format(amount), user.getName(),
+                    .formatted(currency.getId(), context.getName(), currency.format(amount), user.getName(),
                             currency.format(user.getBalance(currency))));
         }
 
         if (context.shouldNotify(NotificationTarget.EXECUTOR)) {
-            executor.getBukkitSender().ifPresent(sender -> {
+            context.getBukkitSender().ifPresent(sender -> {
                 currency.sendPrefixed(Lang.COMMAND_CURRENCY_REMOVE_DONE, sender, replacer -> replacer
                         .replace(Placeholders.PLAYER_NAME, user.getName())
                         .replace(Placeholders.GENERIC_AMOUNT, currency.format(amount))
@@ -565,8 +558,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
-
         user.setBalance(currency, amount);
         this.userManager.save(user);
         // Custom: publish Redis sync
@@ -577,12 +568,12 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
         if (this.logger != null && context.shouldNotifyLogger()) {
             this.logger.addEntry(context, "[%s] %s set %s's balance to %s. New balance: %s"
-                    .formatted(currency.getId(), executor.getName(), user.getName(), currency.format(amount),
+                    .formatted(currency.getId(), context.getName(), user.getName(), currency.format(amount),
                             currency.format(user.getBalance(currency))));
         }
 
         if (context.shouldNotify(NotificationTarget.EXECUTOR)) {
-            executor.getBukkitSender().ifPresent(sender -> {
+            context.getBukkitSender().ifPresent(sender -> {
                 currency.sendPrefixed(Lang.COMMAND_CURRENCY_SET_DONE, sender, replacer -> replacer
                         .replace(Placeholders.PLAYER_NAME, user.getName())
                         .replace(Placeholders.GENERIC_AMOUNT, currency.format(amount))
@@ -609,8 +600,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
-
         user.resetBalance(currency);
         this.userManager.save(user);
         // Custom: publish Redis sync
@@ -621,12 +610,12 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
 
         if (this.logger != null && context.shouldNotifyLogger()) {
             this.logger.addEntry(context, "[%s] %s reset %s's balance of %s to %s."
-                    .formatted(currency.getId(), executor.getName(), user.getName(), currency.getName(),
+                    .formatted(currency.getId(), context.getName(), user.getName(), currency.getName(),
                             currency.format(user.getBalance(currency))));
         }
 
         if (context.shouldNotify(NotificationTarget.EXECUTOR)) {
-            executor.getBukkitSender().ifPresent(sender -> {
+            context.getBukkitSender().ifPresent(sender -> {
                 currency.sendPrefixed(Lang.CURRENCY_OPERATION_RESET_FEEDBACK, sender, replacer -> replacer
                         .replace(Placeholders.PLAYER_NAME, user.getName())
                         .replace(Placeholders.GENERIC_BALANCE, currency.format(user.getBalance(currency))));
@@ -648,7 +637,6 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
         if (!this.assertOperationsEnabled(context))
             return OperationResult.FAILURE;
 
-        final OperationExecutor executor = context.getExecutor();
         final Set<CoinsUser> users = this.userManager.getLoaded();
 
         this.plugin.runTaskAsync(() -> {
@@ -671,7 +659,7 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
                     replacer -> replacer.replace(currency.replacePlaceholders()));
             if (this.logger != null && context.shouldNotifyLogger()) {
                 this.logger.addEntry(context, "[%s] %s gave %s to all online players. Affected players (%s): %s"
-                        .formatted(currency.getId(), executor.getName(), users.size(),
+                        .formatted(currency.getId(), context.getName(), users.size(),
                                 users.stream().map(AbstractUser::getName).collect(Collectors.joining(", "))));
             }
         });

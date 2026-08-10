@@ -9,28 +9,26 @@ import org.bukkit.command.CommandSender;
 
 public class OperationContext {
 
-    private final OperationExecutor executor;
+    private final String name;
+    private final CommandSender sender;
     private final EnumSet<NotificationTarget> notificationTargets;
 
-    private OperationContext(OperationExecutor executor) {
-        this.executor = executor;
+    private OperationContext(final String name, final CommandSender sender) {
         this.notificationTargets = EnumSet.allOf(NotificationTarget.class);
+        this.name = name;
+        this.sender = sender;
     }
 
-    public static OperationContext of(OperationExecutor sender) {
-        return new OperationContext(sender);
+    public static OperationContext of(final CommandSender sender) {
+        return new OperationContext(null, sender);
     }
 
-    public static OperationContext of(CommandSender sender) {
-        return of(OperationExecutor.of(sender));
-    }
-
-    public static OperationContext custom(String name) {
-        return of(OperationExecutor.custom(name));
+    public static OperationContext custom(final String name) {
+        return new OperationContext(name, null);
     }
 
     public static OperationContext console() {
-        return of(Bukkit.getConsoleSender());
+        return new OperationContext(null, Bukkit.getConsoleSender());
     }
 
     public static OperationContext consoleQuiet() {
@@ -41,6 +39,14 @@ public class OperationContext {
         return this.silentFor(NotificationTarget.values());
     }
 
+    public String getName() {
+        return this.name == null ? sender.getName() : this.name;
+    }
+
+    public Optional<CommandSender> getBukkitSender() {
+        return this.sender == null ? Optional.empty() : Optional.of(this.sender);
+    }
+
     /**
      * Makes the operation silent for the specified targets.
      * 
@@ -48,12 +54,12 @@ public class OperationContext {
      * @return The current context instance for method chaining.
      */
 
-    public OperationContext silentFor(NotificationTarget... targets) {
+    public OperationContext silentFor(final NotificationTarget... targets) {
         Arrays.asList(targets).forEach(this.notificationTargets::remove);
         return this;
     }
 
-    public OperationContext silentFor(NotificationTarget target, boolean flag) {
+    public OperationContext silentFor(final NotificationTarget target, final boolean flag) {
         if (flag)
             this.notificationTargets.remove(target);
         else
@@ -61,7 +67,7 @@ public class OperationContext {
         return this;
     }
 
-    public boolean shouldNotify(NotificationTarget target) {
+    public boolean shouldNotify(final NotificationTarget target) {
         return this.notificationTargets.contains(target);
     }
 
@@ -70,11 +76,4 @@ public class OperationContext {
                 || this.shouldNotify(NotificationTarget.FILE_LOGGER);
     }
 
-    public OperationExecutor getExecutor() {
-        return this.executor;
-    }
-
-    public Optional<CommandSender> getBukkitSender() {
-        return this.executor.getBukkitSender();
-    }
 }
