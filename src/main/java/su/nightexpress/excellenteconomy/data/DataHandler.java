@@ -12,7 +12,6 @@ import com.google.gson.GsonBuilder;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.data.serialize.CurrencySettingsSerializer;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserCurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUserDataManager;
@@ -26,7 +25,7 @@ import su.nightexpress.nightcore.util.Lists;
 public class DataHandler extends AbstractUserDataManager<ExcellentEconomyPlugin, CoinsUser> {
 
     static final Gson GSON = new GsonBuilder().setPrettyPrinting()
-            .registerTypeAdapter(UserCurrencySettings.class, new CurrencySettingsSerializer())
+            .registerTypeAdapter(UserCurrencySettings.class, new UserCurrencySettings.CurrencySettingsSerializer())
             .create();
 
     static final Column COLUMN_SETTINGS = Column.of("settings", ColumnType.STRING);

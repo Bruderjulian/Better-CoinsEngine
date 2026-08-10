@@ -11,7 +11,6 @@ import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.BOLD
 import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.DARK_GRAY;
 import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.SOFT_YELLOW;
 
-import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.nightcore.config.ConfigValue;
 import su.nightexpress.nightcore.util.Plugins;
 
@@ -48,8 +47,7 @@ public class Config {
         public static final ConfigValue<Integer> TOPS_ENTRIES_PER_PAGE = ConfigValue.create("Top.Entries_Per_Page",
                         10,
                         "Sets how many entries displayed per page for currency top commands.",
-                        "[*] Works only for text leaderboards. GUI settings available in the '" + COEFiles.DIR_MENU
-                                        + "' directory.");
+                        "[*] Works only for text leaderboards. GUI settings available in the '/menu/' directory.");
 
         public static final ConfigValue<Integer> TOPS_UPDATE_INTERVAL = ConfigValue.create("Top.Update_Interval",
                         900,

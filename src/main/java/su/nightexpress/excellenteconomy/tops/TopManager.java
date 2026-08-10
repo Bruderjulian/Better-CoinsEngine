@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -44,7 +43,7 @@ public class TopManager extends AbstractManager<ExcellentEconomyPlugin> {
     @Override
     protected void onLoad() {
         if (Config.TOPS_USE_GUI.get()) {
-            this.topMenu = this.addMenu(new TopMenu(this.plugin, this), COEFiles.DIR_MENU, COEFiles.FILE_LEADERBOARD);
+            this.topMenu = this.addMenu(new TopMenu(this.plugin, this), "/menu/", "leaderboard.yml");
         }
         this.addListener(new TopsListener(this.plugin, this));
         this.addAsyncTask(this::updateBalances, Config.TOPS_UPDATE_INTERVAL.get());

@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
@@ -166,14 +165,14 @@ public class CurrencyManager extends AbstractManager<ExcellentEconomyPlugin> {
             return;
 
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Config.LOGS_DATE_FORMAT.get());
-        final Path filePath = Paths.get(this.plugin.getDataFolder().getAbsolutePath(), COEFiles.FILE_OPERATIONS);
+        final Path filePath = Paths.get(this.plugin.getDataFolder().getAbsolutePath(), "operations.log");
 
         this.logger = new CurrencyLogger(this.plugin, formatter, filePath, logToConsole, logToFile);
         this.addAsyncTask(() -> this.logger.write(), Config.LOGS_WRITE_INTERVAL.get());
     }
 
     public String getDirectory() {
-        return this.plugin.getDataFolder() + COEFiles.DIR_CURRENCIES;
+        return this.plugin.getDataFolder() + "/currencies/";
     }
 
     public void registerCurrency(final Currency currency) {

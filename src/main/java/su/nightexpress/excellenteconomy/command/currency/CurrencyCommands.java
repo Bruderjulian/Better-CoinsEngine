@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import su.nightexpress.excellenteconomy.COEFiles;
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.command.currency.provider.*;
@@ -79,7 +78,7 @@ public class CurrencyCommands extends SimpleManager<ExcellentEconomyPlugin> {
     }
 
     private void loadCommandDefinitions() {
-        FileConfig config = FileConfig.load(this.plugin.getDataFolder().getPath(), COEFiles.FILE_COMMANDS);
+        FileConfig config = FileConfig.load(this.plugin.getDataFolder().getPath(), "commands.yml");
         String path = "Commands.";
 
         if (config.getSection(path).isEmpty()) {
