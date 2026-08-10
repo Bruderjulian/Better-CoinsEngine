@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 import com.google.gson.reflect.TypeToken;
 
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
+import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserBalance;
 
 public class DataQueries {

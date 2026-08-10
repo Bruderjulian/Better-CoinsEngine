@@ -19,8 +19,8 @@ import su.nightexpress.excellenteconomy.Placeholders;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.config.Config;
 import su.nightexpress.excellenteconomy.config.Lang;
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.tops.TopEntry;
+import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.nightcore.lib.commons.pool2.impl.GenericObjectPoolConfig;
 import su.nightexpress.nightcore.lib.redis.jedis.DefaultJedisClientConfig;
 import su.nightexpress.nightcore.lib.redis.jedis.HostAndPort;
@@ -658,7 +658,7 @@ public class RedisSyncManager {
             }
 
             if (Config.isAutoRegisterUsersEnabled()) {
-                su.nightexpress.excellenteconomy.data.impl.CoinsUser created = this.plugin.getUserManager()
+                su.nightexpress.excellenteconomy.user.CoinsUser created = this.plugin.getUserManager()
                         .getOrFetch(playerName);
                 if (created != null) {
                     publishUserBalance(created);

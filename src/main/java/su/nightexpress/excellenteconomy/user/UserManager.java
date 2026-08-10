@@ -9,7 +9,6 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.data.DataQueries;
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUserManager;
 

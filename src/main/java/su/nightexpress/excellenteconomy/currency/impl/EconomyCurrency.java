@@ -28,7 +28,7 @@ import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
 import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
 import su.nightexpress.excellenteconomy.currency.operation.OperationResult;
 import su.nightexpress.excellenteconomy.data.DataHandler;
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
+import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserManager;
 
 @SuppressWarnings("deprecation")

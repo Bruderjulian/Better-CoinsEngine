@@ -9,8 +9,8 @@ import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.currency.CurrencyManager;
 import su.nightexpress.excellenteconomy.currency.operation.NotificationTarget;
 import su.nightexpress.excellenteconomy.currency.operation.OperationContext;
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.hook.HookPlugin;
+import su.nightexpress.excellenteconomy.user.CoinsUser;
 
 public class DeluxeCoinflipHook {
 

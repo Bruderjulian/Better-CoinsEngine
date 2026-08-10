@@ -12,9 +12,9 @@ import com.google.gson.GsonBuilder;
 
 import su.nightexpress.excellenteconomy.ExcellentEconomyPlugin;
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
 import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.excellenteconomy.data.serialize.CurrencySettingsSerializer;
+import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.nightcore.db.AbstractUserDataManager;
 import su.nightexpress.nightcore.db.sql.column.Column;
 import su.nightexpress.nightcore.db.sql.column.ColumnType;

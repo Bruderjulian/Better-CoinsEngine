@@ -1,4 +1,4 @@
-package su.nightexpress.excellenteconomy.data.impl;
+package su.nightexpress.excellenteconomy.user;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 
 import su.nightexpress.excellenteconomy.api.currency.Currency;
 import su.nightexpress.excellenteconomy.api.event.ChangeBalanceEvent;
-import su.nightexpress.excellenteconomy.user.UserBalance;
+import su.nightexpress.excellenteconomy.data.impl.CurrencySettings;
 import su.nightexpress.nightcore.db.AbstractUser;
 
 public class CoinsUser extends AbstractUser {

@@ -7,7 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import su.nightexpress.excellenteconomy.api.currency.Currency;
-import su.nightexpress.excellenteconomy.data.impl.CoinsUser;
+import su.nightexpress.excellenteconomy.user.CoinsUser;
 
 public final class ChangeBalanceEvent extends Event implements Cancellable {
 
